@@ -88,8 +88,8 @@ def write_report() -> str:
     out.append("\n## Answers (end to end)\n")
     out.append("| Run | Refusal acc. (unanswerable) | False refusals (answerable) | Key-fact "
                "recall | Faithfulness | Citation correct | Numbers verified | Citations valid | "
-               "Cited-doc precision | Total latency p50 / p95 |")
-    out.append("|---|---|---|---|---|---|---|---|---|---|")
+               "Cited-doc precision |")
+    out.append("|---|---|---|---|---|---|---|---|---|")
     present = []
     for name, label in ANSWER_RUNS:
         s = _load(f"answers_{name}")
@@ -102,15 +102,25 @@ def write_report() -> str:
             f" | {_f(s['key_fact_recall'])} | {_f(s['faithfulness'])} | "
             f"{_f(s['citation_correct'])} | {_f(s.get('numbers_verified'), True)} | "
             f"{_f(s['citation_valid'], True)} | "
-            f"{_f(s['cited_doc_precision'])} | {_ms(s['total_ms_p50'])} / "
-            f"{_ms(s['total_ms_p95'])} |"
+            f"{_f(s['cited_doc_precision'])} |"
         )
     for name in present:
         s = _load(f"answers_{name}")["summary"]
         out.append(f"\n`{name}`: answers by {s['providers']}; refusals by gate "
                    f"{s['refused_by']['gate']}, by LLM {s['refused_by']['llm']}; "
-                   f"self-judged answers {s.get('self_judged', 0)}; "
-                   f"generation p50 {_ms(s['generate_ms_p50'])}.")
+                   f"self-judged answers {s.get('self_judged', 0)}"
+                   + (f"; failed questions {s['errors']}" if s.get("errors") else "") + ".")
+
+    bench = _load("latency_bench")
+    if bench:
+        b = bench["summary"]
+        out.append(f"\n## Latency (uncached, {b['n']} questions, "
+                   f"`{bench['meta']['config']['name']}`, M2 MacBook Air 8 GB)\n")
+        out.append("| Stage | p50 | p95 |")
+        out.append("|---|---|---|")
+        for st in ("retrieve", "rewrite", "generate", "total"):
+            if st in b:
+                out.append(f"| {st} | {_ms(b[st]['p50'])} | {_ms(b[st]['p95'])} |")
 
     gate = _load("gate_calibration")
     if gate:

@@ -105,3 +105,8 @@ def test_unverified_numbers_false_alarm_cases():
     assert unverified_numbers("Dadaji is 81, gets Rs 500 [1].", hits, "dadaji 81 saal") == []
     assert unverified_numbers("Rs.700/- per month [1].", hits) == ["700"]
     assert _words_to_digits("one hundred fifty senior citizens") == "150 senior citizens"
+
+
+def test_key_facts_accept_spelled_out_numbers():
+    item = q([["x"]], ["10,000", "three months"])
+    assert key_fact_recall(item, "ten thousand rupees, for three months") == 1.0

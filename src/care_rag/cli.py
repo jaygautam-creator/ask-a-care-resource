@@ -3,6 +3,7 @@
   ingest      fetch (only missing files unless --refresh) -> clean -> chunk -> embed -> index
   ask         answer one question with citations
   eval        run the evaluation (retrieval for all configs; answers for the experiment configs)
+  bench       uncached end-to-end latency on a sample of questions
   report      rebuild results/RESULTS.md from saved runs
 """
 
@@ -107,6 +108,37 @@ def cmd_eval(args) -> None:
     print(f"report: {write_report()}")
 
 
+def cmd_bench(args) -> None:
+    """Uncached end-to-end latency on a sample of questions (every style, both outcomes)."""
+    os.environ["LLM_CACHE"] = "0"
+    from care_rag.answer import answer
+    from care_rag.config import CONFIGS, DEFAULT_CONFIG
+    from care_rag.evaluate import config_meta, load_eval_set, pct, save_run
+    from care_rag.index import load_index
+    from care_rag.report import write_report
+    from care_rag.retrieve import retrieve
+
+    cfg = CONFIGS[args.config or DEFAULT_CONFIG]
+    load_index(cfg.chunk)
+    retrieve("warm up the models", cfg)  # model loading is a one-off, not per-query latency
+    qs = load_eval_set()[:: max(1, len(load_eval_set()) // args.n)][: args.n]
+    rows = []
+    for q in qs:
+        res = answer(q.question, cfg, rewrite=args.rewrite)
+        rows.append({"id": q.id, "refused": res.refused, "provider": res.provider,
+                     **{k: round(v) for k, v in res.latency_ms.items()}})
+        print(f"  {q.id}: " + ", ".join(f"{k} {v / 1000:.2f}s"
+                                        for k, v in res.latency_ms.items()), flush=True)
+    stages = sorted({k for r in rows for k in r if k not in ("id", "refused", "provider")})
+    summary = {st: {"p50": pct([r[st] for r in rows if st in r], 50),
+                    "p95": pct([r[st] for r in rows if st in r], 95)} for st in stages}
+    summary["n"] = len(rows)
+    save_run("latency_bench", {"rows": rows, "summary": summary},
+             config_meta(cfg, kind="latency", rewrite=args.rewrite))
+    print(json.dumps(summary))
+    print(f"report: {write_report()}")
+
+
 def cmd_report(args) -> None:
     from care_rag.report import write_report
 
@@ -135,6 +167,12 @@ def main(argv=None) -> None:
     s.add_argument("--runs", help=f"comma-separated subset of {','.join(ANSWER_RUNS)}")
     s.add_argument("--no-judge", action="store_true", help="skip the LLM judge")
     s.set_defaults(fn=cmd_eval)
+
+    s = sub.add_parser("bench", help="uncached end-to-end latency on a question sample")
+    s.add_argument("--n", type=int, default=10)
+    s.add_argument("--config")
+    s.add_argument("--rewrite", action="store_true")
+    s.set_defaults(fn=cmd_bench)
 
     s = sub.add_parser("report", help="rebuild results/RESULTS.md")
     s.set_defaults(fn=cmd_report)

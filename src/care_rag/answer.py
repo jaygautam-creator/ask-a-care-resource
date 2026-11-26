@@ -142,7 +142,12 @@ def is_refusal(text: str) -> bool:
 
 
 def rewrite_query(question: str) -> str:
-    return get_llm("answer").generate(REWRITE_SYSTEM, question).text.strip().strip('"')
+    return _rewrite(question)[0]
+
+
+def _rewrite(question: str) -> tuple[str, float]:
+    resp = get_llm("answer").generate(REWRITE_SYSTEM, question)
+    return resp.text.strip().strip('"'), resp.latency_ms
 
 
 def answer(
@@ -153,12 +158,11 @@ def answer(
 ) -> AnswerResult:
     cfg = cfg or CONFIGS[DEFAULT_CONFIG]
     lat: dict[str, float] = {}
-    t0 = time.perf_counter()
 
     search_query = question
     if rewrite:
-        search_query = f"{question}\n{rewrite_query(question)}"
-        lat["rewrite"] = (time.perf_counter() - t0) * 1000
+        rewritten, lat["rewrite"] = _rewrite(question)  # original call latency, even if cached
+        search_query = f"{question}\n{rewritten}"
 
     t1 = time.perf_counter()
     hits = retrieve(search_query, cfg)
@@ -166,7 +170,7 @@ def answer(
 
     best_sim = max((h.dense_sim or 0.0) for h in hits) if hits else 0.0
     if not hits or (gate is not None and best_sim < gate):
-        lat["total"] = (time.perf_counter() - t0) * 1000
+        lat["total"] = sum(lat.values())
         return AnswerResult(question, REFUSAL, True, "gate", [], [], hits, search_query,
                             latency_ms=lat)
 
@@ -175,7 +179,9 @@ def answer(
     )
     resp = get_llm("answer").generate(ANSWER_SYSTEM, prompt)
     lat["generate"] = resp.latency_ms
-    lat["total"] = (time.perf_counter() - t0) * 1000
+    # total = sum of stages; LLM stages use the original (uncached) call latency, so the
+    # number means "what a user waits", even when the evaluation replays from the cache
+    lat["total"] = sum(lat.values())
 
     text = resp.text.strip()
     if is_refusal(text):

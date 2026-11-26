@@ -35,9 +35,15 @@ from dataclasses import asdict, dataclass, field, replace
 
 import yaml
 
-from care_rag.answer import AnswerResult, answer, format_context, rewrite_query
+from care_rag.answer import (
+    AnswerResult,
+    _words_to_digits,
+    answer,
+    format_context,
+    rewrite_query,
+)
 from care_rag.config import EVAL_DIR, RESULTS_DIR, RetrievalConfig
-from care_rag.llm import get_llm, parse_json
+from care_rag.llm import LLMError, get_llm, parse_json
 from care_rag.prompts import JUDGE_SYSTEM, JUDGE_TEMPLATE
 from care_rag.retrieve import retrieve
 
@@ -149,7 +155,8 @@ def summarize_retrieval(rows: list[dict]) -> dict:
 
 
 def norm(text: str) -> str:
-    t = text.lower().replace("₹", "rs ").replace(",", "").replace("lakhs", "lakh")
+    t = _words_to_digits(text.lower()).replace("₹", "rs ").replace(",", "")
+    t = t.replace("lakhs", "lakh")
     return re.sub(r"\s+", " ", t)
 
 
@@ -196,7 +203,13 @@ def eval_answers(
     gate = GATE_THRESHOLD if gate is None else gate
     rows = []
     for i, q in enumerate(qs, 1):
-        res = answer(q.question, cfg, gate=gate, rewrite=rewrite)
+        try:
+            res = answer(q.question, cfg, gate=gate, rewrite=rewrite)
+        except LLMError as exc:  # quota/outage: record and continue; a rerun fills it in
+            rows.append({"id": q.id, "style": q.style, "answerable": q.answerable,
+                         "question": q.question, "error": str(exc)[:300]})
+            print(f"  [{i:2d}/{len(qs)}] {q.id} ERROR {str(exc)[:120]}", flush=True)
+            continue
         docs = ranked_docs([h.chunk.doc_id for h in res.hits])
         cited_docs = [c.doc_id for c in res.citations]
         row = {
@@ -225,7 +238,10 @@ def eval_answers(
                     if cited_docs else 0.0
                 )
         if use_judge and not res.refused:
-            row.update(judge(res))
+            try:
+                row.update(judge(res))
+            except LLMError as exc:
+                row["judge_error"] = str(exc)[:300]
         rows.append(row)
         print(f"  [{i:2d}/{len(qs)}] {q.id} {'REFUSED' if res.refused else 'answered'} "
               f"({row['provider']})", flush=True)
@@ -233,6 +249,8 @@ def eval_answers(
 
 
 def summarize_answers(rows: list[dict]) -> dict:
+    errors = [r["id"] for r in rows if "error" in r]
+    rows = [r for r in rows if "error" not in r]  # metrics only over questions that ran
     ans = [r for r in rows if r["answerable"]]
     una = [r for r in rows if not r["answerable"]]
     answered = [r for r in ans if not r["refused"]]
@@ -246,6 +264,8 @@ def summarize_answers(rows: list[dict]) -> dict:
             providers[r["provider"]] = providers.get(r["provider"], 0) + 1
     s = {
         "n": len(rows),
+        "errors": errors,
+        "judge_errors": [r["id"] for r in rows if "judge_error" in r],
         "refusal_accuracy": _mean(float(r["refused"]) for r in una),
         "false_refusal_rate": _mean(float(r["refused"]) for r in ans),
         "key_fact_recall": _mean(r.get("key_fact_recall") for r in ans),

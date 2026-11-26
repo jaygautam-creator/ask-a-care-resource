@@ -176,12 +176,20 @@ class ResponseCache:
     def key(*parts: str) -> str:
         return hashlib.sha256("\x1f".join(parts).encode()).hexdigest()
 
-    def get(self, key: str) -> str | None:
+    def get(self, key: str) -> tuple[str, float] | None:
+        """(text, latency of the original uncached call in ms)."""
         with self._lock:
             row = self._db.execute("SELECT value FROM cache WHERE key=?", (key,)).fetchone()
-        return row[0] if row else None
+        if not row:
+            return None
+        try:
+            v = json.loads(row[0])
+            return v["text"], float(v["latency_ms"])
+        except (ValueError, TypeError, KeyError):  # entries written before latency was stored
+            return row[0], 0.0
 
-    def put(self, key: str, value: str) -> None:
+    def put(self, key: str, text: str, latency_ms: float) -> None:
+        value = json.dumps({"text": text, "latency_ms": round(latency_ms, 1)})
         with self._lock:
             self._db.execute("INSERT OR REPLACE INTO cache VALUES (?, ?)", (key, value))
             self._db.commit()
@@ -227,7 +235,8 @@ class LLM:
         for p in self.providers:
             key = ResponseCache.key(p.name, p.model, system, prompt, str(json_mode))
             if self.cache and (hit := self.cache.get(key)) is not None:
-                return LLMResponse(hit, p.name, p.model, cached=True, latency_ms=0.0)
+                # report the original call's latency, so cached reruns keep honest timings
+                return LLMResponse(hit[0], p.name, p.model, cached=True, latency_ms=hit[1])
             for attempt in range(self.attempts):
                 t0 = time.perf_counter()
                 try:
@@ -242,7 +251,7 @@ class LLM:
                     break
                 latency = (time.perf_counter() - t0) * 1000
                 if self.cache:
-                    self.cache.put(key, text)
+                    self.cache.put(key, text, latency)
                 return LLMResponse(text, p.name, p.model, cached=False, latency_ms=latency)
         raise LLMError("all providers failed: " + " | ".join(errors))
 
@@ -256,7 +265,9 @@ def get_llm(role: str = "answer") -> LLM:
     providers = [_provider(n.strip(), role) for n in order if n.strip()]
     # The judge waits longer for its first choice (Groq) before falling back to Gemini, because
     # falling back means Gemini grades Gemini's own answers (flagged as self_judged).
-    return LLM([p for p in providers if p.available()], attempts=6 if role == "judge" else 3)
+    use_cache = os.getenv("LLM_CACHE", "1") != "0"  # LLM_CACHE=0: always call the API
+    return LLM([p for p in providers if p.available()], use_cache=use_cache,
+               attempts=6 if role == "judge" else 3)
 
 
 def parse_json(text: str) -> dict:
