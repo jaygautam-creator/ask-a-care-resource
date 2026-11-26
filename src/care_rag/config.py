@@ -40,31 +40,37 @@ class ChunkConfig:
         return f"w{self.target_words}o{self.overlap_words}"
 
 
+EMBED_MODEL = os.getenv("EMBED_MODEL", "intfloat/multilingual-e5-base")
+RERANK_LARGE = "BAAI/bge-reranker-v2-m3"  # 568M params, multilingual; ~3.4 s / 30 pairs on M2
+RERANK_SMALL = "cross-encoder/mmarco-mMiniLMv2-L12-H384-v1"  # 118M, multilingual; ~0.4 s
+
+
 @dataclass(frozen=True)
 class RetrievalConfig:
     name: str
     mode: str = "hybrid"  # "dense" | "bm25" | "hybrid"
-    rerank: bool = False
+    reranker: str | None = None  # cross-encoder model name, or None for no reranking
     chunk: ChunkConfig = field(default_factory=ChunkConfig)
     top_k: int = 5  # chunks given to the LLM
-    candidates: int = 30  # per-retriever depth before fusion / reranking
+    candidates: int = 30  # per-retriever depth before fusion
+    rerank_depth: int = 20  # how many fused candidates the cross-encoder re-scores
     rrf_k: int = 60  # standard Reciprocal Rank Fusion constant
 
     def as_dict(self) -> dict:
         return asdict(self)
 
 
-EMBED_MODEL = os.getenv("EMBED_MODEL", "intfloat/multilingual-e5-base")
-RERANK_MODEL = os.getenv("RERANK_MODEL", "BAAI/bge-reranker-v2-m3")
-
-# Configurations compared in the experiment. `default` is what the app serves.
+# Configurations compared in the experiment. DEFAULT_CONFIG is what the app serves.
 CONFIGS: dict[str, RetrievalConfig] = {
     "dense": RetrievalConfig(name="dense", mode="dense"),
     "bm25": RetrievalConfig(name="bm25", mode="bm25"),
     "hybrid": RetrievalConfig(name="hybrid", mode="hybrid"),
-    "hybrid_rerank": RetrievalConfig(name="hybrid_rerank", mode="hybrid", rerank=True),
+    "hybrid_rerank": RetrievalConfig(name="hybrid_rerank", mode="hybrid", reranker=RERANK_LARGE),
+    "hybrid_rerank_small": RetrievalConfig(
+        name="hybrid_rerank_small", mode="hybrid", reranker=RERANK_SMALL
+    ),
     "hybrid_small_chunks": RetrievalConfig(
         name="hybrid_small_chunks", mode="hybrid", chunk=ChunkConfig(150, 30, 25)
     ),
 }
-DEFAULT_CONFIG = "hybrid_rerank"
+DEFAULT_CONFIG = os.getenv("DEFAULT_CONFIG", "hybrid_rerank")
