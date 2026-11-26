@@ -174,7 +174,7 @@ questions:
     answerable: true
     expected:
       - [nis_pmvvy_2023]
-    key_facts: ["March 31, 2023"]
+    key_facts: ["2023"]
     note: trap - the scheme closed; a correct answer says so instead of explaining how to invest
 
   - id: q20
