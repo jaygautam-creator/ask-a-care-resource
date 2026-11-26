@@ -16,6 +16,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import re
 import sqlite3
 import threading
 import time
@@ -189,12 +190,30 @@ class ResponseCache:
 # ---------------------------------------------------------------------------------- the chain
 
 
+RETRY_IN_RE = re.compile(r"try again in (?:(\d+)m)?(\d+(?:\.\d+)?)s", re.I)
+MAX_WAIT_S = 120  # a provider asking us to wait longer than this is skipped
+
+
+def retry_wait(msg: str, attempt: int) -> float | None:
+    """Seconds to wait before retrying this error, or None if retrying is pointless."""
+    low = msg.lower()
+    if "exceeded your current quota" in low:  # Gemini daily quota: gone until tomorrow
+        return None
+    if m := RETRY_IN_RE.search(msg):  # Groq says exactly how long: "try again in 1m2.5s"
+        wait = int(m.group(1) or 0) * 60 + float(m.group(2)) + 1
+        return wait if wait <= MAX_WAIT_S else None
+    if any(t in low for t in ("429", "rate", "quota", "503", "unavailable", "overloaded")):
+        return 15.0 * (attempt + 1)
+    return None
+
+
 class LLM:
     """Try each configured provider in order; cache successful responses."""
 
-    def __init__(self, providers: list[Provider], use_cache: bool = True):
+    def __init__(self, providers: list[Provider], use_cache: bool = True, attempts: int = 3):
         self.providers = providers
         self.cache = ResponseCache() if use_cache else None
+        self.attempts = attempts
 
     def describe(self) -> str:
         return " -> ".join(f"{p.name}:{p.model}" for p in self.providers) or "(none)"
@@ -209,19 +228,15 @@ class LLM:
             key = ResponseCache.key(p.name, p.model, system, prompt, str(json_mode))
             if self.cache and (hit := self.cache.get(key)) is not None:
                 return LLMResponse(hit, p.name, p.model, cached=True, latency_ms=0.0)
-            for attempt in range(3):
+            for attempt in range(self.attempts):
                 t0 = time.perf_counter()
                 try:
                     text = p.generate(system, prompt, json_mode)
                 except Exception as exc:  # provider SDKs raise many types; we fall through
                     msg = str(exc)
-                    low = msg.lower()
-                    daily_quota = "exceeded your current quota" in low  # retrying won't help
-                    transient = not daily_quota and any(
-                        t in low for t in ("429", "rate", "quota", "503", "unavailable")
-                    )
-                    if transient and attempt < 2:
-                        time.sleep(15 * (attempt + 1))  # free tiers: per-minute limits, overload
+                    wait = retry_wait(msg, attempt)
+                    if wait is not None and attempt < self.attempts - 1:
+                        time.sleep(wait)  # free tiers: per-minute limits, overload
                         continue
                     errors.append(f"{p.name}: {type(exc).__name__}: {msg[:200]}")
                     break
@@ -239,7 +254,9 @@ ORDER = {"answer": ["gemini", "groq", "ollama"], "judge": ["groq", "gemini", "ol
 def get_llm(role: str = "answer") -> LLM:
     order = os.getenv(f"{role.upper()}_PROVIDERS", ",".join(ORDER[role])).split(",")
     providers = [_provider(n.strip(), role) for n in order if n.strip()]
-    return LLM([p for p in providers if p.available()])
+    # The judge waits longer for its first choice (Groq) before falling back to Gemini, because
+    # falling back means Gemini grades Gemini's own answers (flagged as self_judged).
+    return LLM([p for p in providers if p.available()], attempts=6 if role == "judge" else 3)
 
 
 def parse_json(text: str) -> dict:

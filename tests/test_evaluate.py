@@ -90,3 +90,18 @@ def test_unverified_numbers():
     assert unverified_numbers("An extra 7 lakh top-up [1].", hits) == ["7 lakh"]
     assert unverified_numbers("Call 1800110770 [1].", hits) == ["1800110770"]
     assert unverified_numbers("Up to 5 years [1].", hits) == []  # bare 5 exists in source
+
+
+def test_unverified_numbers_false_alarm_cases():
+    from care_rag.answer import _words_to_digits, unverified_numbers
+    from care_rag.chunk import Chunk
+    from care_rag.retrieve import Hit
+
+    act = "disposed of within ninety days; not exceed ten thousand rupees; aged sixty years"
+    hits = [Hit(Chunk("a#000", "a", "Social Security of Elders (Jul 2023)", "u", "",
+                      act + ". Pension of Rs.200/- and Rs.500/- per month.", "en", "c"), 1.0)]
+    ans = "Within 90 days [1], up to Rs. 10,000 [1], age 60 [1], Rs.200/- and Rs. 500 [1] (2023)."
+    assert unverified_numbers(ans, hits) == []
+    assert unverified_numbers("Dadaji is 81, gets Rs 500 [1].", hits, "dadaji 81 saal") == []
+    assert unverified_numbers("Rs.700/- per month [1].", hits) == ["700"]
+    assert _words_to_digits("one hundred fifty senior citizens") == "150 senior citizens"

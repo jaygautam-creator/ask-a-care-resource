@@ -67,7 +67,34 @@ class AnswerResult:
 
 
 # A number, optionally followed by the unit that gives it meaning ("5 lakh" != "5 years").
-NUM_RE = re.compile(r"(?<![\w.])(\d[\d,]*(?:\.\d+)?)\s*(lakh|crore|%|per cent)?", re.I)
+NUM_RE = re.compile(r"(?<!\w)(?<!\d\.)(\d[\d,]*(?:\.\d+)?)\s*(lakh|crore|%|per cent)?", re.I)
+
+_UNITS = ("zero one two three four five six seven eight nine ten eleven twelve thirteen "
+          "fourteen fifteen sixteen seventeen eighteen nineteen").split()
+_TENS = "twenty thirty forty fifty sixty seventy eighty ninety".split()
+WORD_NUM = {w: i for i, w in enumerate(_UNITS)} | {w: 20 + 10 * i for i, w in enumerate(_TENS)}
+WORD_RE = re.compile(
+    r"\b(?:(?:" + "|".join(WORD_NUM) + r"|hundred|thousand)(?:[\s-]+(?:and[\s-]+)?|\b))+",
+    re.I,
+)
+
+
+def _words_to_digits(text: str) -> str:
+    """"ninety days" -> "90 days", "ten thousand rupees" -> "10000 rupees" (the Act spells
+    numbers out, while answers use digits)."""
+
+    def conv(m: re.Match) -> str:
+        total, cur = 0, 0
+        for w in re.findall(r"[a-z]+", m.group(0).lower()):
+            if w in WORD_NUM:
+                cur += WORD_NUM[w]
+            elif w == "hundred":
+                cur = max(cur, 1) * 100
+            elif w == "thousand":
+                total, cur = total + max(cur, 1) * 1000, 0
+        return f"{total + cur} "
+
+    return WORD_RE.sub(conv, text)
 
 
 def _norm_numbers(text: str) -> str:
@@ -78,21 +105,23 @@ def _norm_numbers(text: str) -> str:
     return re.sub(r"(\d)\s+(lakh|crore|%)", r"\1 \2", t)
 
 
-def unverified_numbers(answer_text: str, hits: list[Hit]) -> list[str]:
-    """Numbers in the answer that appear in none of the passages shown to the model.
+def unverified_numbers(answer_text: str, hits: list[Hit], question: str = "") -> list[str]:
+    """Numbers in the answer that appear neither in the passages shown to the model (including
+    their title and section, which the model also sees) nor in the user's own question.
 
     A deterministic check, independent of any LLM: amounts, ages, limits and phone numbers are
     exactly the facts a family acts on, and a fabricated "7 lakh" reads as convincingly as a
-    real "5 lakh". Citation markers are ignored. A flag means "could not verify", not
-    necessarily "wrong" (a source may spell a number out in words)."""
+    real "5 lakh". Citation markers are ignored; numbers written as words in the source count.
+    A flag means "could not verify", not necessarily "wrong"."""
     body = _norm_numbers(CITE_RE.sub(" ", answer_text))
-    source = _norm_numbers(" ".join(h.chunk.text for h in hits))
+    source = _norm_numbers(_words_to_digits(f"{question}\n{format_context(hits)}"))
+    source = CITE_RE.sub(" ", source)  # passage numbers "[3]" are not facts
     missing = []
     for m in NUM_RE.finditer(body):
         num, unit = m.group(1).rstrip(".").replace(",", ""), (m.group(2) or "").lower()
         token = f"{num} {unit}" if unit else num
         tail = rf"\s*{re.escape(unit)}" if unit else r"(?![\d])"
-        pattern = rf"(?<![\d.]){re.escape(num)}" + tail
+        pattern = rf"(?<!\d)(?<!\d\.){re.escape(num)}" + tail
         if not re.search(pattern, source) and token not in missing:
             missing.append(token)
     return missing
@@ -162,4 +191,4 @@ def answer(
         for h in [hits[n - 1]]
     ]
     return AnswerResult(question, text, False, None, citations, invalid, hits, search_query,
-                        resp.provider, resp.model, lat, unverified_numbers(text, hits))
+                        resp.provider, resp.model, lat, unverified_numbers(text, hits, question))
