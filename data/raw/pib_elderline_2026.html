@@ -1,0 +1,1107 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head id="Head1"><title>
+	Press Release Page | Press Information Bureau
+</title><link href="css/style.css?v=1" rel="stylesheet" type="text/css" /><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><link rel="alternate stylesheet" href="css/change.css?v=1" media="screen" title="change" /><link rel="alternate stylesheet" href="css/green.css?v=1" media="screen" title="green" /><link rel="alternate stylesheet" href="css/yellow.css" media="screen" title="yellow" /><link rel="stylesheet" type="text/css" href="css/prtint.css" media="print" /><link rel="stylesheet" href="css/style3.1.css" type="text/css" /><link id="pibA11yCss" rel="stylesheet" href="/css/accessibility.css?v=7" type="text/css" />
+    <script type="text/javascript">
+        (function (d) {
+            var t = "";
+            try {
+                t = window.localStorage.getItem("pibStyle") || "";
+            } catch (e) {
+                t = "";
+            }
+            if (t === "orange") {
+                t = "yellow";
+            }
+            var c = t === "change" ? " pib-hc"
+                : t === "green" ? " pib-theme-green"
+                : t === "yellow" ? " pib-theme-yellow" : "";
+            d.documentElement.className += c + " pib-a11y-content";
+        }(document));
+    </script>
+
+    <script src="js/jquery.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/accessibility.js?v=7"></script>
+
+    <script type="text/javascript">
+            $(document).ready(function () {
+                  function getParameterByName(name) {
+                        var url = window.location.href;
+                        name = name.replace(/[\[\]]/g, '\\$&');
+                        var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                              results = regex.exec(url);
+                        if (!results) return null;
+                        if (!results[2]) return '';
+                        return decodeURIComponent(results[2].replace(/\+/g, ' '));
+                  }
+                  let prid = parseInt(getParameterByName('PRID'), 10);
+
+                  if (!isNaN(prid) && prid > 0) {
+                        $.ajax({
+                              type: "POST",
+                              url: "AjaxMethod.aspx/UpdatePRHitCount",
+                              async: false,
+                              data: JSON.stringify({ 'PermId': prid }),
+                              contentType: "application/json; charset=utf-8",
+                              dataType: "json",
+                              success: function (response) {
+                                    console.log(response);
+                              },
+                              error: function (error) {
+                                    console.log("Error in AJAX request", error);
+                              }
+                        });
+                  } else {
+                        console.log("Invalid parameters:", prid);
+                  }
+            });
+    </script>
+    <style type="text/css">
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .banner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #000;
+            color: #fff;
+            padding: 20px;
+        }
+
+        full-width {
+            width: 100%;
+        }
+
+        .logo-left, .logo-center, .countdown {
+            display: flex;
+            align-items: center;
+        }
+
+            .logo-left img, .logo-center img {
+                height: 70px;
+            }
+
+        .countdown {
+            text-align: center;
+            background-color: var(--dbim-text, #150202);
+            border-radius: 10px;
+            padding: 10px;
+            border: 2px solid grey;
+        }
+
+        .firstnumber {
+            color: #000000;
+            position: absolute;
+            top: 50px;
+            right: 90px;
+            font-size: 30px;
+        }
+
+        .secondnumber {
+            position: absolute;
+            color: #000000;
+            right: 45px;
+            top: 50px;
+            font-size: 30px;
+        }
+
+        .countdown .days {
+            font-size: 35px;
+            color: gold;
+        }
+
+        .countdown p {
+            margin: 0;
+        }
+
+        .countdown .text {
+            font-size: 16px;
+        }
+
+        a {
+            word-break: break-all;
+        }
+
+        iframe, img {
+            max-width: 100%;
+        }
+        .innner-page-main-about-us-content-right-part ul > li, .content-area ul > li {
+  /*list-style: none !important;*/
+}
+        /* === DBIM 3.0 Option 4 Separator Line & Reading Meta Styling === */
+        .pr-share--footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            border-top: 1px solid var(--dbim-border, #d1d5db);
+            padding-top: 16px;
+            margin-top: 24px;
+        }
+
+        .pr-share__left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .pr-reading-meta {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.95rem;
+            color: var(--dbim-text-secondary, #475569);
+            font-weight: 500;
+            white-space: nowrap;
+            margin-left: auto;
+        }
+
+        .pr-reading-meta__item {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .pr-reading-meta__divider {
+            color: var(--dbim-border, #cbd5e1);
+            font-weight: 300;
+        }
+
+        .pib-hc .pr-reading-meta,
+        .pib-hc .pr-reading-meta svg {
+            color: currentColor !important;
+        }
+
+        @media (max-width: 680px) {
+            .pr-share--footer {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .pr-reading-meta {
+                margin-left: 0;
+                width: 100%;
+                justify-content: flex-start;
+            }
+        }
+
+        @media(max-width:1199px) {
+            .firstnumber {
+                top: 40px;
+                right: 72px;
+                font-size: 30px;
+            }
+
+            .secondnumber {
+                right: 35px;
+                top: 40px;
+                font-size: 30px;
+            }
+        }
+
+        @media(max-width:990px) {
+            .firstnumber {
+                top: 25px;
+                right: 54px;
+                font-size: 30px;
+            }
+
+            .secondnumber {
+                right: 25px;
+                top: 25px;
+                font-size: 30px;
+            }
+        }
+
+        @media(max-width:768px) {
+            .countdown, .days {
+                font-size: 12px !important;
+            }
+
+            .firstnumber {
+                top: 25%;
+                right: 8%;
+                font-size: 30px;
+            }
+
+            .secondnumber {
+                right: 4.5%;
+                top: 25%;
+                font-size: 30px;
+            }
+        }
+
+        @media(max-width:475px) {
+            .countdown, .days {
+                font-size: 10px !important;
+                top: 20%;
+            }
+
+            .bannerimgdiv {
+                padding: 0 !important;
+            }
+
+            .bannerimg {
+                width: 108% !important;
+            }
+        }
+    </style>
+    <script type="text/javascript">
+$(function () {
+    $("[id*=printPDF]").click(function () {
+        $("[id*=hfGridHtml]").val($("#PdfDiv").html());
+    });
+});
+$(function () {
+    $("[id*=printPDFEvent]").click(function () {
+        $("[id*=hfGridHtml]").val($("#PdfDiv").html());
+    });
+});
+</script>
+
+    <link id="pibConsentCss" href="/css/consent.css?v=8" rel="stylesheet" type="text/css" /><link id="pibFontsCss" href="/css/fonts-noto.css?v=6" rel="stylesheet" type="text/css" /><link id="pibDbimCss" href="/css/dbim.css?v=1120" rel="stylesheet" type="text/css" /><meta property="og:title" content="ELDERLINE 14567 Provides Information, Guidance and Support to Senior Citizens Across India; Launched On 1st October 2021" /><meta property="og:url" content="https://pib.gov.in/PressReleasePage.aspx?PRID=2314163" /><meta property="og:description" content="The Ministry of Social Justice and Empowerment is providing senior citizens with access to information, guidance, emotional support and assistance through ELDERLINE 14567, the National Helpline for Se" /><meta property="og:image" content="https://static.pib.gov.in/WriteReadData/userfiles/image/2026/sep/image001_20260923203701_fe179f.jpg" /><meta property="og:type" content="article" /><meta name="twitter:card" content="summary_large_image" /><meta name="twitter:image" content="https://static.pib.gov.in/WriteReadData/userfiles/image/2026/sep/image001_20260923203701_fe179f.jpg" />
+                                <script>!function(e){var n="https://s.go-mpulse.net/boomerang/";if("False"=="True")e.BOOMR_config=e.BOOMR_config||{},e.BOOMR_config.PageParams=e.BOOMR_config.PageParams||{},e.BOOMR_config.PageParams.pci=!0,n="https://s2.go-mpulse.net/boomerang/";if(window.BOOMR_API_key="C4E7H-KSCMC-422L4-W3EM5-U36MF",function(){function e(){if(!i){var e=document.createElement("script");e.id="boomr-scr-as",e.src=window.BOOMR.url,e.async=!0,o.parentNode.appendChild(e),i=!0}}function t(e){i=!0;var n,t,a,r,d=document,O=window;if(window.BOOMR.snippetMethod=e?"if":"i",t=function(e,n){var t=d.createElement("script");t.id=n||"boomr-if-as",t.src=window.BOOMR.url,BOOMR_lstart=(new Date).getTime(),e=e||d.body,e.appendChild(t)},!window.addEventListener&&window.attachEvent&&navigator.userAgent.match(/MSIE [67]\./))return window.BOOMR.snippetMethod="s",void t(o.parentNode,"boomr-async");a=document.createElement("IFRAME"),a.src="about:blank",a.title="",a.role="presentation",a.loading="eager",r=(a.frameElement||a).style,r.width=0,r.height=0,r.border=0,r.display="none",o.parentNode.appendChild(a);try{O=a.contentWindow,d=O.document.open()}catch(_){n=document.domain,a.src="javascript:var d=document.open();d.domain='"+n+"';void(0);",O=a.contentWindow,d=O.document.open()}if(n)d._boomrl=function(){this.domain=n,t()},d.write("<bo"+"dy onload='document._boomrl();'>");else if(O._boomrl=function(){t()},O.addEventListener)O.addEventListener("load",O._boomrl,!1);else if(O.attachEvent)O.attachEvent("onload",O._boomrl);d.close()}function a(e){window.BOOMR_onload=e&&e.timeStamp||(new Date).getTime()}if(!window.BOOMR||!window.BOOMR.version&&!window.BOOMR.snippetExecuted){window.BOOMR=window.BOOMR||{},window.BOOMR.snippetStart=(new Date).getTime(),window.BOOMR.snippetExecuted=!0,window.BOOMR.snippetVersion=12,window.BOOMR.url=n+"C4E7H-KSCMC-422L4-W3EM5-U36MF";var o=document.currentScript||document.getElementsByTagName("script")[0],i=!1,r=document.createElement("link");if(r.relList&&"function"==typeof r.relList.supports&&r.relList.supports("preload")&&"as"in r)window.BOOMR.snippetMethod="p",r.href=window.BOOMR.url,r.rel="preload",r.as="script",r.addEventListener("load",e),r.addEventListener("error",function(){t(!0)}),setTimeout(function(){if(!i)t(!0)},3e3),BOOMR_lstart=(new Date).getTime(),o.parentNode.appendChild(r);else t(!1);if(window.addEventListener)window.addEventListener("load",a,!1);else if(window.attachEvent)window.attachEvent("onload",a)}}(),"".length>0)if(e&&"performance"in e&&e.performance&&"function"==typeof e.performance.setResourceTimingBufferSize)e.performance.setResourceTimingBufferSize();!function(){if(BOOMR=e.BOOMR||{},BOOMR.plugins=BOOMR.plugins||{},!BOOMR.plugins.AK){var n=""=="true"?1:0,t="",a="eqbauaabm4bzojafaiabmcixgfvqqfr7-f-f1358d8ee-clienttons-s.akamaihd.net",o="false"=="true"?2:1,i={"ak.v":"41","ak.cp":"1825201","ak.ai":parseInt("1215205",10),"ak.ol":"0","ak.cr":30,"ak.ipv":6,"ak.proto":"http/1.1","ak.rid":"99194337","ak.r":37202,"ak.a2":n,"ak.m":"dscb","ak.n":"ff","ak.cport":56939,"ak.gh":"49.44.138.140","ak.quicv":"","ak.tlsv":"tls1.3","ak.0rtt":"","ak.0rtt.ed":"","ak.csrc":"-","ak.acc":"bbr","ak.t":"1795692095","ak.ak":"hOBiQwZUYzCg5VSAfCLimQ==YR+MQxXuAt7m2xxi92idWkPweALoCJ2mUHGvVJxa7288ctVAqUAlguXGnlHYu0SsL7SnPTA8wf2wixDPU+sMr9uxwR7MgeJkwJFQaZ5fjfsKFJb2ZJmT6gWN+j2DhinF4NDtd12gJXJeH2RoxMimH17+HQbHnY/jCZzeBX+8b+nKggwHAFDHq1PxcND9nCTYnrTEiLV47JP1drYpXqeqiM9+6nuywGn9sgwej6DSpXeTxovXouW76UXjITDdb3Hzmi/MgAX16k0KBioMSNHiMLT2On0B4QfWtLlagMNPAsI22jfXCXOs6EQ57D2sybZPI5jloqaLE2aBkBdrqvLfXrplNcZPmETyRqdmsNPQrVNK2xqieoWyFrBQDnxY1nbU0cDPDKemRvVqFa2Kt1PJmkLyyN52L0T7Hm6Eb4BrCh0=","ak.pv":"9","ak.dpoabenc":"","ak.tf":o};if(""!==t)i["ak.ruds"]=t;var r={i:!1,av:function(n){var t="http.initiator";if(n&&(!n[t]||"spa_hard"===n[t]))i["ak.feo"]=void 0!==e.aFeoApplied?1:0,BOOMR.addVar(i)},rv:function(){var e=["ak.cport","ak.cr","ak.csrc","ak.gh","ak.ipv","ak.m","ak.n","ak.ol","ak.proto","ak.quicv","ak.tlsv","ak.0rtt","ak.0rtt.ed","ak.r","ak.acc","ak.t","ak.tf"];BOOMR.removeVar(e)}};BOOMR.plugins.AK={akVars:i,akDNSPreFetchDomain:a,init:function(){if(!r.i){var e=BOOMR.subscribe;e("before_beacon",r.av,null,null),e("onbeacon",r.rv,null,null),r.i=!0}return this},is_complete:function(){return!0}}}}()}(window);</script></head>
+<body>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"
+     style="position:absolute;width:0;height:0;overflow:hidden" id="dbim-icon-sprite">
+    <defs>
+        <symbol id="icon-angle-double-left" viewBox="0 0 24 24"><path d="M11.6 4.6 4.2 12l7.4 7.4 2.2-2.2L8.6 12l5.2-5.2z"/><path d="M19 4.6 11.6 12 19 19.4l2.2-2.2L16 12l5.2-5.2z"/></symbol>
+        <symbol id="icon-angle-double-right" viewBox="0 0 24 24"><path d="M12.4 4.6 10.2 6.8 15.4 12l-5.2 5.2 2.2 2.2L19.8 12z"/><path d="M5 4.6 2.8 6.8 8 12l-5.2 5.2L5 19.4 12.4 12z"/></symbol>
+        <symbol id="icon-arrow-left" viewBox="0 0 24 24"><path d="M20.8 10.6H9.6v2.8h11.2z"/><path d="M10.8 5.6 3.2 12l7.6 6.4z"/></symbol>
+        <symbol id="icon-arrow-right" viewBox="0 0 24 24"><path d="M3.2 10.6h11.2v2.8H3.2z"/><path d="M13.2 5.6 20.8 12l-7.6 6.4z"/></symbol>
+        <symbol id="icon-blogger" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M6.4 2.4h11.2a4 4 0 0 1 4 4v11.2a4 4 0 0 1-4 4H6.4a4 4 0 0 1-4-4V6.4a4 4 0 0 1 4-4zm2.8 5.2a2 2 0 0 0 0 4h2.4a2 2 0 0 0 0-4zm0 5.6a2 2 0 0 0 0 4h5.6a2 2 0 0 0 0-4z"/></symbol>
+        <symbol id="icon-calendar" viewBox="0 0 24 24"><path d="M7.6 2.4H10v2.4H7.6z"/><path d="M14 2.4h2.4v2.4H14z"/><path fill-rule="evenodd" d="M4 4.8h16a1.6 1.6 0 0 1 1.6 1.6v13.2a1.6 1.6 0 0 1-1.6 1.6H4a1.6 1.6 0 0 1-1.6-1.6V6.4A1.6 1.6 0 0 1 4 4.8zm.4 5.6v8.4h15.2v-8.4z"/><path d="M6.4 12.4h3.2v3.2H6.4z"/></symbol>
+        <symbol id="icon-chevron-left" viewBox="0 0 24 24"><path d="M15.4 4.6 8 12l7.4 7.4 2.2-2.2L12.4 12l5.2-5.2z"/></symbol>
+        <symbol id="icon-chevron-right" viewBox="0 0 24 24"><path d="M8.6 4.6 6.4 6.8 11.6 12l-5.2 5.2 2.2 2.2L16 12z"/></symbol>
+        <symbol id="icon-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/></symbol>
+        <symbol id="icon-download" viewBox="0 0 24 24"><path d="M10.8 3h2.4v7.6h3.4L12 16.6l-4.6-6h3.4z"/><path d="M4 17.2h2.4v2.4h11.2v-2.4H20v3.2a1.4 1.4 0 0 1-1.4 1.4H5.4A1.4 1.4 0 0 1 4 20.4z"/></symbol>
+        <symbol id="icon-facebook" viewBox="0 0 24 24"><path d="M13.6 21.6v-8.4h2.8l.42-3.3h-3.22V7.8c0-.95.27-1.6 1.64-1.6h1.74V3.26a23 23 0 0 0-2.54-.13c-2.5 0-4.22 1.53-4.22 4.34v2.43H7.4v3.3h2.82v8.4z"/></symbol>
+        <symbol id="icon-fact-check" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2.4 3.6 5.6v6.2c0 4.6 3.4 8.6 8.4 9.8 5-1.2 8.4-5.2 8.4-9.8V5.6zm-1 13.2-3.6-3.6 1.7-1.7 1.9 1.9 4.5-4.5 1.7 1.7z"/></symbol>
+        <symbol id="icon-hashtag" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M8.8 3h2.4l-1 6h3.2l1-6h2.4l-1 6h3.4v2.4h-3.8l-.6 3.2h3.6V17h-4l-1 5h-2.4l1-5h-3.2l-1 5H5.4l1-5H3V14.6h3.8l.6-3.2H3.8V9h4zm.6 8.4-.6 3.2h3.2l.6-3.2z"/></symbol>
+        <symbol id="icon-home" viewBox="0 0 24 24"><path d="M12 3.4 2.8 11.6h2.4v8.4a1 1 0 0 0 1 1h3.3v-5.4h5v5.4h3.3a1 1 0 0 0 1-1v-8.4h2.4z"/></symbol>
+        <symbol id="icon-instagram" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M7.6 2.4h8.8a5.2 5.2 0 0 1 5.2 5.2v8.8a5.2 5.2 0 0 1-5.2 5.2H7.6a5.2 5.2 0 0 1-5.2-5.2V7.6a5.2 5.2 0 0 1 5.2-5.2zm0 2.4a2.8 2.8 0 0 0-2.8 2.8v8.8a2.8 2.8 0 0 0 2.8 2.8h8.8a2.8 2.8 0 0 0 2.8-2.8V7.6a2.8 2.8 0 0 0-2.8-2.8z"/><path fill-rule="evenodd" d="M12 6.8a5.2 5.2 0 1 0 0 10.4 5.2 5.2 0 0 0 0-10.4zm0 2.4a2.8 2.8 0 1 1 0 5.6 2.8 2.8 0 0 1 0-5.6z"/><circle cx="17.3" cy="6.7" r="1.3"/></symbol>
+        <symbol id="icon-linkedin" viewBox="0 0 24 24"><path d="M4.8 8.8h3.6v12H4.8z"/><circle cx="6.6" cy="5.4" r="2.1"/><path d="M10.8 8.8h3.45v1.65h.05c.48-.9 1.65-1.85 3.4-1.85 3.63 0 4.3 2.35 4.3 5.4v6.6h-3.6v-5.85c0-1.4-.03-3.2-1.95-3.2-1.95 0-2.25 1.52-2.25 3.1v5.95h-3.6z"/></symbol>
+        <symbol id="icon-mail" viewBox="0 0 24 24"><path d="M2.4 7.6v9.2a1.6 1.6 0 0 0 1.6 1.6h16a1.6 1.6 0 0 0 1.6-1.6V7.6L12 14z"/><path d="M21.2 5.4H2.8L12 11.8z"/></symbol>
+        <symbol id="icon-mail-open" viewBox="0 0 24 24"><path d="M2.4 9.8h19.2v9.6A1.6 1.6 0 0 1 20 21H4a1.6 1.6 0 0 1-1.6-1.6z"/><path d="M12 2.6 21.6 9.2h-3.8L12 5.3 6.2 9.2H2.4z"/><path d="m3.9 11.2 8.1 5.4 8.1-5.4 1.5 1.3-9.6 6.4-9.6-6.4z"/></symbol>
+        <symbol id="icon-map-marker" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2.4a7 7 0 0 0-7 7c0 5.2 7 12.2 7 12.2s7-7 7-12.2a7 7 0 0 0-7-7zm0 9.6a2.6 2.6 0 1 1 0-5.2 2.6 2.6 0 0 1 0 5.2z"/></symbol>
+        <symbol id="icon-newspaper" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M2.8 4.4h14.8v15.2H2.8zm2 2v11.2h10.8V6.4z"/><path d="M6 7.6h8.4v1.6H6z"/><path d="M6 10.8h8.4v1.6H6z"/><path d="M6 14h5.2v1.6H6z"/><path d="M18.4 8.4h2.8v9.6a1.4 1.4 0 0 1-2.8 0z"/></symbol>
+        <symbol id="icon-pause" viewBox="0 0 24 24"><rect x="7.4" y="4" width="3.6" height="16" rx="0.9"/><rect x="13" y="4" width="3.6" height="16" rx="0.9"/></symbol>
+    <symbol id="icon-play" viewBox="0 0 24 24"><path d="M8 4.5v15l12-7.5z"/></symbol>
+        <symbol id="icon-picture" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M2.4 5.2h19.2v13.6H2.4zm2 2v9.6h15.2V7.2z"/><path d="M5.6 16.4 10 11l2.6 3 2-2.2 4 4.6z"/><circle cx="8" cy="10.4" r="1.5"/></symbol>
+        <symbol id="icon-press-conference" viewBox="0 0 24 24"><circle cx="12" cy="5.2" r="2.6"/><path d="M7.6 12.2a4.4 4.4 0 0 1 8.8 0z"/><circle cx="4.9" cy="9.6" r="2.2"/><path d="M1.8 15.2a3.1 3.1 0 0 1 6.2 0z"/><circle cx="19.1" cy="9.6" r="2.2"/><path d="M16 15.2a3.1 3.1 0 0 1 6.2 0z"/><path d="M6.6 13.6h10.8l2.2 7.8H4.4z"/></symbol>
+        <symbol id="icon-print" viewBox="0 0 24 24"><path d="M6.4 2.8h11.2v4.4H6.4z"/><path d="M4 8.4h16a1.6 1.6 0 0 1 1.6 1.6v5.6a1.6 1.6 0 0 1-1.6 1.6h-1.6v-2.8H6v2.8H4a1.6 1.6 0 0 1-1.6-1.6V10A1.6 1.6 0 0 1 4 8.4z"/><path d="M7.2 15.6h9.6v5.6H7.2z"/></symbol>
+        <symbol id="icon-rss" viewBox="0 0 24 24"><circle cx="4.8" cy="19.2" r="2.4"/><path d="M2.4 11.2v3.2a6.4 6.4 0 0 1 6.4 6.4H12A9.6 9.6 0 0 0 2.4 11.2z"/><path d="M2.4 4.8V8A13.6 13.6 0 0 1 16 21.6h3.2A16.8 16.8 0 0 0 2.4 4.8z"/></symbol>
+        <symbol id="icon-search-plus" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M10 2.8a7.2 7.2 0 1 0 0 14.4 7.2 7.2 0 0 0 0-14.4zm0 2.4a4.8 4.8 0 1 1 0 9.6 4.8 4.8 0 0 1 0-9.6z"/><path d="M15.3 14.6 21.2 20.5l-1.5 1.5-5.9-5.9z"/><path d="M9.2 6.8h1.6v2.4h2.4v1.6h-2.4v2.4H9.2v-2.4H6.8V9.2h2.4z"/></symbol>
+        <symbol id="icon-share" viewBox="0 0 24 24"><circle cx="18" cy="5.6" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="18.4" r="3"/><path d="M8.3 10.9 15.7 7.2l.9 1.8-7.4 3.7z"/><path d="M9.2 13.1 16.6 16.8l-.9 1.8-7.4-3.7z"/></symbol>
+        <symbol id="icon-twitter" viewBox="0 0 24 24"><path d="M4.2 3h4.3l11.3 18h-4.3z"/><path d="M19.3 3h-2.6L4.2 21h2.6z"/></symbol>
+        <symbol id="icon-university" viewBox="0 0 24 24"><path d="M12 2.4 21.6 7.2v1.6H2.4V7.2z"/><path d="M4.8 10.4h2.4v8H4.8z"/><path d="M9.2 10.4h2.4v8H9.2z"/><path d="M13.4 10.4h2.4v8h-2.4z"/><path d="M17.6 10.4H20v8h-2.4z"/><path d="M3.2 19.8h17.6v1.8H3.2z"/></symbol>
+        <symbol id="icon-volume-up" viewBox="0 0 24 24"><path d="M3.2 9.2h3.3l5-4.2v14l-5-4.2H3.2z"/><path d="M14.6 8.4a5 5 0 0 1 0 7.2l1.6 1.6a7.2 7.2 0 0 0 0-10.4z"/><path d="M17.4 5.6a8.8 8.8 0 0 1 0 12.8l1.5 1.5a10.9 10.9 0 0 0 0-15.8z"/></symbol>
+        <symbol id="icon-whatsapp" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2.4a9.5 9.5 0 0 0-8.1 14.5L2.4 21.6l4.8-1.4A9.5 9.5 0 1 0 12 2.4zm0 2.2a7.3 7.3 0 1 1-3.8 13.5l-.4-.2-2.6.7.7-2.5-.3-.4A7.3 7.3 0 0 1 12 4.6z"/><path d="M9.4 7.8c-.2-.5-.4-.5-.6-.5h-.5a1 1 0 0 0-.7.3c-.3.3-.9.9-.9 2.1s.9 2.4 1 2.6c.1.2 1.7 2.8 4.3 3.8 2.1.8 2.6.7 3 .6.5 0 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.5-.3-1.6-.8c-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6 6 0 0 1-1.8-1.1 6.6 6.6 0 0 1-1.2-1.6c-.1-.2 0-.4.1-.5l.4-.5.3-.5v-.5z"/></symbol>
+        <symbol id="icon-youtube" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M21.6 7.2a2.8 2.8 0 0 0-2-2C17.9 4.8 12 4.8 12 4.8s-5.9 0-7.6.4a2.8 2.8 0 0 0-2 2A29 29 0 0 0 2 12a29 29 0 0 0 .4 4.8 2.8 2.8 0 0 0 2 2c1.7.4 7.6.4 7.6.4s5.9 0 7.6-.4a2.8 2.8 0 0 0 2-2A29 29 0 0 0 22 12a29 29 0 0 0-.4-4.8zM10.2 15.1V8.9l5.1 3.1z"/></symbol>
+    </defs>
+</svg>
+
+    <form method="post" action="./PressReleasePage.aspx?PRID=2314163&amp;reg=48&amp;lang=2" id="form1">
+<div class="aspNetHidden">
+<input type="hidden" name="sc_HiddenField" id="sc_HiddenField" value="" />
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="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" />
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['form1'];
+if (!theForm) {
+    theForm = document.form1;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<script src="/WebResource.axd?d=pynGkmcFUV13He1Qd6_TZPQet1wIx1Q48y3xJY2k25Y7qxH5RrQ9qQcN-OiTC9guZtri9w2&amp;t=639191042600000000" type="text/javascript"></script>
+
+
+<script src="/ScriptResource.axd?d=x6wALODbMJK5e0eRC_p1LdIxBJXt0U_WW5GWfJqHAqo6frgCmGRfEywglicTersO2OKrFhK1gAIp0Wk2al2YrpdR3uWqH6f4nfjBsCyRUfTUUVmb0&amp;t=ffffffffecf8d3f2" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=P5lTttoqSeZXoYRLQMIScH645UK3RD852IErF2548Wz9Ssv0rLjB4fhVKnHcMpqkaMHpNAGOeWY02Lf4aBYN9-dVBme_SNK5KJwmFQNpMixYDZ7M0&amp;t=ffffffffecf8d3f2" type="text/javascript"></script>
+<script src="/PressReleasePage.aspx?_TSM_HiddenField_=sc_HiddenField&amp;_TSM_CombinedScripts_=%3b%3bAjaxControlToolkit%2c+Version%3d3.5.7.123%2c+Culture%3dneutral%2c+PublicKeyToken%3d28f01b0e84b6d53e%3aen-US%3a5a4df314-b4a2-4da2-a207-9284f1b1e96c%3ade1feab2%3af2c8e708%3a8613aea7%3af9cec9bc%3a3202a5a2%3aab09e3fe%3a87104b7c%3a720a52bf%3a589eaa30%3aa67c2700%3abe6fb298" type="text/javascript"></script>
+<div class="aspNetHidden">
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="59B53027" />
+	<input type="hidden" name="__VIEWSTATEENCRYPTED" id="__VIEWSTATEENCRYPTED" value="" />
+	<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="NNCh9Ovh0DHFaF/W96gGKjy7nx3lVz6pvHEjOv4WVMOGu0VLGEiU20usgGPBV5qyusmaHpj+LFiLa+MSlWnKDAL00Ni1bog0+ibJtWkU1I/19Z1VYfF2d0BI9ldGX1pLGFQRblzhhPLZQy6ZXU2JjaWFxie8u67R33/s0owisHL4uBfe6F5MkzcGz4Y7CTlnNAPGmDe50oOaIBSLZnCH4l+r9V0MNPuMM4LxICk4RkatkmxwHWZXdJGQXIG4U8AVxO6LqrfNvYa07eg8KG9+d5LKgoo=" />
+</div>
+        
+        <div id="templateCss"></div>
+        <script type="text/javascript">
+//<![CDATA[
+Sys.WebForms.PageRequestManager._initialize('sc', 'form1', ['tupdate12','update12'], [], [], 90, '');
+//]]>
+</script>
+
+        <input type="hidden" name="hfGridHtml" id="hfGridHtml" />
+        <div class="container" style='margin-bottom: 50px;'>
+            <div id="accessories">
+                
+                <div class="pull-right" style="display: flex">
+                    <div id="voll"></div>
+                    <div id="vollDT"></div>
+                    
+
+<span class="print-icons">
+<input type="image" name="Print1$print" id="Print1_print" aria-label="Print" src="images/printer_icon.png" alt="print page button" style="padding: 5px 10px 5px 10px;" />
+</span>
+                </div>
+            </div>
+            <input type="hidden" name="hydpermid" id="hydpermid" value="2314163" />
+            
+
+            <div class="innner-page-main-about-us-content-right-part">
+                <div id="MinistryName" class="MinistryNameSubhead text-center">
+                    Ministry of Social Justice & Empowerment
+                </div>
+                <div id="lg_g"><div class='log_oo'>  <img src='https://static.pib.gov.in/WriteReadData/specificdocs/photo/2026/sep/ph_9768_20260902_10000501.png' alt='azadi ka amrit mahotsav' /> </div></div>
+
+                <div class="text-center event-heading-background">
+                    
+                    <h1 id="Titleh2">
+                        ELDERLINE 14567 Provides Information, Guidance and Support to Senior Citizens Across India; Launched On 1st October 2021
+                    </h1>
+                    <h3 id="Subtitleh3">
+                        <span id="ltrSubtitle"><br/>Over 29 lakh calls received including 8.67 Lakh Actionable Calls (Covered Information, Guidance, Emotional Support, Field Intervention) Since FY 2021–September 2026</span>
+                    </h3>
+                    
+                    
+                </div>
+
+                
+                
+
+                <div id="PrDateTime" class="ReleaseDateSubHeaddateTime text-center pt20">
+                    Posted On:
+                              23 SEP 2026 8:36PM by PIB Delhi
+                </div>
+                
+                <div class='pt20'>
+                </div>
+                <input type="hidden" name="hydphotoUrl" id="hydphotoUrl" />
+                
+
+                <!-- Release content wrapper for client-side zero-reflow word count -->
+                <div id="pibReleaseBody">
+                    <p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">The Ministry of Social Justice and Empowerment is providing senior citizens with access to information, guidance, emotional support and assistance through <strong>ELDERLINE 14567</strong>, the National Helpline for Senior Citizens (NHSC). The toll-free helpline is a component of the Atal Vayo Abhyuday Yojana (AVYAY).</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Joint Secretary Senior Citizen Division in the Ministry Shri Sajeesh Kumar N said that ELDERLINE is operational in 32 States and Union Territories. He said over 29 Lakh calls have been received on the HELPLINE. He further said the National Institute of Social Defence (NISD), which monitors its implementation, has catered to more than 8.67 Lakh Actionable Calls covering information, guidance, emotional support and field intervention&nbsp; since FY 2021 upto September 21, 2026 which remains a continuous process.</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">The Joint Secretary said the ELDERLINE connects callers with assistance suited to their needs whileas the State Connect Centres provide information and guidance, offer emotional support and counselling and coordinate field interventions wherever required. </span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">He added that depending on the nature of a grievance, they work with State Social Welfare Departments, police, healthcare institutions, legal aid services, senior citizen homes and other local agencies and the State Governments facilitate intervention and rehabilitation at the field level wherever necessary.</span></span></p>
+
+<p style="text-align:center"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><img id="Picture_x0020_1" src="https://static.pib.gov.in/WriteReadData/userfiles/image/2026/sep/image001_20260923203701_fe179f.jpg" style="height:400px; width:600px" /></span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Joint Secretary said the Ministry implements the HELPLINE through agreements with participating State and Union Territory governments and service providers. </span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Shri Sajeesh Kumar N further said that NISD and the respective governments monitor calls, services, grievances and field interventions through periodic progress reports. </span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">He further said that the Ministry also reviews digital service delivery, awareness activities, outreach, accessibility and coordination with local authorities to improve support for senior citizens, including those in remote areas.</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">It is pertinent to mention that Senior Citizens seeking assistance can call the <strong>TOLL-FREE ELDERLINE NUMBER 14567</strong>. The helpline coordinates services and referrals; it does not provide direct financial assistance to callers.</span></span></p>
+
+<p style="text-align:center"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">***</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><strong>PR-134- TAR/KV/GA/RK</strong></span></span></p>
+
+                </div>
+
+                <div id="reel_pic">
+                </div>
+
+                <br />
+                <span id="ReleaseId">(Release ID: 2314163)</span>
+                <span id="lblViews">Visitor Counter : 1453</span>
+                <div>
+                    
+                </div>
+                
+
+                <span id="lblRefPhoto"></span>
+
+                <div class="BackgroundRelease">
+                    
+                </div>
+                <div>
+                    
+                </div>
+                <div class="ReleaseLang">Read this release in: 
+                
+                        <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=2314312' target="_blank">
+                            Urdu </a>
+                    
+                        ,
+                    
+                        <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=2314222' target="_blank">
+                            हिन्दी </a>
+                    
+                </div>
+
+                
+                
+
+                <div class="RelTag">
+                    <ul>
+                        
+                    </ul>
+                </div>
+                <div class="clear">
+                </div>
+
+                <!-- DBIM 3.0 Option 4: Separator Line with Left Share Rail & Right Reading Metrics -->
+                <div class="pr-share pr-share--footer" role="region" aria-label="Share and reading details">
+                    <div class="pr-share__left">
+                        <span class="pr-share__label" aria-hidden="true">Share</span>
+                        <ul class="pr-share__list">
+                            <li><a class="pr-share__btn pr-share__btn--facebook"
+                                href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fpib.gov.in%2fPressReleasePage.aspx%3fPRID%3d2314163"
+                                target="_blank" rel="noopener noreferrer"
+                                aria-label="Share on Facebook">
+                                <svg class="dbim-icon dbim-icon-24" width="24" height="24" fill="currentColor" aria-hidden="true" focusable="false">
+                                    <use href="#icon-facebook" xlink:href="#icon-facebook"></use>
+                                </svg>
+                            </a></li>
+                            <li><a class="pr-share__btn pr-share__btn--twitter"
+                                href="https://twitter.com/intent/tweet?url=https%3a%2f%2fpib.gov.in%2fPressReleasePage.aspx%3fPRID%3d2314163"
+                                target="_blank" rel="noopener noreferrer"
+                                aria-label="Share on X">
+                                <svg class="dbim-icon dbim-icon-24" width="24" height="24" fill="currentColor" aria-hidden="true" focusable="false">
+                                    <use href="#icon-twitter" xlink:href="#icon-twitter"></use>
+                                </svg>
+                            </a></li>
+                            <li><a class="pr-share__btn pr-share__btn--whatsapp"
+                                href="https://api.whatsapp.com/send?text=https%3a%2f%2fpib.gov.in%2fPressReleasePage.aspx%3fPRID%3d2314163"
+                                target="_blank" rel="noopener noreferrer"
+                                aria-label="Share on WhatsApp">
+                                <svg class="dbim-icon dbim-icon-24" width="24" height="24" fill="currentColor" aria-hidden="true" focusable="false">
+                                    <use href="#icon-whatsapp" xlink:href="#icon-whatsapp"></use>
+                                </svg>
+                            </a></li>
+                            <li><a class="pr-share__btn pr-share__btn--linkedin"
+                                href="https://www.linkedin.com/sharing/share-offsite/?url=https%3a%2f%2fpib.gov.in%2fPressReleasePage.aspx%3fPRID%3d2314163"
+                                target="_blank" rel="noopener noreferrer"
+                                aria-label="Share on LinkedIn">
+                                <svg class="dbim-icon dbim-icon-24" width="24" height="24" fill="currentColor" aria-hidden="true" focusable="false">
+                                    <use href="#icon-linkedin" xlink:href="#icon-linkedin"></use>
+                                </svg>
+                            </a></li>
+                            <li><a class="pr-share__btn pr-share__btn--mail"
+                                href="mailto:?subject=Press+release+from+PIB&amp;body=https%3a%2f%2fpib.gov.in%2fPressReleasePage.aspx%3fPRID%3d2314163"
+                                aria-label="Share by email">
+                                <svg class="dbim-icon dbim-icon-24" width="24" height="24" fill="currentColor" aria-hidden="true" focusable="false">
+                                    <use href="#icon-mail" xlink:href="#icon-mail"></use>
+                                </svg>
+                            </a></li>
+                        </ul>
+                    </div>
+                    <div class="pr-reading-meta" id="prReadingMeta" aria-label="Reading statistics">
+                        <span class="pr-reading-meta__item">
+                            <!-- Modern Document / Word Count Icon -->
+                            <svg class="pr-reading-meta__icon" width="18" height="18" viewbox="0 0 16 16" fill="currentColor" aria-hidden="true" focusable="false">
+                                <path d="M5.5 7a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1zM5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5" />
+                                <path d="M9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.5zm0 1v2A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" />
+                            </svg>
+                            <span id="prWordCount">-- words</span>
+                        </span>
+
+                        <span class="pr-reading-meta__divider" aria-hidden="true">|</span>
+
+                        <span class="pr-reading-meta__item">
+                            <!-- Modern Precision Clock / Read Time Icon -->
+                            <svg class="pr-reading-meta__icon" width="18" height="18" viewbox="0 0 16 16" fill="currentColor" aria-hidden="true" focusable="false">
+                                <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z" />
+                                <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0" />
+                            </svg>
+                            <span id="prReadTime">-- min read</span>
+                        </span>
+                    </div>
+                </div>
+
+                <div id="RelLink" class="RelLink">
+                    <ul>
+                        
+                    </ul>
+                </div>
+                <center>
+                    
+                </center>
+            </div>
+
+            <div id="update12">
+	
+                    
+                    <input type="hidden" name="Hidden" id="Hidden" />
+                    <div id="P_CategoryManagement" class="ModalWindow" style="border-width:0px;height:60%;width:60%;overflow:auto;display: none">
+		
+                        <div>
+                            <input type="image" name="btnClose" id="btnClose" src="images/close_flat_icon.png" />
+                        </div>
+                        <div id="description">
+                        </div>
+                        <div class="text-center">
+                            <h2>
+                                
+                                <br>
+                                
+                            </h2>
+                        </div>
+                        <br />
+                        <div class="clear">
+                        </div>
+                        
+                    
+	</div>
+                
+</div>
+        </div>
+
+        <div id="PdfDiv" style="display: none;">
+            <table width="100%">
+                <tr>
+                    <td style="font-weight: 200; text-align: center">
+                        Ministry of Social Justice & Empowerment
+                        <div style="height: 30px; width: 100%;">
+                        </div>
+                        <div style="font-weight: 200; text-align: center; font-size: 30px;">
+                            ELDERLINE 14567 Provides Information, Guidance and Support to Senior Citizens Across India; Launched On 1st October 2021
+                        </div>
+                        <div style="height: 30px; width: 100%;">
+                        </div>
+                        <div style="font-weight: 200; text-align: center; font-size: 30px;">
+                            <div style='height:30px;width:100%;'></div>Over 29 lakh calls received including 8.67 Lakh Actionable Calls (Covered Information, Guidance, Emotional Support, Field Intervention) Since FY 2021–September 2026
+                        </div>
+                        <div style="height: 30px; width: 100%;">
+                        </div>
+                        <div style="text-align: center; font-size: 14px;">
+                            Posted On:
+                                          23 SEP 2026 8:36PM by PIB Delhi
+                        </div>
+                        <div style="height: 30px; width: 100%;">
+                        </div>
+                        <div style="font-weight: 200; text-align: left; font-size: 16px;">
+                            <p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">The Ministry of Social Justice and Empowerment is providing senior citizens with access to information, guidance, emotional support and assistance through <strong>ELDERLINE 14567</strong>, the National Helpline for Senior Citizens (NHSC). The toll-free helpline is a component of the Atal Vayo Abhyuday Yojana (AVYAY).</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Joint Secretary Senior Citizen Division in the Ministry Shri Sajeesh Kumar N said that ELDERLINE is operational in 32 States and Union Territories. He said over 29 Lakh calls have been received on the HELPLINE. He further said the National Institute of Social Defence (NISD), which monitors its implementation, has catered to more than 8.67 Lakh Actionable Calls covering information, guidance, emotional support and field intervention&nbsp; since FY 2021 upto September 21, 2026 which remains a continuous process.</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">The Joint Secretary said the ELDERLINE connects callers with assistance suited to their needs whileas the State Connect Centres provide information and guidance, offer emotional support and counselling and coordinate field interventions wherever required. </span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">He added that depending on the nature of a grievance, they work with State Social Welfare Departments, police, healthcare institutions, legal aid services, senior citizen homes and other local agencies and the State Governments facilitate intervention and rehabilitation at the field level wherever necessary.</span></span></p>
+
+<p style="text-align:center"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><img id="Picture_x0020_1" src="https://static.pib.gov.in/WriteReadData/userfiles/image/2026/sep/image001_20260923203701_fe179f.jpg" style="height:400px; width:600px" /></span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Joint Secretary said the Ministry implements the HELPLINE through agreements with participating State and Union Territory governments and service providers. </span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Shri Sajeesh Kumar N further said that NISD and the respective governments monitor calls, services, grievances and field interventions through periodic progress reports. </span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">He further said that the Ministry also reviews digital service delivery, awareness activities, outreach, accessibility and coordination with local authorities to improve support for senior citizens, including those in remote areas.</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">It is pertinent to mention that Senior Citizens seeking assistance can call the <strong>TOLL-FREE ELDERLINE NUMBER 14567</strong>. The helpline coordinates services and referrals; it does not provide direct financial assistance to callers.</span></span></p>
+
+<p style="text-align:center"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">***</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><strong>PR-134- TAR/KV/GA/RK</strong></span></span></p>
+
+                        </div>
+                        <div style="height: 30px; width: 100%;">
+                        </div>
+                        <div style="height: 30px; width: 100%;">
+                        </div>
+                        <div style="font-weight: 100; text-align: left; font-size: 16px;">
+                            (Release ID: 2314163)
+                        </div>
+                        <div style="height: 30px; width: 100%;">
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 200; text-align: center; font-size: 24px;"></td>
+                </tr>
+            </table>
+        </div>
+        <div class="clearfix">
+        </div>
+
+        <div class="section1">
+            <div id="frst_t">
+                <div id="arr_rm"><div class='sticky-social_mb'><ul class='social_mb'><a href='http://www.facebook.com/share.php?u=https://pib.gov.in/PressReleasePage.aspx?PRID=2314163' target='_blank'><li class='fb_b'   ></li></a><a href='https://twitter.com/intent/tweet?url=https://pib.gov.in/PressReleasePage.aspx?PRID=2314163&text=ELDERLINE 14567 Provides Information, Guidance and Support to Senior Citizens Across India; Launched On 1st October 2021' target='_blank'><li class='twitter_r'  > </li></a><a href='https://api.whatsapp.com/send?text=https://pib.gov.in/PressReleasePage.aspx?PRID=2314163' target='_blank'><li class='whatsapp_r'  ></li></a><a href='https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=&su=ELDERLINE 14567 Provides Information, Guidance and Support to Senior Citizens Across India; Launched On 1st October 2021&body=https://pib.gov.in/PressReleasePage.aspx?PRID=2314163&ui=2&tf=1&pli=1' title='Share by Email' target='_blank'><li class='fa-envelope_r' ></li></a><a href='https://www.linkedin.com/shareArticle?mini=true&url=https://pib.gov.in/PressReleasePage.aspx?PRID=2314163&title=ELDERLINE 14567 Provides Information, Guidance and Support to Senior Citizens Across India; Launched On 1st October 2021&summary=My%20favorite%20developer%20program&source=LinkedIn' target='_blank'><li class='fa-linkedin_r'  ></li></a></ul></div></div>
+            </div>
+            <div id="second_t">
+                <div id="sndr_rm"><div class='sticky-social'><ul class='social'><a href='http://www.facebook.com/share.php?u=https://pib.gov.in/PressReleasePage.aspx?PRID=2314163' target='_blank'><li class='fb_b'   ></li></a><a href='https://twitter.com/intent/tweet?url=https://pib.gov.in/PressReleasePage.aspx?PRID=2314163&text=ELDERLINE 14567 Provides Information, Guidance and Support to Senior Citizens Across India; Launched On 1st October 2021' target='_blank'><li class='twitter_r'  > </li></a><a href='https://api.whatsapp.com/send?text=https://pib.gov.in/PressReleasePage.aspx?PRID=2314163' target='_blank'><li class='whatsapp_r'  ></li></a><a href='https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=&su=ELDERLINE 14567 Provides Information, Guidance and Support to Senior Citizens Across India; Launched On 1st October 2021&body=https://pib.gov.in/PressReleasePage.aspx?PRID=2314163&ui=2&tf=1&pli=1' title='Share by Email' target='_blank'><li class='fa-envelope_r' ></li></a><a href='https://www.linkedin.com/shareArticle?mini=true&url=https://pib.gov.in/PressReleasePage.aspx?PRID=2314163&title=ELDERLINE 14567 Provides Information, Guidance and Support to Senior Citizens Across India; Launched On 1st October 2021&summary=My%20favorite%20developer%20program&source=LinkedIn' target='_blank'><li class='fa-linkedin_r'  ></li></a></ul></div></div>
+            </div>
+        </div>
+        <input type="hidden" name="ltrTitlee" id="ltrTitlee" value="ELDERLINE 14567 Provides Information, Guidance and Support to Senior Citizens Across India; Launched On 1st October 2021" />
+        <input type="hidden" name="ltrSubtitlee" id="ltrSubtitlee" value="&lt;br/>Over 29 lakh calls received including 8.67 Lakh Actionable Calls (Covered Information, Guidance, Emotional Support, Field Intervention) Since FY 2021–September 2026" />
+        <input type="hidden" name="ltrDescriptionn" id="ltrDescriptionn" value="&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>The Ministry of Social Justice and Empowerment is providing senior citizens with access to information, guidance, emotional support and assistance through &lt;strong>ELDERLINE 14567&lt;/strong>, the National Helpline for Senior Citizens (NHSC). The toll-free helpline is a component of the Atal Vayo Abhyuday Yojana (AVYAY).&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>Joint Secretary Senior Citizen Division in the Ministry Shri Sajeesh Kumar N said that ELDERLINE is operational in 32 States and Union Territories. He said over 29 Lakh calls have been received on the HELPLINE. He further said the National Institute of Social Defence (NISD), which monitors its implementation, has catered to more than 8.67 Lakh Actionable Calls covering information, guidance, emotional support and field intervention&amp;nbsp; since FY 2021 upto September 21, 2026 which remains a continuous process.&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>The Joint Secretary said the ELDERLINE connects callers with assistance suited to their needs whileas the State Connect Centres provide information and guidance, offer emotional support and counselling and coordinate field interventions wherever required. &lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>He added that depending on the nature of a grievance, they work with State Social Welfare Departments, police, healthcare institutions, legal aid services, senior citizen homes and other local agencies and the State Governments facilitate intervention and rehabilitation at the field level wherever necessary.&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:center&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;img id=&quot;Picture_x0020_1&quot; src=&quot;https://static.pib.gov.in/WriteReadData/userfiles/image/2026/sep/image001_20260923203701_fe179f.jpg&quot; style=&quot;height:400px; width:600px&quot; />&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>Joint Secretary said the Ministry implements the HELPLINE through agreements with participating State and Union Territory governments and service providers. &lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>Shri Sajeesh Kumar N further said that NISD and the respective governments monitor calls, services, grievances and field interventions through periodic progress reports. &lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>He further said that the Ministry also reviews digital service delivery, awareness activities, outreach, accessibility and coordination with local authorities to improve support for senior citizens, including those in remote areas.&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>It is pertinent to mention that Senior Citizens seeking assistance can call the &lt;strong>TOLL-FREE ELDERLINE NUMBER 14567&lt;/strong>. The helpline coordinates services and referrals; it does not provide direct financial assistance to callers.&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:center&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>***&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;strong>PR-134- TAR/KV/GA/RK&lt;/strong>&lt;/span>&lt;/span>&lt;/p>
+" />
+        <script type="text/javascript">
+                  var mPlayer = document.getElementById("background_music");
+                  var mPlayAction = document.getElementById("playbutton");
+                  var isPlaying = false;
+
+                  function playAudio() {
+                        mPlayer.play();
+                        isPlaying = true;
+                        document.getElementById('stopA').style.display = "block";
+                        document.getElementById('playA').style.display = "none";
+                  }
+
+                  function pauseAudio() {
+                        mPlayer.pause();
+                        isPlaying = false;
+                        document.getElementById('playA').style.display = "block";
+                        document.getElementById('stopA').style.display = "none";
+                  }
+        </script>
+        <script type="text/javascript">
+                  var synth = window.speechSynthesis;
+
+                  function CleanHtml(html) {
+                        html = html.replace(/<script[\s\S]*?<\/script>/gi, '');
+                        return html;
+                  }
+                  function stripHtml(html) {
+                        let tmp = document.createElement("DIV");
+                        tmp.innerHTML = CleanHtml(html);
+                        return tmp.textContent || tmp.innerText || "";
+                  }
+        </script>
+        <script type="text/javascript">
+                  $(document).ready(function () {
+                        $("table").each(function () {
+                              if (!$(this).closest(".table-responsive").length) {
+                                    $(this).wrap("<div class='table-responsive'></div>");
+                              }
+                        });
+
+                        var width = $(window).width();
+                        if (width < 768) {
+                              document.getElementById('frst_t').style.display = "block";
+                              document.getElementById('second_t').style.display = "none";
+                        } else if (width < 991) {
+                              document.getElementById('frst_t').style.display = "block";
+                              document.getElementById('second_t').style.display = "none";
+                        } else if (width < 1199) {
+                              document.getElementById('frst_t').style.display = "none";
+                              document.getElementById('second_t').style.display = "block";
+                        } else {
+                              document.getElementById('frst_t').style.display = "none";
+                              document.getElementById('second_t').style.display = "block";
+                        }
+                  });
+        </script>
+        <style type="text/css">
+            @media print {
+                .sticky-social, .sticky-social_mb, .pull-right, #printPDF {
+                    display: none !important;
+                }
+            }
+
+            .f_vl {
+                padding-right: 30px;
+                font-size: 17px;
+                cursor: pointer;
+            }
+
+            .log_oo {
+                display: flex;
+                justify-content: space-between;
+            }
+
+                .log_oo img {
+                    width: 150px;
+                }
+
+            .sticky-social_mb {
+                position: fixed;
+                bottom: 0px;
+                padding: 0px;
+                margin: 0px;
+                width: 100%;
+            }
+
+            .social_mb {
+                list-style: none;
+                display: flex;
+                width: 100%;
+                margin-bottom: -8px;
+            }
+
+                .social_mb a {
+                    padding: 8px 0px;
+                    font-size: 30px;
+                    transition: all 0.8s ease-in-out;
+                    width: 20% !important;
+                    text-align: center;
+                }
+        </style>
+        <style type="text/css">
+            .section1 {
+                position: relative;
+                padding: 10px 0px;
+                width: 100%;
+            }
+
+            .sticky-social {
+                position: fixed;
+                top: 20px;
+                left: 0px;
+                padding: 0px;
+                margin: 0px;
+            }
+
+            .social {
+                list-style: none;
+            }
+
+                .social a li {
+                    padding: 8px 12px;
+                    font-size: 25px;
+                    transition: all 0.8s ease-in-out;
+                }
+
+                    .social a li:hover {
+                        margin-right: -30px;
+                        box-shadow: 2px 5px 10px grey;
+                    }
+
+                        .social a li:hover .fa {
+                            margin-left: 20px;
+                        }
+
+            .fb_b {
+                background-color: var(--dbim-key, #0F5757);
+            }
+
+            .twitter_r {
+                background-color: var(--dbim-key, #0F5757);
+            }
+
+            .whatsapp_r {
+                background-color: var(--dbim-key, #0F5757);
+            }
+
+            .fa-envelope_r {
+                background-color: var(--dbim-key, #0F5757);
+            }
+
+            .fa-linkedin_r {
+                background-color: var(--dbim-key, #0F5757);
+            }
+        </style>
+        <style type="text/css">
+            @media only screen and (max-device-width: 767px) {
+                p span img {
+                    max-width: 90% !important;
+                    height: auto !important;
+                }
+
+                p img {
+                    max-width: 90% !important;
+                    height: auto !important;
+                }
+
+                h2 {
+                    font-size: var(--dbim-h2, 20px);
+                    font-weight: 600 !important;
+                }
+
+                h3 {
+                    font-size: var(--dbim-h3, 16px);
+                    font-weight: 600 !important;
+                }
+            }
+        </style>
+        <style type="text/css">
+            .film-roll-badge {
+                position: absolute;
+                top: 82%;
+                right: 20px;
+                width: 230px;
+                height: 70px;
+                background: repeating-linear-gradient( to right, var(--dbim-green-key, #0F5757) 0px, var(--dbim-green-key, #0F5757) 18px, var(--dbim-text, #150202) 18px, var(--dbim-text, #150202) 36px );
+                border-top: 8px solid var(--dbim-green-key, #0F5757);
+                border-bottom: 8px solid var(--dbim-green-key, #0F5757);
+                border-radius: 8px;
+                overflow: hidden;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+                animation: moveFilm 8s linear infinite;
+                z-index: 10;
+            }
+
+                .film-roll-badge::before,
+                .film-roll-badge::after {
+                    content: "";
+                    position: absolute;
+                    width: 100%;
+                    height: 10px;
+                    background: repeating-linear-gradient( to right, var(--dbim-green-key, #0F5757) 0px, var(--dbim-green-key, #0F5757) 10px, #fff 10px, #fff 20px );
+                    left: 0;
+                    z-index: 2;
+                }
+
+                .film-roll-badge::before {
+                    top: -4px;
+                }
+
+                .film-roll-badge::after {
+                    bottom: -4px;
+                }
+
+            .film-roll-inner {
+                position: relative;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                animation: flicker 2s infinite ease-in-out;
+            }
+
+            .countdown-text {
+                font-size: 1.3rem;
+                font-weight: 700;
+                color: #fff;
+                text-shadow: 0 0 6px rgba(255, 255, 255, 0.4), 0 0 10px #000;
+                white-space: nowrap;
+            }
+
+            @keyframes moveFilm {
+                0% {
+                    background-position: 0 0;
+                }
+
+                100% {
+                    background-position: 120px 0;
+                }
+            }
+
+            @keyframes flicker {
+                0%, 100% {
+                    opacity: 1;
+                }
+
+                50% {
+                    opacity: 0.9;
+                }
+
+                25% {
+                    opacity: 0.95;
+                }
+
+                75% {
+                    opacity: 0.85;
+                }
+            }
+
+            @media (max-width: 1500px) {
+                .film-roll-badge {
+                    top: 68%;
+                    right: 18px;
+                    height: 65px;
+                    font-size: 0.85rem;
+                }
+
+                .press-section {
+                    margin-top: 35px;
+                }
+            }
+
+            @media (max-width: 992px) {
+                .film-roll-badge {
+                    top: 52%;
+                    right: 10px;
+                    width: 200px;
+                    height: 60px;
+                }
+            }
+
+            @media (max-width: 768px) {
+                .film-roll-badge {
+                    top: 56%;
+                    right: 10px;
+                    width: 124px;
+                    height: 55px;
+                }
+
+                .countdown-text {
+                    font-size: 0.9rem;
+                }
+            }
+
+            @media (max-width: 576px) {
+                .film-roll-badge {
+                    top: 59%;
+                    right: 5px;
+                    height: 50px;
+                }
+
+                .countdown-text {
+                    font-size: 0.85rem;
+                }
+            }
+        </style>
+        <script type="text/javascript">
+                  const festivalStart = new Date("2025-11-20T00:00:00").getTime();
+                  const festivalEnd = new Date("2025-11-28T23:59:59").getTime();
+                  const countdownElement = document.getElementById("countdown");
+
+                  if (countdownElement) {
+                        const interval = setInterval(() => {
+                              const now = new Date().getTime();
+
+                              if (now < festivalStart) {
+                                    const diff = festivalStart - now;
+                                    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                                    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+                                    countdownElement.innerHTML = `${days} Day${days !== 1 ? 's' : ''} ${hours} Hour${hours !== 1 ? 's' : ''} to go`;
+                              } else if (now >= festivalStart && now <= festivalEnd) {
+                                    const dayNumber = Math.floor((now - festivalStart) / (1000 * 60 * 60 * 24)) + 1;
+                                    countdownElement.innerHTML = `56th IFFI - Day ${dayNumber}`;
+                              } else {
+                                    countdownElement.innerHTML = `✨ IFFI closes but never ends…`;
+                                    const elements = document.querySelectorAll('.film-roll-badge');
+                                    elements.forEach(el => el.style.width = "350px");
+                                    clearInterval(interval);
+                              }
+                        }, 1000);
+                  }
+        </script>
+        <script type="text/javascript">
+                  const miffStart = new Date("2026-06-15T00:00:00").getTime();
+                  const miffEnd = new Date("2026-06-15T23:59:59").getTime();
+                  const miffElement = document.getElementById("miff");
+
+                  if (miffElement) {
+                        const miffInterval = setInterval(() => {
+                              const now = new Date().getTime();
+
+                              if (now < miffStart) {
+                                    const diff = miffStart - now;
+                                    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                                    miffElement.innerHTML = `${days} Day${days === 1 ? '' : 's'} to MIFF ...`;
+                              } else if (now >= miffStart && now <= miffEnd) {
+                                    const dayNumber = Math.floor((now - miffStart) / (1000 * 60 * 60 * 24)) + 1;
+                                    miffElement.innerHTML = `19th MIFF - Day ${dayNumber}`;
+                              } else {
+                                    miffElement.innerHTML = `✨ MIFF concludes, cinema lives on...`;
+                                    document.querySelectorAll('.film-roll-badge').forEach(el => el.style.width = "350px");
+                                    clearInterval(miffInterval);
+                              }
+                        }, 1000);
+                  }
+        </script>
+    
+
+<script type="text/javascript">
+//<![CDATA[
+(function() {var fn = function() {$get("sc_HiddenField").value = '';Sys.Application.remove_init(fn);};Sys.Application.add_init(fn);})();Sys.Application.add_init(function() {
+    $create(Sys.Extended.UI.ModalPopupBehavior, {"BackgroundCssClass":"modalBackground","PopupControlID":"P_CategoryManagement","dynamicServicePath":"/PressReleasePage.aspx","id":"mpe"}, null, null, $get("Hidden"));
+});
+//]]>
+</script>
+<input type="hidden" name="__ncforminfo" value="DZWNoTx1sdbuqF37qH_IMM2hqkbnn92ngHnIcZ8KCGm0jBzMld53xX2WLYAG8ZoVTL7Ufo6FRkex_tbhBfegahcDvC3K4sj3"/></form>
+    
+
+<script type="application/json" id="pibConsentConfig">{"ga4Id":"G-Q414Y0X6EE,G-QJJ6LZ8LHV","policyUrl":"/CookiePolicy.aspx","text":{"bannerLabel":"Cookie consent","title":"Cookies on this website","body":"We use essential cookies to make this website work. We also set analytics cookies when you arrive, so we can see how the site is used and improve it - you can switch these off below or at any time from the Cookie Policy page. Cookies from embedded social media content are set only if you allow them.","policyLink":"Read our Cookie Policy","accept":"Accept all","reject":"Reject optional","customize":"Customise","prefsTitle":"Cookie preferences","prefsIntro":"Choose which cookies this website may set. Essential cookies cannot be switched off because the site does not work without them. Analytics cookies are on unless you turn them off. Social media cookies stay off until you allow them. You can change these choices at any time from the Cookie Policy page.","essentialName":"Essential cookies","essentialDesc":"Needed for the site to function. These remember your session, your language and region, your text size and colour theme, and verify the security check on forms. They are always on.","analyticsName":"Analytics cookies","analyticsDesc":"Help us understand how visitors use the site - which pages are read and how long people stay - so it can be improved. The information is collected in a form that does not directly identify you. These are on when you arrive; switching them off here stops them and deletes the ones already set.","socialName":"Social media cookies","socialDesc":"Set by content embedded from X, Facebook and YouTube, such as timelines and videos. These platforms may use them to track you across websites. They stay off until you allow them.","save":"Save preferences","cancel":"Cancel"}}</script>
+<script type="text/javascript" src='/js/consent.js?v=10'></script>
+
+<script type="text/javascript" src='/js/consent-embeds.js?v=10'></script>
+
+
+    <!-- Minimal O(N) Time and O(1) Auxiliary Space Word Count & Read Time Calculation -->
+    <script type="text/javascript">
+            (function () {
+                  function calculateReadingStats() {
+                        var bodyEl = document.getElementById("pibReleaseBody");
+                        if (!bodyEl) return;
+
+                        // textContent extracts text without triggering expensive layout/reflow computations
+                        var text = bodyEl.textContent || "";
+                        var words = 0;
+                        var inWord = false;
+
+                        // O(N) single pass character code scan: achieves O(1) space with zero array allocations
+                        for (var i = 0, len = text.length; i < len; i++) {
+                              var code = text.charCodeAt(i);
+                              // Delimits on ASCII whitespace, control characters, tabs, newlines, and non-breaking spaces (160)
+                              if (code <= 32 || code === 160) {
+                                    inWord = false;
+                              } else if (!inWord) {
+                                    inWord = true;
+                                    words++;
+                              }
+                        }
+
+                        // Standard 250 WPM reading speed (e.g., 612 words yields 2 min read)
+                        var minutes = Math.max(1, Math.round(words / 250));
+
+                        var elWords = document.getElementById("prWordCount");
+                        var elTime = document.getElementById("prReadTime");
+
+                        if (elWords) elWords.textContent = words + (words === 1 ? " word" : " words");
+                        if (elTime) elTime.textContent = minutes + " min read";
+                  }
+
+                  if (document.readyState === "loading") {
+                        document.addEventListener("DOMContentLoaded", calculateReadingStats);
+                  } else {
+                        calculateReadingStats();
+                  }
+            })();
+    </script>
+
+    <script type="text/javascript">
+(function () {
+    try {
+        if (window.self === window.top) { return; }
+    } catch (e) { return; }
+    var s = document.createElement("style");
+    s.textContent = ".sticky-social, .sticky-social_mb { display: none !important; }";
+    (document.head || document.documentElement).appendChild(s);
+}());
+    </script>
+</body>
+</html>

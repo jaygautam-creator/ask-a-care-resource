@@ -1,0 +1,194 @@
+# Corpus for Ask-a-Care-Resource (India).
+# Every document the assistant can cite is listed here. `make ingest` fetches each URL once and
+# snapshots the raw bytes into data/raw/ (committed), because government sites are often down
+# (indiacode.nic.in, nha.gov.in, socialjustice.gov.in and nsap.nic.in were all unreachable while
+# this corpus was built). Rebuilds therefore do not depend on those sites being up.
+#
+# Fields: id (stable, used as the citation/eval label), url, title, category, lang, publisher.
+
+sources:
+  # --- Law ---------------------------------------------------------------------------------------
+  - id: mwpsc_act_2007
+    url: https://socialwelfare.delhi.gov.in/sites/default/files/Social/generic_multiple_files/mwpsc_act2007.pdf
+    title: The Maintenance and Welfare of Parents and Senior Citizens Act, 2007 (full text)
+    category: law
+    lang: en
+    publisher: Govt of NCT of Delhi (copy of Gazette of India)
+
+  # --- Overviews of all schemes ------------------------------------------------------------------
+  - id: pib_elderly_in_india_2025
+    url: https://static.pib.gov.in/WriteReadData/specificdocs/documents/2025/oct/doc20251028678601.pdf
+    title: "Elderly in India: Population, Challenges, and Government Initiatives (Oct 2025)"
+    category: overview
+    lang: en
+    publisher: PIB
+  - id: pib_elderly_in_india_2025_hi
+    url: https://static.pib.gov.in/WriteReadData/specificdocs/documents/2025/oct/doc20251028678701.pdf
+    title: "भारत में वृद्धजन जनसंख्या, चुनौतियां और सरकारी पहल (Hindi edition, Oct 2025)"
+    category: overview
+    lang: hi
+    publisher: PIB
+  - id: pib_world_senior_citizen_day_2024
+    url: https://static.pib.gov.in/WriteReadData/specificdocs/documents/2024/aug/doc2024820378501.pdf
+    title: World Senior Citizen Day 2024 (MoSJE backgrounder)
+    category: overview
+    lang: en
+    publisher: PIB
+  - id: pib_senior_care_blog_2026
+    url: https://www.pib.gov.in/blogs/blogsdescr.aspx?feaaid=563
+    title: PIB feature on care and dignity for senior citizens (Jul 2026)
+    category: overview
+    lang: en
+    publisher: PIB
+  - id: pib_schemes_welfare_2022
+    url: https://pib.gov.in/PressReleasePage.aspx?PRID=1806506
+    title: Schemes for the Welfare of Senior Citizens (Mar 2022)
+    category: overview
+    lang: en
+    publisher: PIB
+  - id: pib_schemes_senior_2022
+    url: https://pib.gov.in/PressReleasePage.aspx?PRID=1844991
+    title: Schemes for Senior Citizens (Jul 2022)
+    category: overview
+    lang: en
+    publisher: PIB
+  - id: pib_social_security_elders_2023
+    url: https://pib.gov.in/PressReleasePage.aspx?PRID=1942485
+    title: Social Security of Elders (Jul 2023)
+    category: overview
+    lang: en
+    publisher: PIB
+  - id: pib_old_age_homes_2022
+    url: https://pib.gov.in/PressReleasePage.aspx?PRID=1847439
+    title: Old Age Homes (Jul 2022)
+    category: welfare
+    lang: en
+    publisher: PIB
+
+  # --- Elderline 14567 helpline ------------------------------------------------------------------
+  - id: pib_elderline_launch_2021
+    url: https://pib.gov.in/PressReleasePage.aspx?PRID=1758880
+    title: "Country's first Pan-India helpline for senior citizens: Elder Line 14567 (Oct 2021)"
+    category: helpline
+    lang: en
+    publisher: PIB
+  - id: pib_elderline_study_2021
+    url: https://pib.gov.in/PressReleasePage.aspx?PRID=1759358
+    title: National Helpline for Senior Citizens (Oct 2021)
+    category: helpline
+    lang: en
+    publisher: PIB
+  - id: pib_elderline_2026
+    url: https://pib.gov.in/PressReleasePage.aspx?PRID=2314163
+    title: ELDERLINE 14567 provides information, guidance and support to senior citizens (2026)
+    category: helpline
+    lang: en
+    publisher: PIB
+  - id: vikaspedia_elderline
+    url: https://en.vikaspedia.in/viewcontent/social-welfare/senior-citizens-welfare/national-helpline-for-senior-citizens-elderline-14567?lgn=en
+    title: National Helpline for Senior Citizens - Elderline 14567
+    category: helpline
+    lang: en
+    publisher: Vikaspedia (MeitY / C-DAC)
+
+  # --- Health ------------------------------------------------------------------------------------
+  - id: pib_vay_vandana_25lakh_2024
+    url: https://pib.gov.in/PressReleasePage.aspx?PRID=2082288
+    title: Enrollment for Ayushman Vay Vandana Cards reaches 25 lakhs (Dec 2024)
+    category: health
+    lang: en
+    publisher: PIB
+  - id: pib_vay_vandana_milestone_2024
+    url: https://static.pib.gov.in/WriteReadData/specificdocs/documents/2024/nov/doc20241118436001.pdf
+    title: "Ayushman Bharat: Vay Vandana Cards achieves Milestone (Nov 2024)"
+    category: health
+    lang: en
+    publisher: PIB
+  - id: pib_vay_vandana_two_years_2026
+    url: https://pib.gov.in/PressReleasePage.aspx?PRID=2330009
+    title: Ayushman Vay Vandana marks two years of transforming healthcare for elderly citizens (Oct 2026)
+    category: health
+    lang: en
+    publisher: PIB
+  - id: pmjay_senior_citizen_guidelines
+    url: https://cdnbbsr.s3waas.gov.in/s3169779d3852b32ce8b1a1724dbf5217d/uploads/2024/11/20241104222942183.pdf
+    title: AB PM-JAY expansion to senior citizens aged 70+ - operational guidelines
+    category: health
+    lang: en
+    publisher: Government of India (hosted on S3WaaS)
+  - id: dghs_nphce
+    url: https://dghs.mohfw.gov.in/national-programme-for-the-health-care-of-the-elderly.php
+    title: National Programme for the Health Care of the Elderly (NPHCE)
+    category: health
+    lang: en
+    publisher: DGHS, Ministry of Health & Family Welfare
+
+  # --- Pensions, savings and tax -----------------------------------------------------------------
+  - id: pfrda_apy_overview
+    url: https://pfrda.org.in/en/web/pfrda/schemes/atal-pension-yojana-apy
+    title: Atal Pension Yojana (APY) - overview
+    category: pension
+    lang: en
+    publisher: PFRDA
+  - id: pfrda_apy_faq
+    url: https://pfrda.org.in/web/pfrda/w/faqs/atal-pension-yojana
+    title: Atal Pension Yojana - FAQs
+    category: pension
+    lang: en
+    publisher: PFRDA
+  - id: sbi_scss
+    url: https://sbi.co.in/web/personal-banking/investments-deposits/govt-schemes/senior-citizens-savings-scheme
+    title: Senior Citizens Savings Scheme (SCSS)
+    category: savings
+    lang: en
+    publisher: State Bank of India (authorised SCSS bank)
+  - id: nis_pmvvy_2023
+    url: https://newindiasamachar.pib.gov.in/WriteReadData/flipbook/2023/Jun/1st/English/files/basic-html/page21.html
+    title: New India Samachar - Pradhan Mantri Vaya Vandana Yojana (Jun 2023)
+    category: pension
+    lang: en
+    publisher: PIB (New India Samachar)
+  - id: incometax_senior_benefits
+    url: https://www.incometaxindia.gov.in/w/senior-citizen/-super-senior-citizen-benefits-allowable
+    title: Senior Citizen / Super Senior Citizen - income tax benefits allowable
+    category: tax
+    lang: en
+    publisher: Income Tax Department
+  - id: incometax_senior_faq
+    url: https://incometaxindia.gov.in/documents/d/guest/faqs-for-senior-citizens
+    title: Income tax FAQs for senior citizens
+    category: tax
+    lang: en
+    publisher: Income Tax Department
+  - id: incometax_itr_forms_senior
+    url: https://www.incometax.gov.in/iec/foportal/help/individual/return-applicable-2
+    title: Returns and forms applicable for senior and super senior citizens (AY 2026-27)
+    category: tax
+    lang: en
+    publisher: Income Tax Department (e-filing portal)
+
+  # --- State schemes -----------------------------------------------------------------------------
+  - id: delhi_old_age_assistance
+    url: https://socialwelfare.delhi.gov.in/hi/node/1385
+    title: Delhi Social Welfare Department - Old Age Assistance (pension) and senior citizen schemes
+    category: state
+    lang: en
+    publisher: Govt of NCT of Delhi
+  - id: kerala_welfare_pension
+    url: https://lsgkerala.gov.in/en/welfarepension/iop
+    title: Kerala welfare pensions (Indira Gandhi National Old Age Pension) - LSGD
+    category: state
+    lang: en
+    publisher: Local Self Government Department, Kerala
+  - id: kerala_social_security_pension
+    url: https://thalayolaparambupanchayat.lsgkerala.gov.in/en/page/social-security-pension
+    title: Kerala Social Security Pension (panchayat information page)
+    category: state
+    lang: en
+    publisher: Thalayolaparambu Grama Panchayat, Kerala
+  - id: maharashtra_shravanbal
+    url: https://nashik.gov.in/scheme/shravan-bal-seva-rajya-nivruttivetan-yojana/
+    title: Shravan Bal Seva Rajya Nivruttivetan Yojana (Maharashtra)
+    category: state
+    lang: en
+    publisher: District Administration Nashik, Govt of Maharashtra

@@ -1,0 +1,1352 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head id="Head1"><title>
+	Press Release Page | Press Information Bureau
+</title><link href="css/style.css?v=1" rel="stylesheet" type="text/css" /><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><link rel="alternate stylesheet" href="css/change.css?v=1" media="screen" title="change" /><link rel="alternate stylesheet" href="css/green.css?v=1" media="screen" title="green" /><link rel="alternate stylesheet" href="css/yellow.css" media="screen" title="yellow" /><link rel="stylesheet" type="text/css" href="css/prtint.css" media="print" /><link rel="stylesheet" href="css/style3.1.css" type="text/css" /><link id="pibA11yCss" rel="stylesheet" href="/css/accessibility.css?v=7" type="text/css" />
+    <script type="text/javascript">
+        (function (d) {
+            var t = "";
+            try {
+                t = window.localStorage.getItem("pibStyle") || "";
+            } catch (e) {
+                t = "";
+            }
+            if (t === "orange") {
+                t = "yellow";
+            }
+            var c = t === "change" ? " pib-hc"
+                : t === "green" ? " pib-theme-green"
+                : t === "yellow" ? " pib-theme-yellow" : "";
+            d.documentElement.className += c + " pib-a11y-content";
+        }(document));
+    </script>
+
+    <script src="js/jquery.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/accessibility.js?v=7"></script>
+
+    <script type="text/javascript">
+            $(document).ready(function () {
+                  function getParameterByName(name) {
+                        var url = window.location.href;
+                        name = name.replace(/[\[\]]/g, '\\$&');
+                        var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                              results = regex.exec(url);
+                        if (!results) return null;
+                        if (!results[2]) return '';
+                        return decodeURIComponent(results[2].replace(/\+/g, ' '));
+                  }
+                  let prid = parseInt(getParameterByName('PRID'), 10);
+
+                  if (!isNaN(prid) && prid > 0) {
+                        $.ajax({
+                              type: "POST",
+                              url: "AjaxMethod.aspx/UpdatePRHitCount",
+                              async: false,
+                              data: JSON.stringify({ 'PermId': prid }),
+                              contentType: "application/json; charset=utf-8",
+                              dataType: "json",
+                              success: function (response) {
+                                    console.log(response);
+                              },
+                              error: function (error) {
+                                    console.log("Error in AJAX request", error);
+                              }
+                        });
+                  } else {
+                        console.log("Invalid parameters:", prid);
+                  }
+            });
+    </script>
+    <style type="text/css">
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .banner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #000;
+            color: #fff;
+            padding: 20px;
+        }
+
+        full-width {
+            width: 100%;
+        }
+
+        .logo-left, .logo-center, .countdown {
+            display: flex;
+            align-items: center;
+        }
+
+            .logo-left img, .logo-center img {
+                height: 70px;
+            }
+
+        .countdown {
+            text-align: center;
+            background-color: var(--dbim-text, #150202);
+            border-radius: 10px;
+            padding: 10px;
+            border: 2px solid grey;
+        }
+
+        .firstnumber {
+            color: #000000;
+            position: absolute;
+            top: 50px;
+            right: 90px;
+            font-size: 30px;
+        }
+
+        .secondnumber {
+            position: absolute;
+            color: #000000;
+            right: 45px;
+            top: 50px;
+            font-size: 30px;
+        }
+
+        .countdown .days {
+            font-size: 35px;
+            color: gold;
+        }
+
+        .countdown p {
+            margin: 0;
+        }
+
+        .countdown .text {
+            font-size: 16px;
+        }
+
+        a {
+            word-break: break-all;
+        }
+
+        iframe, img {
+            max-width: 100%;
+        }
+        .innner-page-main-about-us-content-right-part ul > li, .content-area ul > li {
+  /*list-style: none !important;*/
+}
+        /* === DBIM 3.0 Option 4 Separator Line & Reading Meta Styling === */
+        .pr-share--footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            border-top: 1px solid var(--dbim-border, #d1d5db);
+            padding-top: 16px;
+            margin-top: 24px;
+        }
+
+        .pr-share__left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .pr-reading-meta {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.95rem;
+            color: var(--dbim-text-secondary, #475569);
+            font-weight: 500;
+            white-space: nowrap;
+            margin-left: auto;
+        }
+
+        .pr-reading-meta__item {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .pr-reading-meta__divider {
+            color: var(--dbim-border, #cbd5e1);
+            font-weight: 300;
+        }
+
+        .pib-hc .pr-reading-meta,
+        .pib-hc .pr-reading-meta svg {
+            color: currentColor !important;
+        }
+
+        @media (max-width: 680px) {
+            .pr-share--footer {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .pr-reading-meta {
+                margin-left: 0;
+                width: 100%;
+                justify-content: flex-start;
+            }
+        }
+
+        @media(max-width:1199px) {
+            .firstnumber {
+                top: 40px;
+                right: 72px;
+                font-size: 30px;
+            }
+
+            .secondnumber {
+                right: 35px;
+                top: 40px;
+                font-size: 30px;
+            }
+        }
+
+        @media(max-width:990px) {
+            .firstnumber {
+                top: 25px;
+                right: 54px;
+                font-size: 30px;
+            }
+
+            .secondnumber {
+                right: 25px;
+                top: 25px;
+                font-size: 30px;
+            }
+        }
+
+        @media(max-width:768px) {
+            .countdown, .days {
+                font-size: 12px !important;
+            }
+
+            .firstnumber {
+                top: 25%;
+                right: 8%;
+                font-size: 30px;
+            }
+
+            .secondnumber {
+                right: 4.5%;
+                top: 25%;
+                font-size: 30px;
+            }
+        }
+
+        @media(max-width:475px) {
+            .countdown, .days {
+                font-size: 10px !important;
+                top: 20%;
+            }
+
+            .bannerimgdiv {
+                padding: 0 !important;
+            }
+
+            .bannerimg {
+                width: 108% !important;
+            }
+        }
+    </style>
+    <script type="text/javascript">
+$(function () {
+    $("[id*=printPDF]").click(function () {
+        $("[id*=hfGridHtml]").val($("#PdfDiv").html());
+    });
+});
+$(function () {
+    $("[id*=printPDFEvent]").click(function () {
+        $("[id*=hfGridHtml]").val($("#PdfDiv").html());
+    });
+});
+</script>
+
+    <link id="pibConsentCss" href="/css/consent.css?v=8" rel="stylesheet" type="text/css" /><link id="pibFontsCss" href="/css/fonts-noto.css?v=6" rel="stylesheet" type="text/css" /><link id="pibDbimCss" href="/css/dbim.css?v=1120" rel="stylesheet" type="text/css" /><meta property="og:title" content="Schemes for Senior Citizens" /><meta property="og:url" content="https://pib.gov.in/PressReleasePage.aspx?PRID=1844991" /><meta property="og:description" content="The population of senior citizens, as per Census 2011, was approximately 10.38 crore, amounting to 8.6% of the total population in the country. 
+
+The National Policy on Older Persons, 1999, which is" /><meta property="og:image" content="https://static.pib.gov.in/WriteReadData/specificdocs/photo/2026/sep/ph_9780_20260902_18024501.png" /><meta property="og:type" content="article" /><meta name="twitter:card" content="summary_large_image" /><meta name="twitter:image" content="https://static.pib.gov.in/WriteReadData/specificdocs/photo/2026/sep/ph_9780_20260902_18024501.png" />
+                                <script>!function(e){var n="https://s.go-mpulse.net/boomerang/";if("False"=="True")e.BOOMR_config=e.BOOMR_config||{},e.BOOMR_config.PageParams=e.BOOMR_config.PageParams||{},e.BOOMR_config.PageParams.pci=!0,n="https://s2.go-mpulse.net/boomerang/";if(window.BOOMR_API_key="C4E7H-KSCMC-422L4-W3EM5-U36MF",function(){function e(){if(!i){var e=document.createElement("script");e.id="boomr-scr-as",e.src=window.BOOMR.url,e.async=!0,o.parentNode.appendChild(e),i=!0}}function t(e){i=!0;var n,t,a,r,d=document,O=window;if(window.BOOMR.snippetMethod=e?"if":"i",t=function(e,n){var t=d.createElement("script");t.id=n||"boomr-if-as",t.src=window.BOOMR.url,BOOMR_lstart=(new Date).getTime(),e=e||d.body,e.appendChild(t)},!window.addEventListener&&window.attachEvent&&navigator.userAgent.match(/MSIE [67]\./))return window.BOOMR.snippetMethod="s",void t(o.parentNode,"boomr-async");a=document.createElement("IFRAME"),a.src="about:blank",a.title="",a.role="presentation",a.loading="eager",r=(a.frameElement||a).style,r.width=0,r.height=0,r.border=0,r.display="none",o.parentNode.appendChild(a);try{O=a.contentWindow,d=O.document.open()}catch(_){n=document.domain,a.src="javascript:var d=document.open();d.domain='"+n+"';void(0);",O=a.contentWindow,d=O.document.open()}if(n)d._boomrl=function(){this.domain=n,t()},d.write("<bo"+"dy onload='document._boomrl();'>");else if(O._boomrl=function(){t()},O.addEventListener)O.addEventListener("load",O._boomrl,!1);else if(O.attachEvent)O.attachEvent("onload",O._boomrl);d.close()}function a(e){window.BOOMR_onload=e&&e.timeStamp||(new Date).getTime()}if(!window.BOOMR||!window.BOOMR.version&&!window.BOOMR.snippetExecuted){window.BOOMR=window.BOOMR||{},window.BOOMR.snippetStart=(new Date).getTime(),window.BOOMR.snippetExecuted=!0,window.BOOMR.snippetVersion=12,window.BOOMR.url=n+"C4E7H-KSCMC-422L4-W3EM5-U36MF";var o=document.currentScript||document.getElementsByTagName("script")[0],i=!1,r=document.createElement("link");if(r.relList&&"function"==typeof r.relList.supports&&r.relList.supports("preload")&&"as"in r)window.BOOMR.snippetMethod="p",r.href=window.BOOMR.url,r.rel="preload",r.as="script",r.addEventListener("load",e),r.addEventListener("error",function(){t(!0)}),setTimeout(function(){if(!i)t(!0)},3e3),BOOMR_lstart=(new Date).getTime(),o.parentNode.appendChild(r);else t(!1);if(window.addEventListener)window.addEventListener("load",a,!1);else if(window.attachEvent)window.attachEvent("onload",a)}}(),"".length>0)if(e&&"performance"in e&&e.performance&&"function"==typeof e.performance.setResourceTimingBufferSize)e.performance.setResourceTimingBufferSize();!function(){if(BOOMR=e.BOOMR||{},BOOMR.plugins=BOOMR.plugins||{},!BOOMR.plugins.AK){var n=""=="true"?1:0,t="",a="eqbauaabm4bzojafaiabmcixgfvqqfr2-f-4e8f8f3ed-clienttons-s.akamaihd.net",o="false"=="true"?2:1,i={"ak.v":"41","ak.cp":"1825201","ak.ai":parseInt("1215205",10),"ak.ol":"0","ak.cr":30,"ak.ipv":6,"ak.proto":"http/1.1","ak.rid":"9919283f","ak.r":37202,"ak.a2":n,"ak.m":"dscb","ak.n":"ff","ak.cport":56939,"ak.gh":"49.44.138.140","ak.quicv":"","ak.tlsv":"tls1.3","ak.0rtt":"","ak.0rtt.ed":"","ak.csrc":"-","ak.acc":"bbr","ak.t":"1795692090","ak.ak":"hOBiQwZUYzCg5VSAfCLimQ==t76q226pO46kcHSAT/pEkXvNSForv5+U9OTuRNJY+Drg60r9RzAXDpc77UA52R93T/BD09Mpalw4C4YTIZJnF0Ar2B9txZBaZpufORNVfjBp8FNXPQVG6OTkGW5Z1gSICxSehzCtCmGsfQ4LLaBDsVYN2aL3i16AuTi61zMPVSxOot/O1uLqu3S/kvBliKcTVUNk9A+6C386ntC6jCoJ/Smcm7HW6CVOcGHxGOE4QRI4GIuuW0b6oqSJwI7uVcNR30tayeadw5CR3535Px2ECt4xS5IYzoBMXLnqOqZ6aOaATs1OqWw+ZubjcNeQ5ww/l29Qnc4TORADTgq5q/0MmXd6kSggPpf4r5gI3NnD80IH2dDeyAL4q2dliUVDrGUyBFNxWJ2q0pGLP8h7F6Fltf0+wqbVo5C03Okq5GNbZsQ=","ak.pv":"9","ak.dpoabenc":"","ak.tf":o};if(""!==t)i["ak.ruds"]=t;var r={i:!1,av:function(n){var t="http.initiator";if(n&&(!n[t]||"spa_hard"===n[t]))i["ak.feo"]=void 0!==e.aFeoApplied?1:0,BOOMR.addVar(i)},rv:function(){var e=["ak.cport","ak.cr","ak.csrc","ak.gh","ak.ipv","ak.m","ak.n","ak.ol","ak.proto","ak.quicv","ak.tlsv","ak.0rtt","ak.0rtt.ed","ak.r","ak.acc","ak.t","ak.tf"];BOOMR.removeVar(e)}};BOOMR.plugins.AK={akVars:i,akDNSPreFetchDomain:a,init:function(){if(!r.i){var e=BOOMR.subscribe;e("before_beacon",r.av,null,null),e("onbeacon",r.rv,null,null),r.i=!0}return this},is_complete:function(){return!0}}}}()}(window);</script></head>
+<body>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"
+     style="position:absolute;width:0;height:0;overflow:hidden" id="dbim-icon-sprite">
+    <defs>
+        <symbol id="icon-angle-double-left" viewBox="0 0 24 24"><path d="M11.6 4.6 4.2 12l7.4 7.4 2.2-2.2L8.6 12l5.2-5.2z"/><path d="M19 4.6 11.6 12 19 19.4l2.2-2.2L16 12l5.2-5.2z"/></symbol>
+        <symbol id="icon-angle-double-right" viewBox="0 0 24 24"><path d="M12.4 4.6 10.2 6.8 15.4 12l-5.2 5.2 2.2 2.2L19.8 12z"/><path d="M5 4.6 2.8 6.8 8 12l-5.2 5.2L5 19.4 12.4 12z"/></symbol>
+        <symbol id="icon-arrow-left" viewBox="0 0 24 24"><path d="M20.8 10.6H9.6v2.8h11.2z"/><path d="M10.8 5.6 3.2 12l7.6 6.4z"/></symbol>
+        <symbol id="icon-arrow-right" viewBox="0 0 24 24"><path d="M3.2 10.6h11.2v2.8H3.2z"/><path d="M13.2 5.6 20.8 12l-7.6 6.4z"/></symbol>
+        <symbol id="icon-blogger" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M6.4 2.4h11.2a4 4 0 0 1 4 4v11.2a4 4 0 0 1-4 4H6.4a4 4 0 0 1-4-4V6.4a4 4 0 0 1 4-4zm2.8 5.2a2 2 0 0 0 0 4h2.4a2 2 0 0 0 0-4zm0 5.6a2 2 0 0 0 0 4h5.6a2 2 0 0 0 0-4z"/></symbol>
+        <symbol id="icon-calendar" viewBox="0 0 24 24"><path d="M7.6 2.4H10v2.4H7.6z"/><path d="M14 2.4h2.4v2.4H14z"/><path fill-rule="evenodd" d="M4 4.8h16a1.6 1.6 0 0 1 1.6 1.6v13.2a1.6 1.6 0 0 1-1.6 1.6H4a1.6 1.6 0 0 1-1.6-1.6V6.4A1.6 1.6 0 0 1 4 4.8zm.4 5.6v8.4h15.2v-8.4z"/><path d="M6.4 12.4h3.2v3.2H6.4z"/></symbol>
+        <symbol id="icon-chevron-left" viewBox="0 0 24 24"><path d="M15.4 4.6 8 12l7.4 7.4 2.2-2.2L12.4 12l5.2-5.2z"/></symbol>
+        <symbol id="icon-chevron-right" viewBox="0 0 24 24"><path d="M8.6 4.6 6.4 6.8 11.6 12l-5.2 5.2 2.2 2.2L16 12z"/></symbol>
+        <symbol id="icon-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/></symbol>
+        <symbol id="icon-download" viewBox="0 0 24 24"><path d="M10.8 3h2.4v7.6h3.4L12 16.6l-4.6-6h3.4z"/><path d="M4 17.2h2.4v2.4h11.2v-2.4H20v3.2a1.4 1.4 0 0 1-1.4 1.4H5.4A1.4 1.4 0 0 1 4 20.4z"/></symbol>
+        <symbol id="icon-facebook" viewBox="0 0 24 24"><path d="M13.6 21.6v-8.4h2.8l.42-3.3h-3.22V7.8c0-.95.27-1.6 1.64-1.6h1.74V3.26a23 23 0 0 0-2.54-.13c-2.5 0-4.22 1.53-4.22 4.34v2.43H7.4v3.3h2.82v8.4z"/></symbol>
+        <symbol id="icon-fact-check" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2.4 3.6 5.6v6.2c0 4.6 3.4 8.6 8.4 9.8 5-1.2 8.4-5.2 8.4-9.8V5.6zm-1 13.2-3.6-3.6 1.7-1.7 1.9 1.9 4.5-4.5 1.7 1.7z"/></symbol>
+        <symbol id="icon-hashtag" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M8.8 3h2.4l-1 6h3.2l1-6h2.4l-1 6h3.4v2.4h-3.8l-.6 3.2h3.6V17h-4l-1 5h-2.4l1-5h-3.2l-1 5H5.4l1-5H3V14.6h3.8l.6-3.2H3.8V9h4zm.6 8.4-.6 3.2h3.2l.6-3.2z"/></symbol>
+        <symbol id="icon-home" viewBox="0 0 24 24"><path d="M12 3.4 2.8 11.6h2.4v8.4a1 1 0 0 0 1 1h3.3v-5.4h5v5.4h3.3a1 1 0 0 0 1-1v-8.4h2.4z"/></symbol>
+        <symbol id="icon-instagram" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M7.6 2.4h8.8a5.2 5.2 0 0 1 5.2 5.2v8.8a5.2 5.2 0 0 1-5.2 5.2H7.6a5.2 5.2 0 0 1-5.2-5.2V7.6a5.2 5.2 0 0 1 5.2-5.2zm0 2.4a2.8 2.8 0 0 0-2.8 2.8v8.8a2.8 2.8 0 0 0 2.8 2.8h8.8a2.8 2.8 0 0 0 2.8-2.8V7.6a2.8 2.8 0 0 0-2.8-2.8z"/><path fill-rule="evenodd" d="M12 6.8a5.2 5.2 0 1 0 0 10.4 5.2 5.2 0 0 0 0-10.4zm0 2.4a2.8 2.8 0 1 1 0 5.6 2.8 2.8 0 0 1 0-5.6z"/><circle cx="17.3" cy="6.7" r="1.3"/></symbol>
+        <symbol id="icon-linkedin" viewBox="0 0 24 24"><path d="M4.8 8.8h3.6v12H4.8z"/><circle cx="6.6" cy="5.4" r="2.1"/><path d="M10.8 8.8h3.45v1.65h.05c.48-.9 1.65-1.85 3.4-1.85 3.63 0 4.3 2.35 4.3 5.4v6.6h-3.6v-5.85c0-1.4-.03-3.2-1.95-3.2-1.95 0-2.25 1.52-2.25 3.1v5.95h-3.6z"/></symbol>
+        <symbol id="icon-mail" viewBox="0 0 24 24"><path d="M2.4 7.6v9.2a1.6 1.6 0 0 0 1.6 1.6h16a1.6 1.6 0 0 0 1.6-1.6V7.6L12 14z"/><path d="M21.2 5.4H2.8L12 11.8z"/></symbol>
+        <symbol id="icon-mail-open" viewBox="0 0 24 24"><path d="M2.4 9.8h19.2v9.6A1.6 1.6 0 0 1 20 21H4a1.6 1.6 0 0 1-1.6-1.6z"/><path d="M12 2.6 21.6 9.2h-3.8L12 5.3 6.2 9.2H2.4z"/><path d="m3.9 11.2 8.1 5.4 8.1-5.4 1.5 1.3-9.6 6.4-9.6-6.4z"/></symbol>
+        <symbol id="icon-map-marker" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2.4a7 7 0 0 0-7 7c0 5.2 7 12.2 7 12.2s7-7 7-12.2a7 7 0 0 0-7-7zm0 9.6a2.6 2.6 0 1 1 0-5.2 2.6 2.6 0 0 1 0 5.2z"/></symbol>
+        <symbol id="icon-newspaper" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M2.8 4.4h14.8v15.2H2.8zm2 2v11.2h10.8V6.4z"/><path d="M6 7.6h8.4v1.6H6z"/><path d="M6 10.8h8.4v1.6H6z"/><path d="M6 14h5.2v1.6H6z"/><path d="M18.4 8.4h2.8v9.6a1.4 1.4 0 0 1-2.8 0z"/></symbol>
+        <symbol id="icon-pause" viewBox="0 0 24 24"><rect x="7.4" y="4" width="3.6" height="16" rx="0.9"/><rect x="13" y="4" width="3.6" height="16" rx="0.9"/></symbol>
+    <symbol id="icon-play" viewBox="0 0 24 24"><path d="M8 4.5v15l12-7.5z"/></symbol>
+        <symbol id="icon-picture" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M2.4 5.2h19.2v13.6H2.4zm2 2v9.6h15.2V7.2z"/><path d="M5.6 16.4 10 11l2.6 3 2-2.2 4 4.6z"/><circle cx="8" cy="10.4" r="1.5"/></symbol>
+        <symbol id="icon-press-conference" viewBox="0 0 24 24"><circle cx="12" cy="5.2" r="2.6"/><path d="M7.6 12.2a4.4 4.4 0 0 1 8.8 0z"/><circle cx="4.9" cy="9.6" r="2.2"/><path d="M1.8 15.2a3.1 3.1 0 0 1 6.2 0z"/><circle cx="19.1" cy="9.6" r="2.2"/><path d="M16 15.2a3.1 3.1 0 0 1 6.2 0z"/><path d="M6.6 13.6h10.8l2.2 7.8H4.4z"/></symbol>
+        <symbol id="icon-print" viewBox="0 0 24 24"><path d="M6.4 2.8h11.2v4.4H6.4z"/><path d="M4 8.4h16a1.6 1.6 0 0 1 1.6 1.6v5.6a1.6 1.6 0 0 1-1.6 1.6h-1.6v-2.8H6v2.8H4a1.6 1.6 0 0 1-1.6-1.6V10A1.6 1.6 0 0 1 4 8.4z"/><path d="M7.2 15.6h9.6v5.6H7.2z"/></symbol>
+        <symbol id="icon-rss" viewBox="0 0 24 24"><circle cx="4.8" cy="19.2" r="2.4"/><path d="M2.4 11.2v3.2a6.4 6.4 0 0 1 6.4 6.4H12A9.6 9.6 0 0 0 2.4 11.2z"/><path d="M2.4 4.8V8A13.6 13.6 0 0 1 16 21.6h3.2A16.8 16.8 0 0 0 2.4 4.8z"/></symbol>
+        <symbol id="icon-search-plus" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M10 2.8a7.2 7.2 0 1 0 0 14.4 7.2 7.2 0 0 0 0-14.4zm0 2.4a4.8 4.8 0 1 1 0 9.6 4.8 4.8 0 0 1 0-9.6z"/><path d="M15.3 14.6 21.2 20.5l-1.5 1.5-5.9-5.9z"/><path d="M9.2 6.8h1.6v2.4h2.4v1.6h-2.4v2.4H9.2v-2.4H6.8V9.2h2.4z"/></symbol>
+        <symbol id="icon-share" viewBox="0 0 24 24"><circle cx="18" cy="5.6" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="18.4" r="3"/><path d="M8.3 10.9 15.7 7.2l.9 1.8-7.4 3.7z"/><path d="M9.2 13.1 16.6 16.8l-.9 1.8-7.4-3.7z"/></symbol>
+        <symbol id="icon-twitter" viewBox="0 0 24 24"><path d="M4.2 3h4.3l11.3 18h-4.3z"/><path d="M19.3 3h-2.6L4.2 21h2.6z"/></symbol>
+        <symbol id="icon-university" viewBox="0 0 24 24"><path d="M12 2.4 21.6 7.2v1.6H2.4V7.2z"/><path d="M4.8 10.4h2.4v8H4.8z"/><path d="M9.2 10.4h2.4v8H9.2z"/><path d="M13.4 10.4h2.4v8h-2.4z"/><path d="M17.6 10.4H20v8h-2.4z"/><path d="M3.2 19.8h17.6v1.8H3.2z"/></symbol>
+        <symbol id="icon-volume-up" viewBox="0 0 24 24"><path d="M3.2 9.2h3.3l5-4.2v14l-5-4.2H3.2z"/><path d="M14.6 8.4a5 5 0 0 1 0 7.2l1.6 1.6a7.2 7.2 0 0 0 0-10.4z"/><path d="M17.4 5.6a8.8 8.8 0 0 1 0 12.8l1.5 1.5a10.9 10.9 0 0 0 0-15.8z"/></symbol>
+        <symbol id="icon-whatsapp" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2.4a9.5 9.5 0 0 0-8.1 14.5L2.4 21.6l4.8-1.4A9.5 9.5 0 1 0 12 2.4zm0 2.2a7.3 7.3 0 1 1-3.8 13.5l-.4-.2-2.6.7.7-2.5-.3-.4A7.3 7.3 0 0 1 12 4.6z"/><path d="M9.4 7.8c-.2-.5-.4-.5-.6-.5h-.5a1 1 0 0 0-.7.3c-.3.3-.9.9-.9 2.1s.9 2.4 1 2.6c.1.2 1.7 2.8 4.3 3.8 2.1.8 2.6.7 3 .6.5 0 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.5-.3-1.6-.8c-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6 6 0 0 1-1.8-1.1 6.6 6.6 0 0 1-1.2-1.6c-.1-.2 0-.4.1-.5l.4-.5.3-.5v-.5z"/></symbol>
+        <symbol id="icon-youtube" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M21.6 7.2a2.8 2.8 0 0 0-2-2C17.9 4.8 12 4.8 12 4.8s-5.9 0-7.6.4a2.8 2.8 0 0 0-2 2A29 29 0 0 0 2 12a29 29 0 0 0 .4 4.8 2.8 2.8 0 0 0 2 2c1.7.4 7.6.4 7.6.4s5.9 0 7.6-.4a2.8 2.8 0 0 0 2-2A29 29 0 0 0 22 12a29 29 0 0 0-.4-4.8zM10.2 15.1V8.9l5.1 3.1z"/></symbol>
+    </defs>
+</svg>
+
+    <form method="post" action="./PressReleasePage.aspx?PRID=1844991&amp;reg=48&amp;lang=2" id="form1">
+<div class="aspNetHidden">
+<input type="hidden" name="sc_HiddenField" id="sc_HiddenField" value="" />
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="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" />
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['form1'];
+if (!theForm) {
+    theForm = document.form1;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<script src="/WebResource.axd?d=pynGkmcFUV13He1Qd6_TZPQet1wIx1Q48y3xJY2k25Y7qxH5RrQ9qQcN-OiTC9guZtri9w2&amp;t=639191042600000000" type="text/javascript"></script>
+
+
+<script src="/ScriptResource.axd?d=x6wALODbMJK5e0eRC_p1LdIxBJXt0U_WW5GWfJqHAqo6frgCmGRfEywglicTersO2OKrFhK1gAIp0Wk2al2YrpdR3uWqH6f4nfjBsCyRUfTUUVmb0&amp;t=ffffffffecf8d3f2" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=P5lTttoqSeZXoYRLQMIScH645UK3RD852IErF2548Wz9Ssv0rLjB4fhVKnHcMpqkaMHpNAGOeWY02Lf4aBYN9-dVBme_SNK5KJwmFQNpMixYDZ7M0&amp;t=ffffffffecf8d3f2" type="text/javascript"></script>
+<script src="/PressReleasePage.aspx?_TSM_HiddenField_=sc_HiddenField&amp;_TSM_CombinedScripts_=%3b%3bAjaxControlToolkit%2c+Version%3d3.5.7.123%2c+Culture%3dneutral%2c+PublicKeyToken%3d28f01b0e84b6d53e%3aen-US%3a5a4df314-b4a2-4da2-a207-9284f1b1e96c%3ade1feab2%3af2c8e708%3a8613aea7%3af9cec9bc%3a3202a5a2%3aab09e3fe%3a87104b7c%3a720a52bf%3a589eaa30%3aa67c2700%3abe6fb298" type="text/javascript"></script>
+<div class="aspNetHidden">
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="59B53027" />
+	<input type="hidden" name="__VIEWSTATEENCRYPTED" id="__VIEWSTATEENCRYPTED" value="" />
+	<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="qYFaTsDfYj5IhFUPOF7csGdnB9mLVcASgNVofJ/QhKbsPNxvaU8jJzWusyS84oVj3aDAaq9szrfkgODxY911mTMH9XaoF+uIdECop0VQekklYSsVPkKEQzJaq7eUaJMds/atWuV/nUOl6irhtj2OOehjaSU4+l0fGhUKMtDq0lx/l9uioH0GFE+uL470kYwnFvKOOBmQIeHCdSOeiS1y929Bb7+WzLY7pVotkqPqMldBZFYGXdn2dYljSabDZGjuPIIUPe2rWauGW7IKr+SL8qHnQG0=" />
+</div>
+        
+        <div id="templateCss"></div>
+        <script type="text/javascript">
+//<![CDATA[
+Sys.WebForms.PageRequestManager._initialize('sc', 'form1', ['tupdate12','update12'], [], [], 90, '');
+//]]>
+</script>
+
+        <input type="hidden" name="hfGridHtml" id="hfGridHtml" />
+        <div class="container" style='margin-bottom: 50px;'>
+            <div id="accessories">
+                
+                <div class="pull-right" style="display: flex">
+                    <div id="voll"></div>
+                    <div id="vollDT"></div>
+                    
+
+<span class="print-icons">
+<input type="image" name="Print1$print" id="Print1_print" aria-label="Print" src="images/printer_icon.png" alt="print page button" style="padding: 5px 10px 5px 10px;" />
+</span>
+                </div>
+            </div>
+            <input type="hidden" name="hydpermid" id="hydpermid" value="1844991" />
+            
+
+            <div class="innner-page-main-about-us-content-right-part">
+                <div id="MinistryName" class="MinistryNameSubhead text-center">
+                    Ministry of Social Justice & Empowerment
+                </div>
+                <div id="lg_g"><div class='log_oo'>  <img src='https://static.pib.gov.in/WriteReadData/specificdocs/photo/2026/sep/ph_9768_20260902_10000501.png' alt='azadi ka amrit mahotsav' /> </div></div>
+
+                <div class="text-center event-heading-background">
+                    
+                    <h1 id="Titleh2">
+                        Schemes for Senior Citizens
+                    </h1>
+                    <h3 id="Subtitleh3">
+                        <span id="ltrSubtitle"></span>
+                    </h3>
+                    
+                    
+                </div>
+
+                
+                
+
+                <div id="PrDateTime" class="ReleaseDateSubHeaddateTime text-center pt20">
+                    Posted On:
+                              26 JUL 2022 4:49PM by PIB Delhi
+                </div>
+                
+                <div class='pt20'>
+                </div>
+                <input type="hidden" name="hydphotoUrl" id="hydphotoUrl" />
+                
+
+                <!-- Release content wrapper for client-side zero-reflow word count -->
+                <div id="pibReleaseBody">
+                    <p style="margin-left:0cm; margin-right:-13.95pt; text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><span style="background-color:white"><span style="color:black">The population of senior citizens, as per Census 2011, was approximately 10.38 crore, amounting to 8.6% of the total population in the country. </span></span></span></span></p>
+
+<p style="margin-left:0cm; margin-right:-13.95pt; text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><span style="background-color:white"><span style="color:black">The National Policy on Older Persons, 1999, which is presently in force, envisages State support to ensure financial and food security, health care, shelter, protection and other needs of older persons to improve quality of their lives.</span></span></span></span></p>
+
+<p style="margin-left:0cm; margin-right:-13.95pt; text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><span style="background-color:white"><span style="color:black">Under the Umbrella Scheme of Atal Vayo Abhyuday Yojana, the Department of Social Justice and Empowerment is implementing various welfare schemes for improving the living standard of senior citizens. Details of such schemes are at <strong>Annexure. </strong></span></span></span></span></p>
+
+<p>&nbsp;</p>
+
+<p style="margin-left:0cm; margin-right:1.7pt; text-align:right"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><strong><u>Annexure</u></strong></span></span></p>
+
+<p style="margin-right:.2pt; text-align:justify">&nbsp;</p>
+
+<p style="margin-right:.2pt; text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">The Umbrella Scheme of Atal VayoAbhyudayYojana, being run by Department of Social Justice and Empowerment, has the vision to create a society where senior citizens live a healthy, happy, empowered, dignified and self-reliant life alongwith strong social and inter-generational bonding. The Umbrella Scheme has the following welfare schemes for senior citizens: </span></span></p>
+
+<ol>
+	<li style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><strong><span style="color:black">Integrated Programme for Senior Citizens (IPSrC): </span></strong></span></span></li>
+</ol>
+
+<p style="margin-left:1.0cm; margin-right:0cm; text-align:justify">&nbsp;</p>
+
+<p style="margin-left:1.0cm; margin-right:0cm; text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><span style="color:black">The Ministry of Social Justice and Empowerment implements a Central Sector Scheme namely Integrated Programme for Senior Citizens (IPSrC) under which grants in aid are given for running and maintenance of Senior Citizens Homes/ Continuous Care Homes, Mobile Medicare Units etc. to the Implementing Agencies (IAs) such as&nbsp; Registered Societies/ Panchayati Raj Institutions (PRIs) / Local bodies; Non-Governmental/Voluntary Organizations. </span></span></span></p>
+
+<p style="margin-left:1.0cm; margin-right:0cm; text-align:justify">&nbsp;</p>
+
+<ol start="2">
+	<li style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><strong><span style="color:black">State Action Plan for Senior Citizens (SAPSrC):</span></strong></span></span></li>
+</ol>
+
+<p style="margin-left:1.0cm; margin-right:-2.3pt; text-align:justify">&nbsp;</p>
+
+<p style="margin-left:1.0cm; margin-right:-2.3pt; text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><span style="color:black">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Appreciating the critical and significant role of States/UTs, each State/UT is expected to plan and strategize taking into account their local considerations and frame their own State Action Plans for the welfare of their senior citizens. This State Action Plan may comprise a long-term strategy for five years as well as Annual Action Plans. Department of Social Justice and Empowerment releases funds to the States/UTs for formulation and implementation of their State Action Plans.</span></span></span></p>
+
+<p style="margin-right:-2.3pt; text-align:justify">&nbsp;</p>
+
+<ol start="3">
+	<li style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><strong><span style="color:black">RashtriyaVayoshriYojana (RVY): </span></strong></span></span></li>
+</ol>
+
+<p style="margin-left:1.0cm; margin-right:-2.3pt; text-align:justify">&nbsp;</p>
+
+<p style="margin-left:1.0cm; margin-right:-2.25pt; text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><span style="color:black">RashtriyaVayoshriYojana (RVY) is a Central Sector Scheme funded from Senior Citizens&rsquo; Welfare Fund. Under the Scheme of RVY, aids and assistive living devices are provided to senior citizens belonging to BPL category or those senior citizens who earn less than 15000/- per month and suffer from age related disabilities such as low vision, hearing impairment, loss of teeth and loco-motor disabilities. The aids and assistive devices <em>viz.</em> walking sticks, elbow crutches, walkers/crutches, tripods/quadpods, hearing aids, wheelchairs, artificial dentures and spectacles are provided to eligible beneficiaries, free of cost. The Scheme is being implemented by Artificial Limbs Manufacturing Corporation of India (ALIMCO) which is a Public Sector Undertaking under the Ministry of Social Justice and Empowerment. </span></span></span></p>
+
+<p>&nbsp;</p>
+
+<ol start="4">
+	<li><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><strong>Livelihood and Skilling Initiatives for Senior Citizens:</strong></span></span></li>
+</ol>
+
+<p>&nbsp;</p>
+
+<p style="margin-left:1.0cm; margin-right:0cm; text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; It aims to supplement the efforts of the senior citizens by providing them opportunities to enhance their earning and sense of self-respect. To encourage senior citizens of the country to form Self Help Groups for keeping themselves engaged for carrying out activities that may result into marketable products. This scheme has two programmes:&nbsp; </span></span></p>
+
+<p style="margin-left:1.0cm; margin-right:0cm; text-align:justify">&nbsp;</p>
+
+<ol style="list-style-type:lower-roman">
+	<li style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><strong><span style="color:black">Senior Able Citizens for Re-Employment in Dignity (SACRED) portal</span></strong><span style="color:black"> &ndash; The portal allows bringing people together by virtual matching of preferences by providing the Senior Citizens a platform to connect with the private enterprises for certain positions. For this, the Ministry dedicated the SACRED portal (</span><a href="http://sacred.dosje.gov.in/"><span style="color:black">http://sacred.dosje.gov.in</span></a><span style="color:black">) to the Nation on 01.10.2021 on the occasion of the International Day of Older Persons.&nbsp;&nbsp; </span></span></span></li>
+	<li style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><strong><span style="color:black">Action Groups Aimed at Social Reconstruction (AGRASR Groups):</span></strong><span style="color:black"> The Senior Citizens are encouraged to form Self-Help Groups (SHGs), which will provide them with a platform to share the time constructively with each other. To attain financial assistance under the scheme SHGs will function as &lsquo;Action Groups Aimed at Social Reconstruction (AGRASR Groups)&rsquo;. </span></span></span></li>
+</ol>
+
+<p style="margin-right:-9.4pt; text-align:justify">&nbsp;</p>
+
+<p><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><strong>5.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </strong><strong>Promoting Silver Economy:</strong></span></span></p>
+
+<p>&nbsp;</p>
+
+<p style="margin-left:35.45pt; margin-right:0cm; text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">To promote out-of-the-box and innovative solutions for the commonly faced problems, innovative start-ups will be identified and encouraged for developing products, processes and services for the welfare of the elderly under this initiative. The selected start-ups/start-up ideas can be provided equity support of up to Rs.1 crore per project while ensuring that the total Government equity in the start-up should not exceed 49%. For this, the SAGE portal (<a href="http://sage.dosje.gov.in/">http://sage.dosje.gov.in</a>) has been launched on 04/06/2021. </span></span></p>
+
+<p>&nbsp;</p>
+
+<p><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><strong>6. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </strong><strong>Channelizing CSR funds for Elderly care: </strong></span></span></p>
+
+<p>&nbsp;</p>
+
+<p style="margin-left:36.0pt; margin-right:0cm; text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">This initiative is to channelize the CSR funds in an appropriate manner for elderly care<span style="color:black"> projects. Under Schedule VII of Section 135 of the Companies Act, setting up old age homes, day care centres and such facilities for Senior Citizens are approved items for CSR funding.&nbsp; </span></span></span></p>
+
+<p>&nbsp;</p>
+
+<p><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><strong>7.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; National Helpline for Senior Citizen (14567)-Elderline</strong></span></span></p>
+
+<p>&nbsp;</p>
+
+<p style="margin-left:36.0pt; margin-right:0cm; text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">The Ministry has set up the National Helpline for Senior Citizen for senior citizen to address the grievance of the elders. The helpline has been launched across the country and has been dedicated to the Nation by the Hon&rsquo;ble Vice President of India on the occasion of the International Day for Older Persons i.e. on 01st October, 2021. The Elder line offers services to the senior citizens through toll free number 14567. </span></span></p>
+
+<p style="margin-left:1.0cm; margin-right:0cm; text-align:justify">&nbsp;</p>
+
+<p style="margin-left:1.0cm; margin-right:0cm; text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><strong>8.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; VayoshreshthaSamman- A Scheme of National Award for Senior Citizens:</strong></span></span></p>
+
+<p style="margin-left:1.0cm; margin-right:0cm; text-align:justify">&nbsp;</p>
+
+<p style="margin-left:1.0cm; margin-right:0cm; text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">National Award for Senior Citizens &lsquo;VayoshreshthaSammans&rsquo; are conferred to eminent and outstanding institutions or organizations and individuals from different categories.&nbsp; The VayoshreshthaSamman Awards are given on 1<sup>th</sup> October every year by Hon&rsquo;ble President of India in a function organised at VigyanBhawan, New Delhi. The Awardees are given a Certificate, a Memento and also Cash Award in some of the categories. </span></span></p>
+
+<p style="margin-left:-7.1pt; text-align:justify">&nbsp;</p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><span style="color:black">This information was given by Minister of State for Social Justice and Empowerment Sushri Pratima&nbsp; Bhoumik &nbsp;in the Lok Sabha in a written reply today.</span></span></span></p>
+
+<p>&nbsp;</p>
+
+<p style="text-align:center"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><span style="color:black">*****</span></span></span></p>
+
+<p>&nbsp;</p>
+
+<p><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><span style="color:black">MG/RNM</span></span></span></p>
+
+                </div>
+
+                <div id="reel_pic">
+                </div>
+
+                <br />
+                <span id="ReleaseId">(Release ID: 1844991)</span>
+                <span id="lblViews">Visitor Counter : 12840</span>
+                <div>
+                    
+                </div>
+                
+
+                <span id="lblRefPhoto"></span>
+
+                <div class="BackgroundRelease">
+                    
+                </div>
+                <div>
+                    
+                </div>
+                <div class="ReleaseLang">Read this release in: 
+                
+                        <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=1871781' target="_blank">
+                            Urdu </a>
+                    
+                        ,
+                    
+                        <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=1845088' target="_blank">
+                            Bengali </a>
+                    
+                </div>
+
+                
+                
+
+                <div class="RelTag">
+                    <ul>
+                        
+                    </ul>
+                </div>
+                <div class="clear">
+                </div>
+
+                <!-- DBIM 3.0 Option 4: Separator Line with Left Share Rail & Right Reading Metrics -->
+                <div class="pr-share pr-share--footer" role="region" aria-label="Share and reading details">
+                    <div class="pr-share__left">
+                        <span class="pr-share__label" aria-hidden="true">Share</span>
+                        <ul class="pr-share__list">
+                            <li><a class="pr-share__btn pr-share__btn--facebook"
+                                href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fpib.gov.in%2fPressReleasePage.aspx%3fPRID%3d1844991"
+                                target="_blank" rel="noopener noreferrer"
+                                aria-label="Share on Facebook">
+                                <svg class="dbim-icon dbim-icon-24" width="24" height="24" fill="currentColor" aria-hidden="true" focusable="false">
+                                    <use href="#icon-facebook" xlink:href="#icon-facebook"></use>
+                                </svg>
+                            </a></li>
+                            <li><a class="pr-share__btn pr-share__btn--twitter"
+                                href="https://twitter.com/intent/tweet?url=https%3a%2f%2fpib.gov.in%2fPressReleasePage.aspx%3fPRID%3d1844991"
+                                target="_blank" rel="noopener noreferrer"
+                                aria-label="Share on X">
+                                <svg class="dbim-icon dbim-icon-24" width="24" height="24" fill="currentColor" aria-hidden="true" focusable="false">
+                                    <use href="#icon-twitter" xlink:href="#icon-twitter"></use>
+                                </svg>
+                            </a></li>
+                            <li><a class="pr-share__btn pr-share__btn--whatsapp"
+                                href="https://api.whatsapp.com/send?text=https%3a%2f%2fpib.gov.in%2fPressReleasePage.aspx%3fPRID%3d1844991"
+                                target="_blank" rel="noopener noreferrer"
+                                aria-label="Share on WhatsApp">
+                                <svg class="dbim-icon dbim-icon-24" width="24" height="24" fill="currentColor" aria-hidden="true" focusable="false">
+                                    <use href="#icon-whatsapp" xlink:href="#icon-whatsapp"></use>
+                                </svg>
+                            </a></li>
+                            <li><a class="pr-share__btn pr-share__btn--linkedin"
+                                href="https://www.linkedin.com/sharing/share-offsite/?url=https%3a%2f%2fpib.gov.in%2fPressReleasePage.aspx%3fPRID%3d1844991"
+                                target="_blank" rel="noopener noreferrer"
+                                aria-label="Share on LinkedIn">
+                                <svg class="dbim-icon dbim-icon-24" width="24" height="24" fill="currentColor" aria-hidden="true" focusable="false">
+                                    <use href="#icon-linkedin" xlink:href="#icon-linkedin"></use>
+                                </svg>
+                            </a></li>
+                            <li><a class="pr-share__btn pr-share__btn--mail"
+                                href="mailto:?subject=Press+release+from+PIB&amp;body=https%3a%2f%2fpib.gov.in%2fPressReleasePage.aspx%3fPRID%3d1844991"
+                                aria-label="Share by email">
+                                <svg class="dbim-icon dbim-icon-24" width="24" height="24" fill="currentColor" aria-hidden="true" focusable="false">
+                                    <use href="#icon-mail" xlink:href="#icon-mail"></use>
+                                </svg>
+                            </a></li>
+                        </ul>
+                    </div>
+                    <div class="pr-reading-meta" id="prReadingMeta" aria-label="Reading statistics">
+                        <span class="pr-reading-meta__item">
+                            <!-- Modern Document / Word Count Icon -->
+                            <svg class="pr-reading-meta__icon" width="18" height="18" viewbox="0 0 16 16" fill="currentColor" aria-hidden="true" focusable="false">
+                                <path d="M5.5 7a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1zM5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5" />
+                                <path d="M9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.5zm0 1v2A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" />
+                            </svg>
+                            <span id="prWordCount">-- words</span>
+                        </span>
+
+                        <span class="pr-reading-meta__divider" aria-hidden="true">|</span>
+
+                        <span class="pr-reading-meta__item">
+                            <!-- Modern Precision Clock / Read Time Icon -->
+                            <svg class="pr-reading-meta__icon" width="18" height="18" viewbox="0 0 16 16" fill="currentColor" aria-hidden="true" focusable="false">
+                                <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z" />
+                                <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0" />
+                            </svg>
+                            <span id="prReadTime">-- min read</span>
+                        </span>
+                    </div>
+                </div>
+
+                <div id="RelLink" class="RelLink">
+                    <ul>
+                        
+                    </ul>
+                </div>
+                <center>
+                    
+                </center>
+            </div>
+
+            <div id="update12">
+	
+                    
+                    <input type="hidden" name="Hidden" id="Hidden" />
+                    <div id="P_CategoryManagement" class="ModalWindow" style="border-width:0px;height:60%;width:60%;overflow:auto;display: none">
+		
+                        <div>
+                            <input type="image" name="btnClose" id="btnClose" src="images/close_flat_icon.png" />
+                        </div>
+                        <div id="description">
+                        </div>
+                        <div class="text-center">
+                            <h2>
+                                
+                                <br>
+                                
+                            </h2>
+                        </div>
+                        <br />
+                        <div class="clear">
+                        </div>
+                        
+                    
+	</div>
+                
+</div>
+        </div>
+
+        <div id="PdfDiv" style="display: none;">
+            <table width="100%">
+                <tr>
+                    <td style="font-weight: 200; text-align: center">
+                        Ministry of Social Justice & Empowerment
+                        <div style="height: 30px; width: 100%;">
+                        </div>
+                        <div style="font-weight: 200; text-align: center; font-size: 30px;">
+                            Schemes for Senior Citizens
+                        </div>
+                        <div style="height: 30px; width: 100%;">
+                        </div>
+                        <div style="font-weight: 200; text-align: center; font-size: 30px;">
+                            
+                        </div>
+                        <div style="height: 30px; width: 100%;">
+                        </div>
+                        <div style="text-align: center; font-size: 14px;">
+                            Posted On:
+                                          26 JUL 2022 4:49PM by PIB Delhi
+                        </div>
+                        <div style="height: 30px; width: 100%;">
+                        </div>
+                        <div style="font-weight: 200; text-align: left; font-size: 16px;">
+                            <p style="margin-left:0cm; margin-right:-13.95pt; text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><span style="background-color:white"><span style="color:black">The population of senior citizens, as per Census 2011, was approximately 10.38 crore, amounting to 8.6% of the total population in the country. </span></span></span></span></p>
+
+<p style="margin-left:0cm; margin-right:-13.95pt; text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><span style="background-color:white"><span style="color:black">The National Policy on Older Persons, 1999, which is presently in force, envisages State support to ensure financial and food security, health care, shelter, protection and other needs of older persons to improve quality of their lives.</span></span></span></span></p>
+
+<p style="margin-left:0cm; margin-right:-13.95pt; text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><span style="background-color:white"><span style="color:black">Under the Umbrella Scheme of Atal Vayo Abhyuday Yojana, the Department of Social Justice and Empowerment is implementing various welfare schemes for improving the living standard of senior citizens. Details of such schemes are at <strong>Annexure. </strong></span></span></span></span></p>
+
+<p>&nbsp;</p>
+
+<p style="margin-left:0cm; margin-right:1.7pt; text-align:right"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><strong><u>Annexure</u></strong></span></span></p>
+
+<p style="margin-right:.2pt; text-align:justify">&nbsp;</p>
+
+<p style="margin-right:.2pt; text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">The Umbrella Scheme of Atal VayoAbhyudayYojana, being run by Department of Social Justice and Empowerment, has the vision to create a society where senior citizens live a healthy, happy, empowered, dignified and self-reliant life alongwith strong social and inter-generational bonding. The Umbrella Scheme has the following welfare schemes for senior citizens: </span></span></p>
+
+<ol>
+	<li style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><strong><span style="color:black">Integrated Programme for Senior Citizens (IPSrC): </span></strong></span></span></li>
+</ol>
+
+<p style="margin-left:1.0cm; margin-right:0cm; text-align:justify">&nbsp;</p>
+
+<p style="margin-left:1.0cm; margin-right:0cm; text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><span style="color:black">The Ministry of Social Justice and Empowerment implements a Central Sector Scheme namely Integrated Programme for Senior Citizens (IPSrC) under which grants in aid are given for running and maintenance of Senior Citizens Homes/ Continuous Care Homes, Mobile Medicare Units etc. to the Implementing Agencies (IAs) such as&nbsp; Registered Societies/ Panchayati Raj Institutions (PRIs) / Local bodies; Non-Governmental/Voluntary Organizations. </span></span></span></p>
+
+<p style="margin-left:1.0cm; margin-right:0cm; text-align:justify">&nbsp;</p>
+
+<ol start="2">
+	<li style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><strong><span style="color:black">State Action Plan for Senior Citizens (SAPSrC):</span></strong></span></span></li>
+</ol>
+
+<p style="margin-left:1.0cm; margin-right:-2.3pt; text-align:justify">&nbsp;</p>
+
+<p style="margin-left:1.0cm; margin-right:-2.3pt; text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><span style="color:black">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Appreciating the critical and significant role of States/UTs, each State/UT is expected to plan and strategize taking into account their local considerations and frame their own State Action Plans for the welfare of their senior citizens. This State Action Plan may comprise a long-term strategy for five years as well as Annual Action Plans. Department of Social Justice and Empowerment releases funds to the States/UTs for formulation and implementation of their State Action Plans.</span></span></span></p>
+
+<p style="margin-right:-2.3pt; text-align:justify">&nbsp;</p>
+
+<ol start="3">
+	<li style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><strong><span style="color:black">RashtriyaVayoshriYojana (RVY): </span></strong></span></span></li>
+</ol>
+
+<p style="margin-left:1.0cm; margin-right:-2.3pt; text-align:justify">&nbsp;</p>
+
+<p style="margin-left:1.0cm; margin-right:-2.25pt; text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><span style="color:black">RashtriyaVayoshriYojana (RVY) is a Central Sector Scheme funded from Senior Citizens&rsquo; Welfare Fund. Under the Scheme of RVY, aids and assistive living devices are provided to senior citizens belonging to BPL category or those senior citizens who earn less than 15000/- per month and suffer from age related disabilities such as low vision, hearing impairment, loss of teeth and loco-motor disabilities. The aids and assistive devices <em>viz.</em> walking sticks, elbow crutches, walkers/crutches, tripods/quadpods, hearing aids, wheelchairs, artificial dentures and spectacles are provided to eligible beneficiaries, free of cost. The Scheme is being implemented by Artificial Limbs Manufacturing Corporation of India (ALIMCO) which is a Public Sector Undertaking under the Ministry of Social Justice and Empowerment. </span></span></span></p>
+
+<p>&nbsp;</p>
+
+<ol start="4">
+	<li><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><strong>Livelihood and Skilling Initiatives for Senior Citizens:</strong></span></span></li>
+</ol>
+
+<p>&nbsp;</p>
+
+<p style="margin-left:1.0cm; margin-right:0cm; text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; It aims to supplement the efforts of the senior citizens by providing them opportunities to enhance their earning and sense of self-respect. To encourage senior citizens of the country to form Self Help Groups for keeping themselves engaged for carrying out activities that may result into marketable products. This scheme has two programmes:&nbsp; </span></span></p>
+
+<p style="margin-left:1.0cm; margin-right:0cm; text-align:justify">&nbsp;</p>
+
+<ol style="list-style-type:lower-roman">
+	<li style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><strong><span style="color:black">Senior Able Citizens for Re-Employment in Dignity (SACRED) portal</span></strong><span style="color:black"> &ndash; The portal allows bringing people together by virtual matching of preferences by providing the Senior Citizens a platform to connect with the private enterprises for certain positions. For this, the Ministry dedicated the SACRED portal (</span><a href="http://sacred.dosje.gov.in/"><span style="color:black">http://sacred.dosje.gov.in</span></a><span style="color:black">) to the Nation on 01.10.2021 on the occasion of the International Day of Older Persons.&nbsp;&nbsp; </span></span></span></li>
+	<li style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><strong><span style="color:black">Action Groups Aimed at Social Reconstruction (AGRASR Groups):</span></strong><span style="color:black"> The Senior Citizens are encouraged to form Self-Help Groups (SHGs), which will provide them with a platform to share the time constructively with each other. To attain financial assistance under the scheme SHGs will function as &lsquo;Action Groups Aimed at Social Reconstruction (AGRASR Groups)&rsquo;. </span></span></span></li>
+</ol>
+
+<p style="margin-right:-9.4pt; text-align:justify">&nbsp;</p>
+
+<p><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><strong>5.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </strong><strong>Promoting Silver Economy:</strong></span></span></p>
+
+<p>&nbsp;</p>
+
+<p style="margin-left:35.45pt; margin-right:0cm; text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">To promote out-of-the-box and innovative solutions for the commonly faced problems, innovative start-ups will be identified and encouraged for developing products, processes and services for the welfare of the elderly under this initiative. The selected start-ups/start-up ideas can be provided equity support of up to Rs.1 crore per project while ensuring that the total Government equity in the start-up should not exceed 49%. For this, the SAGE portal (<a href="http://sage.dosje.gov.in/">http://sage.dosje.gov.in</a>) has been launched on 04/06/2021. </span></span></p>
+
+<p>&nbsp;</p>
+
+<p><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><strong>6. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </strong><strong>Channelizing CSR funds for Elderly care: </strong></span></span></p>
+
+<p>&nbsp;</p>
+
+<p style="margin-left:36.0pt; margin-right:0cm; text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">This initiative is to channelize the CSR funds in an appropriate manner for elderly care<span style="color:black"> projects. Under Schedule VII of Section 135 of the Companies Act, setting up old age homes, day care centres and such facilities for Senior Citizens are approved items for CSR funding.&nbsp; </span></span></span></p>
+
+<p>&nbsp;</p>
+
+<p><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><strong>7.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; National Helpline for Senior Citizen (14567)-Elderline</strong></span></span></p>
+
+<p>&nbsp;</p>
+
+<p style="margin-left:36.0pt; margin-right:0cm; text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">The Ministry has set up the National Helpline for Senior Citizen for senior citizen to address the grievance of the elders. The helpline has been launched across the country and has been dedicated to the Nation by the Hon&rsquo;ble Vice President of India on the occasion of the International Day for Older Persons i.e. on 01st October, 2021. The Elder line offers services to the senior citizens through toll free number 14567. </span></span></p>
+
+<p style="margin-left:1.0cm; margin-right:0cm; text-align:justify">&nbsp;</p>
+
+<p style="margin-left:1.0cm; margin-right:0cm; text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><strong>8.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; VayoshreshthaSamman- A Scheme of National Award for Senior Citizens:</strong></span></span></p>
+
+<p style="margin-left:1.0cm; margin-right:0cm; text-align:justify">&nbsp;</p>
+
+<p style="margin-left:1.0cm; margin-right:0cm; text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">National Award for Senior Citizens &lsquo;VayoshreshthaSammans&rsquo; are conferred to eminent and outstanding institutions or organizations and individuals from different categories.&nbsp; The VayoshreshthaSamman Awards are given on 1<sup>th</sup> October every year by Hon&rsquo;ble President of India in a function organised at VigyanBhawan, New Delhi. The Awardees are given a Certificate, a Memento and also Cash Award in some of the categories. </span></span></p>
+
+<p style="margin-left:-7.1pt; text-align:justify">&nbsp;</p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><span style="color:black">This information was given by Minister of State for Social Justice and Empowerment Sushri Pratima&nbsp; Bhoumik &nbsp;in the Lok Sabha in a written reply today.</span></span></span></p>
+
+<p>&nbsp;</p>
+
+<p style="text-align:center"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><span style="color:black">*****</span></span></span></p>
+
+<p>&nbsp;</p>
+
+<p><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><span style="color:black">MG/RNM</span></span></span></p>
+
+                        </div>
+                        <div style="height: 30px; width: 100%;">
+                        </div>
+                        <div style="height: 30px; width: 100%;">
+                        </div>
+                        <div style="font-weight: 100; text-align: left; font-size: 16px;">
+                            (Release ID: 1844991)
+                        </div>
+                        <div style="height: 30px; width: 100%;">
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 200; text-align: center; font-size: 24px;"></td>
+                </tr>
+            </table>
+        </div>
+        <div class="clearfix">
+        </div>
+
+        <div class="section1">
+            <div id="frst_t">
+                <div id="arr_rm"><div class='sticky-social_mb'><ul class='social_mb'><a href='http://www.facebook.com/share.php?u=https://pib.gov.in/PressReleasePage.aspx?PRID=1844991' target='_blank'><li class='fb_b'   ></li></a><a href='https://twitter.com/intent/tweet?url=https://pib.gov.in/PressReleasePage.aspx?PRID=1844991&text=Schemes for Senior Citizens' target='_blank'><li class='twitter_r'  > </li></a><a href='https://api.whatsapp.com/send?text=https://pib.gov.in/PressReleasePage.aspx?PRID=1844991' target='_blank'><li class='whatsapp_r'  ></li></a><a href='https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=&su=Schemes for Senior Citizens&body=https://pib.gov.in/PressReleasePage.aspx?PRID=1844991&ui=2&tf=1&pli=1' title='Share by Email' target='_blank'><li class='fa-envelope_r' ></li></a><a href='https://www.linkedin.com/shareArticle?mini=true&url=https://pib.gov.in/PressReleasePage.aspx?PRID=1844991&title=Schemes for Senior Citizens&summary=My%20favorite%20developer%20program&source=LinkedIn' target='_blank'><li class='fa-linkedin_r'  ></li></a></ul></div></div>
+            </div>
+            <div id="second_t">
+                <div id="sndr_rm"><div class='sticky-social'><ul class='social'><a href='http://www.facebook.com/share.php?u=https://pib.gov.in/PressReleasePage.aspx?PRID=1844991' target='_blank'><li class='fb_b'   ></li></a><a href='https://twitter.com/intent/tweet?url=https://pib.gov.in/PressReleasePage.aspx?PRID=1844991&text=Schemes for Senior Citizens' target='_blank'><li class='twitter_r'  > </li></a><a href='https://api.whatsapp.com/send?text=https://pib.gov.in/PressReleasePage.aspx?PRID=1844991' target='_blank'><li class='whatsapp_r'  ></li></a><a href='https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=&su=Schemes for Senior Citizens&body=https://pib.gov.in/PressReleasePage.aspx?PRID=1844991&ui=2&tf=1&pli=1' title='Share by Email' target='_blank'><li class='fa-envelope_r' ></li></a><a href='https://www.linkedin.com/shareArticle?mini=true&url=https://pib.gov.in/PressReleasePage.aspx?PRID=1844991&title=Schemes for Senior Citizens&summary=My%20favorite%20developer%20program&source=LinkedIn' target='_blank'><li class='fa-linkedin_r'  ></li></a></ul></div></div>
+            </div>
+        </div>
+        <input type="hidden" name="ltrTitlee" id="ltrTitlee" value="Schemes for Senior Citizens" />
+        <input type="hidden" name="ltrSubtitlee" id="ltrSubtitlee" />
+        <input type="hidden" name="ltrDescriptionn" id="ltrDescriptionn" value="&lt;p style=&quot;margin-left:0cm; margin-right:-13.95pt; text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;span style=&quot;background-color:white&quot;>&lt;span style=&quot;color:black&quot;>The population of senior citizens, as per Census 2011, was approximately 10.38 crore, amounting to 8.6% of the total population in the country. &lt;/span>&lt;/span>&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;margin-left:0cm; margin-right:-13.95pt; text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;span style=&quot;background-color:white&quot;>&lt;span style=&quot;color:black&quot;>The National Policy on Older Persons, 1999, which is presently in force, envisages State support to ensure financial and food security, health care, shelter, protection and other needs of older persons to improve quality of their lives.&lt;/span>&lt;/span>&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;margin-left:0cm; margin-right:-13.95pt; text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;span style=&quot;background-color:white&quot;>&lt;span style=&quot;color:black&quot;>Under the Umbrella Scheme of Atal Vayo Abhyuday Yojana, the Department of Social Justice and Empowerment is implementing various welfare schemes for improving the living standard of senior citizens. Details of such schemes are at &lt;strong>Annexure. &lt;/strong>&lt;/span>&lt;/span>&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p>&amp;nbsp;&lt;/p>
+
+&lt;p style=&quot;margin-left:0cm; margin-right:1.7pt; text-align:right&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;strong>&lt;u>Annexure&lt;/u>&lt;/strong>&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;margin-right:.2pt; text-align:justify&quot;>&amp;nbsp;&lt;/p>
+
+&lt;p style=&quot;margin-right:.2pt; text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>The Umbrella Scheme of Atal VayoAbhyudayYojana, being run by Department of Social Justice and Empowerment, has the vision to create a society where senior citizens live a healthy, happy, empowered, dignified and self-reliant life alongwith strong social and inter-generational bonding. The Umbrella Scheme has the following welfare schemes for senior citizens: &lt;/span>&lt;/span>&lt;/p>
+
+
+	&lt;li style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;strong>&lt;span style=&quot;color:black&quot;>Integrated Programme for Senior Citizens (IPSrC): &lt;/span>&lt;/strong>&lt;/span>&lt;/span>&lt;/li>
+
+
+&lt;p style=&quot;margin-left:1.0cm; margin-right:0cm; text-align:justify&quot;>&amp;nbsp;&lt;/p>
+
+&lt;p style=&quot;margin-left:1.0cm; margin-right:0cm; text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;span style=&quot;color:black&quot;>The Ministry of Social Justice and Empowerment implements a Central Sector Scheme namely Integrated Programme for Senior Citizens (IPSrC) under which grants in aid are given for running and maintenance of Senior Citizens Homes/ Continuous Care Homes, Mobile Medicare Units etc. to the Implementing Agencies (IAs) such as&amp;nbsp; Registered Societies/ Panchayati Raj Institutions (PRIs) / Local bodies; Non-Governmental/Voluntary Organizations. &lt;/span>&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;margin-left:1.0cm; margin-right:0cm; text-align:justify&quot;>&amp;nbsp;&lt;/p>
+
+
+	&lt;li style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;strong>&lt;span style=&quot;color:black&quot;>State Action Plan for Senior Citizens (SAPSrC):&lt;/span>&lt;/strong>&lt;/span>&lt;/span>&lt;/li>
+
+
+&lt;p style=&quot;margin-left:1.0cm; margin-right:-2.3pt; text-align:justify&quot;>&amp;nbsp;&lt;/p>
+
+&lt;p style=&quot;margin-left:1.0cm; margin-right:-2.3pt; text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;span style=&quot;color:black&quot;>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; Appreciating the critical and significant role of States/UTs, each State/UT is expected to plan and strategize taking into account their local considerations and frame their own State Action Plans for the welfare of their senior citizens. This State Action Plan may comprise a long-term strategy for five years as well as Annual Action Plans. Department of Social Justice and Empowerment releases funds to the States/UTs for formulation and implementation of their State Action Plans.&lt;/span>&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;margin-right:-2.3pt; text-align:justify&quot;>&amp;nbsp;&lt;/p>
+
+
+	&lt;li style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;strong>&lt;span style=&quot;color:black&quot;>RashtriyaVayoshriYojana (RVY): &lt;/span>&lt;/strong>&lt;/span>&lt;/span>&lt;/li>
+
+
+&lt;p style=&quot;margin-left:1.0cm; margin-right:-2.3pt; text-align:justify&quot;>&amp;nbsp;&lt;/p>
+
+&lt;p style=&quot;margin-left:1.0cm; margin-right:-2.25pt; text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;span style=&quot;color:black&quot;>RashtriyaVayoshriYojana (RVY) is a Central Sector Scheme funded from Senior Citizens&amp;rsquo; Welfare Fund. Under the Scheme of RVY, aids and assistive living devices are provided to senior citizens belonging to BPL category or those senior citizens who earn less than 15000/- per month and suffer from age related disabilities such as low vision, hearing impairment, loss of teeth and loco-motor disabilities. The aids and assistive devices &lt;em>viz.&lt;/em> walking sticks, elbow crutches, walkers/crutches, tripods/quadpods, hearing aids, wheelchairs, artificial dentures and spectacles are provided to eligible beneficiaries, free of cost. The Scheme is being implemented by Artificial Limbs Manufacturing Corporation of India (ALIMCO) which is a Public Sector Undertaking under the Ministry of Social Justice and Empowerment. &lt;/span>&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p>&amp;nbsp;&lt;/p>
+
+
+	&lt;li>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;strong>Livelihood and Skilling Initiatives for Senior Citizens:&lt;/strong>&lt;/span>&lt;/span>&lt;/li>
+
+
+&lt;p>&amp;nbsp;&lt;/p>
+
+&lt;p style=&quot;margin-left:1.0cm; margin-right:0cm; text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; It aims to supplement the efforts of the senior citizens by providing them opportunities to enhance their earning and sense of self-respect. To encourage senior citizens of the country to form Self Help Groups for keeping themselves engaged for carrying out activities that may result into marketable products. This scheme has two programmes:&amp;nbsp; &lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;margin-left:1.0cm; margin-right:0cm; text-align:justify&quot;>&amp;nbsp;&lt;/p>
+
+
+	&lt;li style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;strong>&lt;span style=&quot;color:black&quot;>Senior Able Citizens for Re-Employment in Dignity (SACRED) portal&lt;/span>&lt;/strong>&lt;span style=&quot;color:black&quot;> &amp;ndash; The portal allows bringing people together by virtual matching of preferences by providing the Senior Citizens a platform to connect with the private enterprises for certain positions. For this, the Ministry dedicated the SACRED portal (&lt;/span>&lt;a href=&quot;http://sacred.dosje.gov.in/&quot;>&lt;span style=&quot;color:black&quot;>http://sacred.dosje.gov.in&lt;/span>&lt;/a>&lt;span style=&quot;color:black&quot;>) to the Nation on 01.10.2021 on the occasion of the International Day of Older Persons.&amp;nbsp;&amp;nbsp; &lt;/span>&lt;/span>&lt;/span>&lt;/li>
+	&lt;li style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;strong>&lt;span style=&quot;color:black&quot;>Action Groups Aimed at Social Reconstruction (AGRASR Groups):&lt;/span>&lt;/strong>&lt;span style=&quot;color:black&quot;> The Senior Citizens are encouraged to form Self-Help Groups (SHGs), which will provide them with a platform to share the time constructively with each other. To attain financial assistance under the scheme SHGs will function as &amp;lsquo;Action Groups Aimed at Social Reconstruction (AGRASR Groups)&amp;rsquo;. &lt;/span>&lt;/span>&lt;/span>&lt;/li>
+
+
+&lt;p style=&quot;margin-right:-9.4pt; text-align:justify&quot;>&amp;nbsp;&lt;/p>
+
+&lt;p>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;strong>5.&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; &lt;/strong>&lt;strong>Promoting Silver Economy:&lt;/strong>&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p>&amp;nbsp;&lt;/p>
+
+&lt;p style=&quot;margin-left:35.45pt; margin-right:0cm; text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>To promote out-of-the-box and innovative solutions for the commonly faced problems, innovative start-ups will be identified and encouraged for developing products, processes and services for the welfare of the elderly under this initiative. The selected start-ups/start-up ideas can be provided equity support of up to Rs.1 crore per project while ensuring that the total Government equity in the start-up should not exceed 49%. For this, the SAGE portal (&lt;a href=&quot;http://sage.dosje.gov.in/&quot;>http://sage.dosje.gov.in&lt;/a>) has been launched on 04/06/2021. &lt;/span>&lt;/span>&lt;/p>
+
+&lt;p>&amp;nbsp;&lt;/p>
+
+&lt;p>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;strong>6. &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; &lt;/strong>&lt;strong>Channelizing CSR funds for Elderly care: &lt;/strong>&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p>&amp;nbsp;&lt;/p>
+
+&lt;p style=&quot;margin-left:36.0pt; margin-right:0cm; text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>This initiative is to channelize the CSR funds in an appropriate manner for elderly care&lt;span style=&quot;color:black&quot;> projects. Under Schedule VII of Section 135 of the Companies Act, setting up old age homes, day care centres and such facilities for Senior Citizens are approved items for CSR funding.&amp;nbsp; &lt;/span>&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p>&amp;nbsp;&lt;/p>
+
+&lt;p>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;strong>7.&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; National Helpline for Senior Citizen (14567)-Elderline&lt;/strong>&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p>&amp;nbsp;&lt;/p>
+
+&lt;p style=&quot;margin-left:36.0pt; margin-right:0cm; text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>The Ministry has set up the National Helpline for Senior Citizen for senior citizen to address the grievance of the elders. The helpline has been launched across the country and has been dedicated to the Nation by the Hon&amp;rsquo;ble Vice President of India on the occasion of the International Day for Older Persons i.e. on 01st October, 2021. The Elder line offers services to the senior citizens through toll free number 14567. &lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;margin-left:1.0cm; margin-right:0cm; text-align:justify&quot;>&amp;nbsp;&lt;/p>
+
+&lt;p style=&quot;margin-left:1.0cm; margin-right:0cm; text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;strong>8.&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; VayoshreshthaSamman- A Scheme of National Award for Senior Citizens:&lt;/strong>&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;margin-left:1.0cm; margin-right:0cm; text-align:justify&quot;>&amp;nbsp;&lt;/p>
+
+&lt;p style=&quot;margin-left:1.0cm; margin-right:0cm; text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>National Award for Senior Citizens &amp;lsquo;VayoshreshthaSammans&amp;rsquo; are conferred to eminent and outstanding institutions or organizations and individuals from different categories.&amp;nbsp; The VayoshreshthaSamman Awards are given on 1th October every year by Hon&amp;rsquo;ble President of India in a function organised at VigyanBhawan, New Delhi. The Awardees are given a Certificate, a Memento and also Cash Award in some of the categories. &lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;margin-left:-7.1pt; text-align:justify&quot;>&amp;nbsp;&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;span style=&quot;color:black&quot;>This information was given by Minister of State for Social Justice and Empowerment Sushri Pratima&amp;nbsp; Bhoumik &amp;nbsp;in the Lok Sabha in a written reply today.&lt;/span>&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p>&amp;nbsp;&lt;/p>
+
+&lt;p style=&quot;text-align:center&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;span style=&quot;color:black&quot;>*****&lt;/span>&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p>&amp;nbsp;&lt;/p>
+
+&lt;p>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;span style=&quot;color:black&quot;>MG/RNM&lt;/span>&lt;/span>&lt;/span>&lt;/p>
+" />
+        <script type="text/javascript">
+                  var mPlayer = document.getElementById("background_music");
+                  var mPlayAction = document.getElementById("playbutton");
+                  var isPlaying = false;
+
+                  function playAudio() {
+                        mPlayer.play();
+                        isPlaying = true;
+                        document.getElementById('stopA').style.display = "block";
+                        document.getElementById('playA').style.display = "none";
+                  }
+
+                  function pauseAudio() {
+                        mPlayer.pause();
+                        isPlaying = false;
+                        document.getElementById('playA').style.display = "block";
+                        document.getElementById('stopA').style.display = "none";
+                  }
+        </script>
+        <script type="text/javascript">
+                  var synth = window.speechSynthesis;
+
+                  function CleanHtml(html) {
+                        html = html.replace(/<script[\s\S]*?<\/script>/gi, '');
+                        return html;
+                  }
+                  function stripHtml(html) {
+                        let tmp = document.createElement("DIV");
+                        tmp.innerHTML = CleanHtml(html);
+                        return tmp.textContent || tmp.innerText || "";
+                  }
+        </script>
+        <script type="text/javascript">
+                  $(document).ready(function () {
+                        $("table").each(function () {
+                              if (!$(this).closest(".table-responsive").length) {
+                                    $(this).wrap("<div class='table-responsive'></div>");
+                              }
+                        });
+
+                        var width = $(window).width();
+                        if (width < 768) {
+                              document.getElementById('frst_t').style.display = "block";
+                              document.getElementById('second_t').style.display = "none";
+                        } else if (width < 991) {
+                              document.getElementById('frst_t').style.display = "block";
+                              document.getElementById('second_t').style.display = "none";
+                        } else if (width < 1199) {
+                              document.getElementById('frst_t').style.display = "none";
+                              document.getElementById('second_t').style.display = "block";
+                        } else {
+                              document.getElementById('frst_t').style.display = "none";
+                              document.getElementById('second_t').style.display = "block";
+                        }
+                  });
+        </script>
+        <style type="text/css">
+            @media print {
+                .sticky-social, .sticky-social_mb, .pull-right, #printPDF {
+                    display: none !important;
+                }
+            }
+
+            .f_vl {
+                padding-right: 30px;
+                font-size: 17px;
+                cursor: pointer;
+            }
+
+            .log_oo {
+                display: flex;
+                justify-content: space-between;
+            }
+
+                .log_oo img {
+                    width: 150px;
+                }
+
+            .sticky-social_mb {
+                position: fixed;
+                bottom: 0px;
+                padding: 0px;
+                margin: 0px;
+                width: 100%;
+            }
+
+            .social_mb {
+                list-style: none;
+                display: flex;
+                width: 100%;
+                margin-bottom: -8px;
+            }
+
+                .social_mb a {
+                    padding: 8px 0px;
+                    font-size: 30px;
+                    transition: all 0.8s ease-in-out;
+                    width: 20% !important;
+                    text-align: center;
+                }
+        </style>
+        <style type="text/css">
+            .section1 {
+                position: relative;
+                padding: 10px 0px;
+                width: 100%;
+            }
+
+            .sticky-social {
+                position: fixed;
+                top: 20px;
+                left: 0px;
+                padding: 0px;
+                margin: 0px;
+            }
+
+            .social {
+                list-style: none;
+            }
+
+                .social a li {
+                    padding: 8px 12px;
+                    font-size: 25px;
+                    transition: all 0.8s ease-in-out;
+                }
+
+                    .social a li:hover {
+                        margin-right: -30px;
+                        box-shadow: 2px 5px 10px grey;
+                    }
+
+                        .social a li:hover .fa {
+                            margin-left: 20px;
+                        }
+
+            .fb_b {
+                background-color: var(--dbim-key, #0F5757);
+            }
+
+            .twitter_r {
+                background-color: var(--dbim-key, #0F5757);
+            }
+
+            .whatsapp_r {
+                background-color: var(--dbim-key, #0F5757);
+            }
+
+            .fa-envelope_r {
+                background-color: var(--dbim-key, #0F5757);
+            }
+
+            .fa-linkedin_r {
+                background-color: var(--dbim-key, #0F5757);
+            }
+        </style>
+        <style type="text/css">
+            @media only screen and (max-device-width: 767px) {
+                p span img {
+                    max-width: 90% !important;
+                    height: auto !important;
+                }
+
+                p img {
+                    max-width: 90% !important;
+                    height: auto !important;
+                }
+
+                h2 {
+                    font-size: var(--dbim-h2, 20px);
+                    font-weight: 600 !important;
+                }
+
+                h3 {
+                    font-size: var(--dbim-h3, 16px);
+                    font-weight: 600 !important;
+                }
+            }
+        </style>
+        <style type="text/css">
+            .film-roll-badge {
+                position: absolute;
+                top: 82%;
+                right: 20px;
+                width: 230px;
+                height: 70px;
+                background: repeating-linear-gradient( to right, var(--dbim-green-key, #0F5757) 0px, var(--dbim-green-key, #0F5757) 18px, var(--dbim-text, #150202) 18px, var(--dbim-text, #150202) 36px );
+                border-top: 8px solid var(--dbim-green-key, #0F5757);
+                border-bottom: 8px solid var(--dbim-green-key, #0F5757);
+                border-radius: 8px;
+                overflow: hidden;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+                animation: moveFilm 8s linear infinite;
+                z-index: 10;
+            }
+
+                .film-roll-badge::before,
+                .film-roll-badge::after {
+                    content: "";
+                    position: absolute;
+                    width: 100%;
+                    height: 10px;
+                    background: repeating-linear-gradient( to right, var(--dbim-green-key, #0F5757) 0px, var(--dbim-green-key, #0F5757) 10px, #fff 10px, #fff 20px );
+                    left: 0;
+                    z-index: 2;
+                }
+
+                .film-roll-badge::before {
+                    top: -4px;
+                }
+
+                .film-roll-badge::after {
+                    bottom: -4px;
+                }
+
+            .film-roll-inner {
+                position: relative;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                animation: flicker 2s infinite ease-in-out;
+            }
+
+            .countdown-text {
+                font-size: 1.3rem;
+                font-weight: 700;
+                color: #fff;
+                text-shadow: 0 0 6px rgba(255, 255, 255, 0.4), 0 0 10px #000;
+                white-space: nowrap;
+            }
+
+            @keyframes moveFilm {
+                0% {
+                    background-position: 0 0;
+                }
+
+                100% {
+                    background-position: 120px 0;
+                }
+            }
+
+            @keyframes flicker {
+                0%, 100% {
+                    opacity: 1;
+                }
+
+                50% {
+                    opacity: 0.9;
+                }
+
+                25% {
+                    opacity: 0.95;
+                }
+
+                75% {
+                    opacity: 0.85;
+                }
+            }
+
+            @media (max-width: 1500px) {
+                .film-roll-badge {
+                    top: 68%;
+                    right: 18px;
+                    height: 65px;
+                    font-size: 0.85rem;
+                }
+
+                .press-section {
+                    margin-top: 35px;
+                }
+            }
+
+            @media (max-width: 992px) {
+                .film-roll-badge {
+                    top: 52%;
+                    right: 10px;
+                    width: 200px;
+                    height: 60px;
+                }
+            }
+
+            @media (max-width: 768px) {
+                .film-roll-badge {
+                    top: 56%;
+                    right: 10px;
+                    width: 124px;
+                    height: 55px;
+                }
+
+                .countdown-text {
+                    font-size: 0.9rem;
+                }
+            }
+
+            @media (max-width: 576px) {
+                .film-roll-badge {
+                    top: 59%;
+                    right: 5px;
+                    height: 50px;
+                }
+
+                .countdown-text {
+                    font-size: 0.85rem;
+                }
+            }
+        </style>
+        <script type="text/javascript">
+                  const festivalStart = new Date("2025-11-20T00:00:00").getTime();
+                  const festivalEnd = new Date("2025-11-28T23:59:59").getTime();
+                  const countdownElement = document.getElementById("countdown");
+
+                  if (countdownElement) {
+                        const interval = setInterval(() => {
+                              const now = new Date().getTime();
+
+                              if (now < festivalStart) {
+                                    const diff = festivalStart - now;
+                                    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                                    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+                                    countdownElement.innerHTML = `${days} Day${days !== 1 ? 's' : ''} ${hours} Hour${hours !== 1 ? 's' : ''} to go`;
+                              } else if (now >= festivalStart && now <= festivalEnd) {
+                                    const dayNumber = Math.floor((now - festivalStart) / (1000 * 60 * 60 * 24)) + 1;
+                                    countdownElement.innerHTML = `56th IFFI - Day ${dayNumber}`;
+                              } else {
+                                    countdownElement.innerHTML = `✨ IFFI closes but never ends…`;
+                                    const elements = document.querySelectorAll('.film-roll-badge');
+                                    elements.forEach(el => el.style.width = "350px");
+                                    clearInterval(interval);
+                              }
+                        }, 1000);
+                  }
+        </script>
+        <script type="text/javascript">
+                  const miffStart = new Date("2026-06-15T00:00:00").getTime();
+                  const miffEnd = new Date("2026-06-15T23:59:59").getTime();
+                  const miffElement = document.getElementById("miff");
+
+                  if (miffElement) {
+                        const miffInterval = setInterval(() => {
+                              const now = new Date().getTime();
+
+                              if (now < miffStart) {
+                                    const diff = miffStart - now;
+                                    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                                    miffElement.innerHTML = `${days} Day${days === 1 ? '' : 's'} to MIFF ...`;
+                              } else if (now >= miffStart && now <= miffEnd) {
+                                    const dayNumber = Math.floor((now - miffStart) / (1000 * 60 * 60 * 24)) + 1;
+                                    miffElement.innerHTML = `19th MIFF - Day ${dayNumber}`;
+                              } else {
+                                    miffElement.innerHTML = `✨ MIFF concludes, cinema lives on...`;
+                                    document.querySelectorAll('.film-roll-badge').forEach(el => el.style.width = "350px");
+                                    clearInterval(miffInterval);
+                              }
+                        }, 1000);
+                  }
+        </script>
+    
+
+<script type="text/javascript">
+//<![CDATA[
+(function() {var fn = function() {$get("sc_HiddenField").value = '';Sys.Application.remove_init(fn);};Sys.Application.add_init(fn);})();Sys.Application.add_init(function() {
+    $create(Sys.Extended.UI.ModalPopupBehavior, {"BackgroundCssClass":"modalBackground","PopupControlID":"P_CategoryManagement","dynamicServicePath":"/PressReleasePage.aspx","id":"mpe"}, null, null, $get("Hidden"));
+});
+//]]>
+</script>
+<input type="hidden" name="__ncforminfo" value="WDfdlaZEiKzYdSKnsmQtN_2-IeO8BMw7l_rDhrdUA7Rgp3u8l6s4wgyds3zflXdM5zTGqN5oz6RwHI1Sb93QVmZtVU4SqHvGos6_HpyfWAcc2fHmKogM9g=="/></form>
+    
+
+<script type="application/json" id="pibConsentConfig">{"ga4Id":"G-Q414Y0X6EE,G-QJJ6LZ8LHV","policyUrl":"/CookiePolicy.aspx","text":{"bannerLabel":"Cookie consent","title":"Cookies on this website","body":"We use essential cookies to make this website work. We also set analytics cookies when you arrive, so we can see how the site is used and improve it - you can switch these off below or at any time from the Cookie Policy page. Cookies from embedded social media content are set only if you allow them.","policyLink":"Read our Cookie Policy","accept":"Accept all","reject":"Reject optional","customize":"Customise","prefsTitle":"Cookie preferences","prefsIntro":"Choose which cookies this website may set. Essential cookies cannot be switched off because the site does not work without them. Analytics cookies are on unless you turn them off. Social media cookies stay off until you allow them. You can change these choices at any time from the Cookie Policy page.","essentialName":"Essential cookies","essentialDesc":"Needed for the site to function. These remember your session, your language and region, your text size and colour theme, and verify the security check on forms. They are always on.","analyticsName":"Analytics cookies","analyticsDesc":"Help us understand how visitors use the site - which pages are read and how long people stay - so it can be improved. The information is collected in a form that does not directly identify you. These are on when you arrive; switching them off here stops them and deletes the ones already set.","socialName":"Social media cookies","socialDesc":"Set by content embedded from X, Facebook and YouTube, such as timelines and videos. These platforms may use them to track you across websites. They stay off until you allow them.","save":"Save preferences","cancel":"Cancel"}}</script>
+<script type="text/javascript" src='/js/consent.js?v=10'></script>
+
+<script type="text/javascript" src='/js/consent-embeds.js?v=10'></script>
+
+
+    <!-- Minimal O(N) Time and O(1) Auxiliary Space Word Count & Read Time Calculation -->
+    <script type="text/javascript">
+            (function () {
+                  function calculateReadingStats() {
+                        var bodyEl = document.getElementById("pibReleaseBody");
+                        if (!bodyEl) return;
+
+                        // textContent extracts text without triggering expensive layout/reflow computations
+                        var text = bodyEl.textContent || "";
+                        var words = 0;
+                        var inWord = false;
+
+                        // O(N) single pass character code scan: achieves O(1) space with zero array allocations
+                        for (var i = 0, len = text.length; i < len; i++) {
+                              var code = text.charCodeAt(i);
+                              // Delimits on ASCII whitespace, control characters, tabs, newlines, and non-breaking spaces (160)
+                              if (code <= 32 || code === 160) {
+                                    inWord = false;
+                              } else if (!inWord) {
+                                    inWord = true;
+                                    words++;
+                              }
+                        }
+
+                        // Standard 250 WPM reading speed (e.g., 612 words yields 2 min read)
+                        var minutes = Math.max(1, Math.round(words / 250));
+
+                        var elWords = document.getElementById("prWordCount");
+                        var elTime = document.getElementById("prReadTime");
+
+                        if (elWords) elWords.textContent = words + (words === 1 ? " word" : " words");
+                        if (elTime) elTime.textContent = minutes + " min read";
+                  }
+
+                  if (document.readyState === "loading") {
+                        document.addEventListener("DOMContentLoaded", calculateReadingStats);
+                  } else {
+                        calculateReadingStats();
+                  }
+            })();
+    </script>
+
+    <script type="text/javascript">
+(function () {
+    try {
+        if (window.self === window.top) { return; }
+    } catch (e) { return; }
+    var s = document.createElement("style");
+    s.textContent = ".sticky-social, .sticky-social_mb { display: none !important; }";
+    (document.head || document.documentElement).appendChild(s);
+}());
+    </script>
+</body>
+</html>

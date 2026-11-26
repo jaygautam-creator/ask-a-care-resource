@@ -1,0 +1,292 @@
+{
+  "mwpsc_act_2007": {
+    "url": "https://socialwelfare.delhi.gov.in/sites/default/files/Social/generic_multiple_files/mwpsc_act2007.pdf",
+    "final_url": "https://socialwelfare.delhi.gov.in/sites/default/files/Social/generic_multiple_files/mwpsc_act2007.pdf",
+    "status": 200,
+    "content_type": "application/pdf",
+    "bytes": 109447,
+    "sha256": "7b31756c7025de43ddd5e01d6a6762142f16607e1ddf5422cb4e6dc1eb3477b5",
+    "fetched_at": "2026-11-26T11:21:25+00:00",
+    "file": "mwpsc_act_2007.pdf"
+  },
+  "pib_elderly_in_india_2025": {
+    "url": "https://static.pib.gov.in/WriteReadData/specificdocs/documents/2025/oct/doc20251028678601.pdf",
+    "final_url": "https://static.pib.gov.in/WriteReadData/specificdocs/documents/2025/oct/doc20251028678601.pdf",
+    "status": 200,
+    "content_type": "application/pdf",
+    "bytes": 2535162,
+    "sha256": "ebcf584ec24dd37a62f6724f8e883b9f5d79f169e84e7d3c25939090079b07f5",
+    "fetched_at": "2026-11-26T11:21:26+00:00",
+    "file": "pib_elderly_in_india_2025.pdf"
+  },
+  "pib_elderly_in_india_2025_hi": {
+    "url": "https://static.pib.gov.in/WriteReadData/specificdocs/documents/2025/oct/doc20251028678701.pdf",
+    "final_url": "https://static.pib.gov.in/WriteReadData/specificdocs/documents/2025/oct/doc20251028678701.pdf",
+    "status": 200,
+    "content_type": "application/pdf",
+    "bytes": 814804,
+    "sha256": "664f40f2640f18979b57b12ba37abdf09576ed6bd6facb3e3ab90c45692fd534",
+    "fetched_at": "2026-11-26T11:21:27+00:00",
+    "file": "pib_elderly_in_india_2025_hi.pdf"
+  },
+  "pib_world_senior_citizen_day_2024": {
+    "url": "https://static.pib.gov.in/WriteReadData/specificdocs/documents/2024/aug/doc2024820378501.pdf",
+    "final_url": "https://static.pib.gov.in/WriteReadData/specificdocs/documents/2024/aug/doc2024820378501.pdf",
+    "status": 200,
+    "content_type": "application/pdf",
+    "bytes": 725478,
+    "sha256": "b050f01c3224ee7d5ee9b1fda70181b4fd83863f0187499ee04dd3c291fcc7fc",
+    "fetched_at": "2026-11-26T11:21:27+00:00",
+    "file": "pib_world_senior_citizen_day_2024.pdf"
+  },
+  "pib_senior_care_blog_2026": {
+    "url": "https://www.pib.gov.in/blogs/blogsdescr.aspx?feaaid=563",
+    "final_url": "https://www.pib.gov.in/blogs/blogsdescr.aspx?feaaid=563&lang=1",
+    "status": 200,
+    "content_type": "text/html; charset=utf-8",
+    "bytes": 85127,
+    "sha256": "bb0d859bc22bab47ddc012bac6b6725ecc1bb67505d62665d358427981690440",
+    "fetched_at": "2026-11-26T11:21:28+00:00",
+    "file": "pib_senior_care_blog_2026.html"
+  },
+  "pib_schemes_welfare_2022": {
+    "url": "https://pib.gov.in/PressReleasePage.aspx?PRID=1806506",
+    "final_url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=1806506&reg=48&lang=2",
+    "status": 200,
+    "content_type": "text/html; charset=utf-8",
+    "bytes": 417751,
+    "sha256": "012c3a18d253554396a94abdcfd2211b47a3c6d3fdf7ba80e3d7c37430689560",
+    "fetched_at": "2026-11-26T11:21:30+00:00",
+    "file": "pib_schemes_welfare_2022.html"
+  },
+  "pib_schemes_senior_2022": {
+    "url": "https://pib.gov.in/PressReleasePage.aspx?PRID=1844991",
+    "final_url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=1844991&reg=48&lang=2",
+    "status": 200,
+    "content_type": "text/html; charset=utf-8",
+    "bytes": 138964,
+    "sha256": "f31ad4ca5c3e961fd4fc9b5d95c36bf5b8ed14dbb195ff7ac0b47133db42e83f",
+    "fetched_at": "2026-11-26T11:21:30+00:00",
+    "file": "pib_schemes_senior_2022.html"
+  },
+  "pib_social_security_elders_2023": {
+    "url": "https://pib.gov.in/PressReleasePage.aspx?PRID=1942485",
+    "final_url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=1942485&reg=48&lang=2",
+    "status": 200,
+    "content_type": "text/html; charset=utf-8",
+    "bytes": 99275,
+    "sha256": "9f0152dea269fb3d3769c82bc6901f2010f48015a1127c2ec9d83b5e69c46d9f",
+    "fetched_at": "2026-11-26T11:21:31+00:00",
+    "file": "pib_social_security_elders_2023.html"
+  },
+  "pib_old_age_homes_2022": {
+    "url": "https://pib.gov.in/PressReleasePage.aspx?PRID=1847439",
+    "final_url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=1847439&reg=48&lang=2",
+    "status": 200,
+    "content_type": "text/html; charset=utf-8",
+    "bytes": 312058,
+    "sha256": "3854cfeab8080854ced9303b803f9849647641195abe6b4e6182412d26327f2b",
+    "fetched_at": "2026-11-26T11:21:32+00:00",
+    "file": "pib_old_age_homes_2022.html"
+  },
+  "pib_elderline_launch_2021": {
+    "url": "https://pib.gov.in/PressReleasePage.aspx?PRID=1758880",
+    "final_url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=1758880&reg=48&lang=2",
+    "status": 200,
+    "content_type": "text/html; charset=utf-8",
+    "bytes": 96502,
+    "sha256": "92c15aa92477b524db2dbb501582198105fbf0901d34d488d71b1054ed36c85d",
+    "fetched_at": "2026-11-26T11:21:33+00:00",
+    "file": "pib_elderline_launch_2021.html"
+  },
+  "pib_elderline_study_2021": {
+    "url": "https://pib.gov.in/PressReleasePage.aspx?PRID=1759358",
+    "final_url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=1759358&reg=48&lang=2",
+    "status": 200,
+    "content_type": "text/html; charset=utf-8",
+    "bytes": 121754,
+    "sha256": "a70307e5a4c2f844be654bba14f45057d8a18a7d471715955d9df1d2e461110c",
+    "fetched_at": "2026-11-26T11:21:34+00:00",
+    "file": "pib_elderline_study_2021.html"
+  },
+  "pib_elderline_2026": {
+    "url": "https://pib.gov.in/PressReleasePage.aspx?PRID=2314163",
+    "final_url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2314163&reg=48&lang=2",
+    "status": 200,
+    "content_type": "text/html; charset=utf-8",
+    "bytes": 90413,
+    "sha256": "409db6e0d5f28616b08fe5ac69ea6e2b7eb4319530472887ed4ccab3cda22cf6",
+    "fetched_at": "2026-11-26T11:21:35+00:00",
+    "file": "pib_elderline_2026.html"
+  },
+  "vikaspedia_elderline": {
+    "url": "https://en.vikaspedia.in/viewcontent/social-welfare/senior-citizens-welfare/national-helpline-for-senior-citizens-elderline-14567?lgn=en",
+    "final_url": "https://en.vikaspedia.in/viewcontent/social-welfare/senior-citizens-welfare/national-helpline-for-senior-citizens-elderline-14567?lgn=en",
+    "status": 200,
+    "content_type": "text/html; charset=utf-8",
+    "bytes": 57653,
+    "sha256": "6fba7ac1366ae85b3d3166bed2479cb96b2b4a4d1bfa07f883a05329c8f7fd97",
+    "fetched_at": "2026-11-26T11:21:36+00:00",
+    "file": "vikaspedia_elderline.html"
+  },
+  "pib_vay_vandana_25lakh_2024": {
+    "url": "https://pib.gov.in/PressReleasePage.aspx?PRID=2082288",
+    "final_url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2082288&reg=48&lang=2",
+    "status": 200,
+    "content_type": "text/html; charset=utf-8",
+    "bytes": 94386,
+    "sha256": "13391fbb97bfbee25bbdb4b188a4d464e383e7e0288adae95834621445c384c8",
+    "fetched_at": "2026-11-26T11:21:37+00:00",
+    "file": "pib_vay_vandana_25lakh_2024.html"
+  },
+  "pib_vay_vandana_milestone_2024": {
+    "url": "https://static.pib.gov.in/WriteReadData/specificdocs/documents/2024/nov/doc20241118436001.pdf",
+    "final_url": "https://static.pib.gov.in/WriteReadData/specificdocs/documents/2024/nov/doc20241118436001.pdf",
+    "status": 200,
+    "content_type": "application/pdf",
+    "bytes": 519237,
+    "sha256": "b859ea492335b4d6941bbd112281566acfdc7871c1a3e28c510dd1f325fe00d0",
+    "fetched_at": "2026-11-26T11:21:38+00:00",
+    "file": "pib_vay_vandana_milestone_2024.pdf"
+  },
+  "pib_vay_vandana_two_years_2026": {
+    "url": "https://pib.gov.in/PressReleasePage.aspx?PRID=2330009",
+    "final_url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2330009&reg=48&lang=2",
+    "status": 200,
+    "content_type": "text/html; charset=utf-8",
+    "bytes": 111691,
+    "sha256": "582e60a506a55ff31ba8ce1d0a05558c8ec8125af3bad69d7c87accb34d43d51",
+    "fetched_at": "2026-11-26T11:21:38+00:00",
+    "file": "pib_vay_vandana_two_years_2026.html"
+  },
+  "pmjay_senior_citizen_guidelines": {
+    "url": "https://cdnbbsr.s3waas.gov.in/s3169779d3852b32ce8b1a1724dbf5217d/uploads/2024/11/20241104222942183.pdf",
+    "final_url": "https://cdnbbsr.s3waas.gov.in/s3169779d3852b32ce8b1a1724dbf5217d/uploads/2024/11/20241104222942183.pdf",
+    "status": 200,
+    "content_type": "application/pdf",
+    "bytes": 6061402,
+    "sha256": "e5174f4717b6d616d63403d2d910e03c23c3c53506c37c8086ff3896998c8574",
+    "fetched_at": "2026-11-26T11:21:40+00:00",
+    "file": "pmjay_senior_citizen_guidelines.pdf"
+  },
+  "dghs_nphce": {
+    "url": "https://dghs.mohfw.gov.in/national-programme-for-the-health-care-of-the-elderly.php",
+    "final_url": "https://dghs.mohfw.gov.in/national-programme-for-the-health-care-of-the-elderly.php",
+    "status": 200,
+    "content_type": "text/html; charset=UTF-8",
+    "bytes": 31295,
+    "sha256": "534b65fba2bb5f9dbbb6f1693372654074fad5e58462f40e7cdf665b723fa8c9",
+    "fetched_at": "2026-11-26T11:21:41+00:00",
+    "file": "dghs_nphce.html"
+  },
+  "pfrda_apy_overview": {
+    "url": "https://pfrda.org.in/en/web/pfrda/schemes/atal-pension-yojana-apy",
+    "final_url": "https://pfrda.org.in/en/web/pfrda/schemes/atal-pension-yojana-apy",
+    "status": 200,
+    "content_type": "text/html;charset=UTF-8",
+    "bytes": 492363,
+    "sha256": "f35ae8c6fbd34d526d9301ae64cea7f4cab08d51563d05564b715519e1265b69",
+    "fetched_at": "2026-11-26T11:21:41+00:00",
+    "file": "pfrda_apy_overview.html"
+  },
+  "pfrda_apy_faq": {
+    "url": "https://pfrda.org.in/web/pfrda/w/faqs/atal-pension-yojana",
+    "final_url": "https://pfrda.org.in/web/pfrda/w/faqs/atal-pension-yojana",
+    "status": 200,
+    "content_type": "text/html;charset=UTF-8",
+    "bytes": 571916,
+    "sha256": "8a9e4c41534348ce67ed1ebfb40194315f58ee55dff4027e7fa2488b9a52206f",
+    "fetched_at": "2026-11-26T11:21:42+00:00",
+    "file": "pfrda_apy_faq.html"
+  },
+  "sbi_scss": {
+    "url": "https://sbi.co.in/web/personal-banking/investments-deposits/govt-schemes/senior-citizens-savings-scheme",
+    "final_url": "https://sbi.bank.in/web/personal-banking/investments-deposits/govt-schemes/senior-citizens-savings-scheme",
+    "status": 200,
+    "content_type": "text/html; charset=UTF-8",
+    "bytes": 479647,
+    "sha256": "7af2ae5dac2d160b3b568b99e7c144afa70df227b65a4f9cf7655239353b9dfc",
+    "fetched_at": "2026-11-26T11:21:43+00:00",
+    "file": "sbi_scss.html"
+  },
+  "nis_pmvvy_2023": {
+    "url": "https://newindiasamachar.pib.gov.in/WriteReadData/flipbook/2023/Jun/1st/English/files/basic-html/page21.html",
+    "final_url": "https://newindiasamachar.pib.gov.in/WriteReadData/flipbook/2023/Jun/1st/English/files/basic-html/page21.html",
+    "status": 200,
+    "content_type": "text/html",
+    "bytes": 13332,
+    "sha256": "e90600e1df7864e327a7dc335981c4c9359f4a00b0842e984d1099f6a99021d3",
+    "fetched_at": "2026-11-26T11:21:44+00:00",
+    "file": "nis_pmvvy_2023.html"
+  },
+  "incometax_senior_benefits": {
+    "url": "https://www.incometaxindia.gov.in/w/senior-citizen/-super-senior-citizen-benefits-allowable",
+    "final_url": "https://wm.incometaxindia.gov.in/w/senior-citizen/-super-senior-citizen-benefits-allowable",
+    "status": 200,
+    "content_type": "text/html;charset=UTF-8",
+    "bytes": 622852,
+    "sha256": "0db663929f3fc66ce4486515a19a71d2b1b8e0a00f2c57b9a6c9dcf3fb8fb242",
+    "fetched_at": "2026-11-26T11:21:47+00:00",
+    "file": "incometax_senior_benefits.html"
+  },
+  "incometax_senior_faq": {
+    "url": "https://incometaxindia.gov.in/documents/d/guest/faqs-for-senior-citizens",
+    "final_url": "https://www.incometaxindia.gov.in/documents/d/guest/faqs-for-senior-citizens",
+    "status": 200,
+    "content_type": "application/pdf",
+    "bytes": 151455,
+    "sha256": "5577da58cd17af78532dab2379dcc52bedf43691ec28c37229acd41612c32e61",
+    "fetched_at": "2026-11-26T11:21:48+00:00",
+    "file": "incometax_senior_faq.pdf"
+  },
+  "incometax_itr_forms_senior": {
+    "url": "https://www.incometax.gov.in/iec/foportal/help/individual/return-applicable-2",
+    "final_url": "https://www.incometax.gov.in/iec/foportal/help/individual/return-applicable-2",
+    "status": 200,
+    "content_type": "text/html; charset=UTF-8",
+    "bytes": 198936,
+    "sha256": "b123be53fe53f4c7190d0904a84c3c9d6facf31e229d90b03392722b3bbfd93a",
+    "fetched_at": "2026-11-26T11:21:48+00:00",
+    "file": "incometax_itr_forms_senior.html"
+  },
+  "delhi_old_age_assistance": {
+    "url": "https://socialwelfare.delhi.gov.in/hi/node/1385",
+    "final_url": "https://socialwelfare.delhi.gov.in/hi/node/1385",
+    "status": 200,
+    "content_type": "text/html; charset=UTF-8",
+    "bytes": 123024,
+    "sha256": "39339a975ae169185307384d1784fb799025a8e952e32b0f679818965e11e4f3",
+    "fetched_at": "2026-11-26T11:21:49+00:00",
+    "file": "delhi_old_age_assistance.html"
+  },
+  "kerala_welfare_pension": {
+    "url": "https://lsgkerala.gov.in/en/welfarepension/iop",
+    "final_url": "https://lsgkerala.gov.in/en/welfarepension/iop",
+    "status": 200,
+    "content_type": "text/html; charset=UTF-8",
+    "bytes": 38973,
+    "sha256": "ed7a95d3737e83974c8b7dc8e1049d0557a59e889b4a94956da328162e4dd7cc",
+    "fetched_at": "2026-11-26T11:21:50+00:00",
+    "file": "kerala_welfare_pension.html"
+  },
+  "kerala_social_security_pension": {
+    "url": "https://thalayolaparambupanchayat.lsgkerala.gov.in/en/page/social-security-pension",
+    "final_url": "https://thalayolaparambupanchayat.lsgkerala.gov.in/en/page/social-security-pension",
+    "status": 200,
+    "content_type": "text/html; charset=UTF-8",
+    "bytes": 77152,
+    "sha256": "2c46fcec034a6259fb81c80bd7e28af53ba310c87196d212d32b247f57f6c19d",
+    "fetched_at": "2026-11-26T11:21:51+00:00",
+    "file": "kerala_social_security_pension.html"
+  },
+  "maharashtra_shravanbal": {
+    "url": "https://nashik.gov.in/scheme/shravan-bal-seva-rajya-nivruttivetan-yojana/",
+    "final_url": "https://nashik.gov.in/en/scheme/shravan-bal-seva-rajya-nivruttivetan-yojana/",
+    "status": 200,
+    "content_type": "text/html; charset=UTF-8",
+    "bytes": 125254,
+    "sha256": "7bdccfac4e2d4a2fe421296789d404db8a7ae97ce3d66bc6ef1f0733ca88df46",
+    "fetched_at": "2026-11-26T11:21:52+00:00",
+    "file": "maharashtra_shravanbal.html"
+  }
+}

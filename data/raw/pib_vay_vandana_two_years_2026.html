@@ -1,0 +1,1146 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head id="Head1"><title>
+	Press Release Page | Press Information Bureau
+</title><link href="css/style.css?v=1" rel="stylesheet" type="text/css" /><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><link rel="alternate stylesheet" href="css/change.css?v=1" media="screen" title="change" /><link rel="alternate stylesheet" href="css/green.css?v=1" media="screen" title="green" /><link rel="alternate stylesheet" href="css/yellow.css" media="screen" title="yellow" /><link rel="stylesheet" type="text/css" href="css/prtint.css" media="print" /><link rel="stylesheet" href="css/style3.1.css" type="text/css" /><link id="pibA11yCss" rel="stylesheet" href="/css/accessibility.css?v=7" type="text/css" />
+    <script type="text/javascript">
+        (function (d) {
+            var t = "";
+            try {
+                t = window.localStorage.getItem("pibStyle") || "";
+            } catch (e) {
+                t = "";
+            }
+            if (t === "orange") {
+                t = "yellow";
+            }
+            var c = t === "change" ? " pib-hc"
+                : t === "green" ? " pib-theme-green"
+                : t === "yellow" ? " pib-theme-yellow" : "";
+            d.documentElement.className += c + " pib-a11y-content";
+        }(document));
+    </script>
+
+    <script src="js/jquery.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/accessibility.js?v=7"></script>
+
+    <script type="text/javascript">
+            $(document).ready(function () {
+                  function getParameterByName(name) {
+                        var url = window.location.href;
+                        name = name.replace(/[\[\]]/g, '\\$&');
+                        var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                              results = regex.exec(url);
+                        if (!results) return null;
+                        if (!results[2]) return '';
+                        return decodeURIComponent(results[2].replace(/\+/g, ' '));
+                  }
+                  let prid = parseInt(getParameterByName('PRID'), 10);
+
+                  if (!isNaN(prid) && prid > 0) {
+                        $.ajax({
+                              type: "POST",
+                              url: "AjaxMethod.aspx/UpdatePRHitCount",
+                              async: false,
+                              data: JSON.stringify({ 'PermId': prid }),
+                              contentType: "application/json; charset=utf-8",
+                              dataType: "json",
+                              success: function (response) {
+                                    console.log(response);
+                              },
+                              error: function (error) {
+                                    console.log("Error in AJAX request", error);
+                              }
+                        });
+                  } else {
+                        console.log("Invalid parameters:", prid);
+                  }
+            });
+    </script>
+    <style type="text/css">
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .banner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #000;
+            color: #fff;
+            padding: 20px;
+        }
+
+        full-width {
+            width: 100%;
+        }
+
+        .logo-left, .logo-center, .countdown {
+            display: flex;
+            align-items: center;
+        }
+
+            .logo-left img, .logo-center img {
+                height: 70px;
+            }
+
+        .countdown {
+            text-align: center;
+            background-color: var(--dbim-text, #150202);
+            border-radius: 10px;
+            padding: 10px;
+            border: 2px solid grey;
+        }
+
+        .firstnumber {
+            color: #000000;
+            position: absolute;
+            top: 50px;
+            right: 90px;
+            font-size: 30px;
+        }
+
+        .secondnumber {
+            position: absolute;
+            color: #000000;
+            right: 45px;
+            top: 50px;
+            font-size: 30px;
+        }
+
+        .countdown .days {
+            font-size: 35px;
+            color: gold;
+        }
+
+        .countdown p {
+            margin: 0;
+        }
+
+        .countdown .text {
+            font-size: 16px;
+        }
+
+        a {
+            word-break: break-all;
+        }
+
+        iframe, img {
+            max-width: 100%;
+        }
+        .innner-page-main-about-us-content-right-part ul > li, .content-area ul > li {
+  /*list-style: none !important;*/
+}
+        /* === DBIM 3.0 Option 4 Separator Line & Reading Meta Styling === */
+        .pr-share--footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            border-top: 1px solid var(--dbim-border, #d1d5db);
+            padding-top: 16px;
+            margin-top: 24px;
+        }
+
+        .pr-share__left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .pr-reading-meta {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.95rem;
+            color: var(--dbim-text-secondary, #475569);
+            font-weight: 500;
+            white-space: nowrap;
+            margin-left: auto;
+        }
+
+        .pr-reading-meta__item {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .pr-reading-meta__divider {
+            color: var(--dbim-border, #cbd5e1);
+            font-weight: 300;
+        }
+
+        .pib-hc .pr-reading-meta,
+        .pib-hc .pr-reading-meta svg {
+            color: currentColor !important;
+        }
+
+        @media (max-width: 680px) {
+            .pr-share--footer {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .pr-reading-meta {
+                margin-left: 0;
+                width: 100%;
+                justify-content: flex-start;
+            }
+        }
+
+        @media(max-width:1199px) {
+            .firstnumber {
+                top: 40px;
+                right: 72px;
+                font-size: 30px;
+            }
+
+            .secondnumber {
+                right: 35px;
+                top: 40px;
+                font-size: 30px;
+            }
+        }
+
+        @media(max-width:990px) {
+            .firstnumber {
+                top: 25px;
+                right: 54px;
+                font-size: 30px;
+            }
+
+            .secondnumber {
+                right: 25px;
+                top: 25px;
+                font-size: 30px;
+            }
+        }
+
+        @media(max-width:768px) {
+            .countdown, .days {
+                font-size: 12px !important;
+            }
+
+            .firstnumber {
+                top: 25%;
+                right: 8%;
+                font-size: 30px;
+            }
+
+            .secondnumber {
+                right: 4.5%;
+                top: 25%;
+                font-size: 30px;
+            }
+        }
+
+        @media(max-width:475px) {
+            .countdown, .days {
+                font-size: 10px !important;
+                top: 20%;
+            }
+
+            .bannerimgdiv {
+                padding: 0 !important;
+            }
+
+            .bannerimg {
+                width: 108% !important;
+            }
+        }
+    </style>
+    <script type="text/javascript">
+$(function () {
+    $("[id*=printPDF]").click(function () {
+        $("[id*=hfGridHtml]").val($("#PdfDiv").html());
+    });
+});
+$(function () {
+    $("[id*=printPDFEvent]").click(function () {
+        $("[id*=hfGridHtml]").val($("#PdfDiv").html());
+    });
+});
+</script>
+
+    <link id="pibConsentCss" href="/css/consent.css?v=8" rel="stylesheet" type="text/css" /><link id="pibFontsCss" href="/css/fonts-noto.css?v=6" rel="stylesheet" type="text/css" /><link id="pibDbimCss" href="/css/dbim.css?v=1120" rel="stylesheet" type="text/css" /><meta property="og:title" content="Advancing Universal and Inclusive Senior Care: Ayushman Vay Vandana Marks Two Years of Transforming Healthcare for Elderly Citizens" /><meta property="og:url" content="https://pib.gov.in/PressReleasePage.aspx?PRID=2330009" /><meta property="og:description" content="Driven by the continuous efforts and relentless dedication of the Government of India towards building an inclusive, accessible and world-class healthcare system, Ayushman Vay Vandana has successfully" /><meta property="og:image" content="https://static.pib.gov.in/WriteReadData/userfiles/image/2026/oct/image001_20261029153510_f79158.jpg" /><meta property="og:type" content="article" /><meta name="twitter:card" content="summary_large_image" /><meta name="twitter:image" content="https://static.pib.gov.in/WriteReadData/userfiles/image/2026/oct/image001_20261029153510_f79158.jpg" />
+                                <script>!function(e){var n="https://s.go-mpulse.net/boomerang/";if("False"=="True")e.BOOMR_config=e.BOOMR_config||{},e.BOOMR_config.PageParams=e.BOOMR_config.PageParams||{},e.BOOMR_config.PageParams.pci=!0,n="https://s2.go-mpulse.net/boomerang/";if(window.BOOMR_API_key="C4E7H-KSCMC-422L4-W3EM5-U36MF",function(){function e(){if(!i){var e=document.createElement("script");e.id="boomr-scr-as",e.src=window.BOOMR.url,e.async=!0,o.parentNode.appendChild(e),i=!0}}function t(e){i=!0;var n,t,a,r,d=document,O=window;if(window.BOOMR.snippetMethod=e?"if":"i",t=function(e,n){var t=d.createElement("script");t.id=n||"boomr-if-as",t.src=window.BOOMR.url,BOOMR_lstart=(new Date).getTime(),e=e||d.body,e.appendChild(t)},!window.addEventListener&&window.attachEvent&&navigator.userAgent.match(/MSIE [67]\./))return window.BOOMR.snippetMethod="s",void t(o.parentNode,"boomr-async");a=document.createElement("IFRAME"),a.src="about:blank",a.title="",a.role="presentation",a.loading="eager",r=(a.frameElement||a).style,r.width=0,r.height=0,r.border=0,r.display="none",o.parentNode.appendChild(a);try{O=a.contentWindow,d=O.document.open()}catch(_){n=document.domain,a.src="javascript:var d=document.open();d.domain='"+n+"';void(0);",O=a.contentWindow,d=O.document.open()}if(n)d._boomrl=function(){this.domain=n,t()},d.write("<bo"+"dy onload='document._boomrl();'>");else if(O._boomrl=function(){t()},O.addEventListener)O.addEventListener("load",O._boomrl,!1);else if(O.attachEvent)O.attachEvent("onload",O._boomrl);d.close()}function a(e){window.BOOMR_onload=e&&e.timeStamp||(new Date).getTime()}if(!window.BOOMR||!window.BOOMR.version&&!window.BOOMR.snippetExecuted){window.BOOMR=window.BOOMR||{},window.BOOMR.snippetStart=(new Date).getTime(),window.BOOMR.snippetExecuted=!0,window.BOOMR.snippetVersion=12,window.BOOMR.url=n+"C4E7H-KSCMC-422L4-W3EM5-U36MF";var o=document.currentScript||document.getElementsByTagName("script")[0],i=!1,r=document.createElement("link");if(r.relList&&"function"==typeof r.relList.supports&&r.relList.supports("preload")&&"as"in r)window.BOOMR.snippetMethod="p",r.href=window.BOOMR.url,r.rel="preload",r.as="script",r.addEventListener("load",e),r.addEventListener("error",function(){t(!0)}),setTimeout(function(){if(!i)t(!0)},3e3),BOOMR_lstart=(new Date).getTime(),o.parentNode.appendChild(r);else t(!1);if(window.addEventListener)window.addEventListener("load",a,!1);else if(window.attachEvent)window.attachEvent("onload",a)}}(),"".length>0)if(e&&"performance"in e&&e.performance&&"function"==typeof e.performance.setResourceTimingBufferSize)e.performance.setResourceTimingBufferSize();!function(){if(BOOMR=e.BOOMR||{},BOOMR.plugins=BOOMR.plugins||{},!BOOMR.plugins.AK){var n=""=="true"?1:0,t="",a="eqbauaabm4bzojafaiabmcixgfvqqfsc-f-86c49dafc-clienttons-s.akamaihd.net",o="false"=="true"?2:1,i={"ak.v":"41","ak.cp":"1825201","ak.ai":parseInt("1215205",10),"ak.ol":"0","ak.cr":39,"ak.ipv":6,"ak.proto":"http/1.1","ak.rid":"99195a4f","ak.r":37202,"ak.a2":n,"ak.m":"dscb","ak.n":"ff","ak.cport":56939,"ak.gh":"49.44.138.140","ak.quicv":"","ak.tlsv":"tls1.3","ak.0rtt":"","ak.0rtt.ed":"","ak.csrc":"-","ak.acc":"bbr","ak.t":"1795692098","ak.ak":"hOBiQwZUYzCg5VSAfCLimQ==LWyCBo2S11Nk34H13xNFRC24273ML2NYEfDZfhzbhTgiBP6Ml87j7g2Gy1UIl6FMt8k+aV1GsUQs14ZzltBJVjBkXS0RgY8TIqErzglJZie0WJijxgzNWNfKqXzVI36SqejT/ZZ8Rmc7ZmPEO2OR5WQf1oYhCq34TRo7ccl35Lk4XBd8jfYgaRPsCAhvIAzb6waff4zkQJgSjcHWDtLPYFC+x1SgD2lR0e3CV01RaJRWG87+f1LQXSpruktHS1CMh++28FBXd/LweK3u28izGgQgXnZg6rcSGY+eYmrQb6/aVFJmklUItLFEkKjZ7RhB2dhHZYWDMY9VuXxqL0/2uEuutJr8fiH+hn6RME4dhj/rJDYPjb2XD7Zsp1qD4qN45YeJytLoW87P2m84biZD8oi5orMtPq7HV5i6doBmo48=","ak.pv":"9","ak.dpoabenc":"","ak.tf":o};if(""!==t)i["ak.ruds"]=t;var r={i:!1,av:function(n){var t="http.initiator";if(n&&(!n[t]||"spa_hard"===n[t]))i["ak.feo"]=void 0!==e.aFeoApplied?1:0,BOOMR.addVar(i)},rv:function(){var e=["ak.cport","ak.cr","ak.csrc","ak.gh","ak.ipv","ak.m","ak.n","ak.ol","ak.proto","ak.quicv","ak.tlsv","ak.0rtt","ak.0rtt.ed","ak.r","ak.acc","ak.t","ak.tf"];BOOMR.removeVar(e)}};BOOMR.plugins.AK={akVars:i,akDNSPreFetchDomain:a,init:function(){if(!r.i){var e=BOOMR.subscribe;e("before_beacon",r.av,null,null),e("onbeacon",r.rv,null,null),r.i=!0}return this},is_complete:function(){return!0}}}}()}(window);</script></head>
+<body>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"
+     style="position:absolute;width:0;height:0;overflow:hidden" id="dbim-icon-sprite">
+    <defs>
+        <symbol id="icon-angle-double-left" viewBox="0 0 24 24"><path d="M11.6 4.6 4.2 12l7.4 7.4 2.2-2.2L8.6 12l5.2-5.2z"/><path d="M19 4.6 11.6 12 19 19.4l2.2-2.2L16 12l5.2-5.2z"/></symbol>
+        <symbol id="icon-angle-double-right" viewBox="0 0 24 24"><path d="M12.4 4.6 10.2 6.8 15.4 12l-5.2 5.2 2.2 2.2L19.8 12z"/><path d="M5 4.6 2.8 6.8 8 12l-5.2 5.2L5 19.4 12.4 12z"/></symbol>
+        <symbol id="icon-arrow-left" viewBox="0 0 24 24"><path d="M20.8 10.6H9.6v2.8h11.2z"/><path d="M10.8 5.6 3.2 12l7.6 6.4z"/></symbol>
+        <symbol id="icon-arrow-right" viewBox="0 0 24 24"><path d="M3.2 10.6h11.2v2.8H3.2z"/><path d="M13.2 5.6 20.8 12l-7.6 6.4z"/></symbol>
+        <symbol id="icon-blogger" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M6.4 2.4h11.2a4 4 0 0 1 4 4v11.2a4 4 0 0 1-4 4H6.4a4 4 0 0 1-4-4V6.4a4 4 0 0 1 4-4zm2.8 5.2a2 2 0 0 0 0 4h2.4a2 2 0 0 0 0-4zm0 5.6a2 2 0 0 0 0 4h5.6a2 2 0 0 0 0-4z"/></symbol>
+        <symbol id="icon-calendar" viewBox="0 0 24 24"><path d="M7.6 2.4H10v2.4H7.6z"/><path d="M14 2.4h2.4v2.4H14z"/><path fill-rule="evenodd" d="M4 4.8h16a1.6 1.6 0 0 1 1.6 1.6v13.2a1.6 1.6 0 0 1-1.6 1.6H4a1.6 1.6 0 0 1-1.6-1.6V6.4A1.6 1.6 0 0 1 4 4.8zm.4 5.6v8.4h15.2v-8.4z"/><path d="M6.4 12.4h3.2v3.2H6.4z"/></symbol>
+        <symbol id="icon-chevron-left" viewBox="0 0 24 24"><path d="M15.4 4.6 8 12l7.4 7.4 2.2-2.2L12.4 12l5.2-5.2z"/></symbol>
+        <symbol id="icon-chevron-right" viewBox="0 0 24 24"><path d="M8.6 4.6 6.4 6.8 11.6 12l-5.2 5.2 2.2 2.2L16 12z"/></symbol>
+        <symbol id="icon-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/></symbol>
+        <symbol id="icon-download" viewBox="0 0 24 24"><path d="M10.8 3h2.4v7.6h3.4L12 16.6l-4.6-6h3.4z"/><path d="M4 17.2h2.4v2.4h11.2v-2.4H20v3.2a1.4 1.4 0 0 1-1.4 1.4H5.4A1.4 1.4 0 0 1 4 20.4z"/></symbol>
+        <symbol id="icon-facebook" viewBox="0 0 24 24"><path d="M13.6 21.6v-8.4h2.8l.42-3.3h-3.22V7.8c0-.95.27-1.6 1.64-1.6h1.74V3.26a23 23 0 0 0-2.54-.13c-2.5 0-4.22 1.53-4.22 4.34v2.43H7.4v3.3h2.82v8.4z"/></symbol>
+        <symbol id="icon-fact-check" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2.4 3.6 5.6v6.2c0 4.6 3.4 8.6 8.4 9.8 5-1.2 8.4-5.2 8.4-9.8V5.6zm-1 13.2-3.6-3.6 1.7-1.7 1.9 1.9 4.5-4.5 1.7 1.7z"/></symbol>
+        <symbol id="icon-hashtag" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M8.8 3h2.4l-1 6h3.2l1-6h2.4l-1 6h3.4v2.4h-3.8l-.6 3.2h3.6V17h-4l-1 5h-2.4l1-5h-3.2l-1 5H5.4l1-5H3V14.6h3.8l.6-3.2H3.8V9h4zm.6 8.4-.6 3.2h3.2l.6-3.2z"/></symbol>
+        <symbol id="icon-home" viewBox="0 0 24 24"><path d="M12 3.4 2.8 11.6h2.4v8.4a1 1 0 0 0 1 1h3.3v-5.4h5v5.4h3.3a1 1 0 0 0 1-1v-8.4h2.4z"/></symbol>
+        <symbol id="icon-instagram" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M7.6 2.4h8.8a5.2 5.2 0 0 1 5.2 5.2v8.8a5.2 5.2 0 0 1-5.2 5.2H7.6a5.2 5.2 0 0 1-5.2-5.2V7.6a5.2 5.2 0 0 1 5.2-5.2zm0 2.4a2.8 2.8 0 0 0-2.8 2.8v8.8a2.8 2.8 0 0 0 2.8 2.8h8.8a2.8 2.8 0 0 0 2.8-2.8V7.6a2.8 2.8 0 0 0-2.8-2.8z"/><path fill-rule="evenodd" d="M12 6.8a5.2 5.2 0 1 0 0 10.4 5.2 5.2 0 0 0 0-10.4zm0 2.4a2.8 2.8 0 1 1 0 5.6 2.8 2.8 0 0 1 0-5.6z"/><circle cx="17.3" cy="6.7" r="1.3"/></symbol>
+        <symbol id="icon-linkedin" viewBox="0 0 24 24"><path d="M4.8 8.8h3.6v12H4.8z"/><circle cx="6.6" cy="5.4" r="2.1"/><path d="M10.8 8.8h3.45v1.65h.05c.48-.9 1.65-1.85 3.4-1.85 3.63 0 4.3 2.35 4.3 5.4v6.6h-3.6v-5.85c0-1.4-.03-3.2-1.95-3.2-1.95 0-2.25 1.52-2.25 3.1v5.95h-3.6z"/></symbol>
+        <symbol id="icon-mail" viewBox="0 0 24 24"><path d="M2.4 7.6v9.2a1.6 1.6 0 0 0 1.6 1.6h16a1.6 1.6 0 0 0 1.6-1.6V7.6L12 14z"/><path d="M21.2 5.4H2.8L12 11.8z"/></symbol>
+        <symbol id="icon-mail-open" viewBox="0 0 24 24"><path d="M2.4 9.8h19.2v9.6A1.6 1.6 0 0 1 20 21H4a1.6 1.6 0 0 1-1.6-1.6z"/><path d="M12 2.6 21.6 9.2h-3.8L12 5.3 6.2 9.2H2.4z"/><path d="m3.9 11.2 8.1 5.4 8.1-5.4 1.5 1.3-9.6 6.4-9.6-6.4z"/></symbol>
+        <symbol id="icon-map-marker" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2.4a7 7 0 0 0-7 7c0 5.2 7 12.2 7 12.2s7-7 7-12.2a7 7 0 0 0-7-7zm0 9.6a2.6 2.6 0 1 1 0-5.2 2.6 2.6 0 0 1 0 5.2z"/></symbol>
+        <symbol id="icon-newspaper" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M2.8 4.4h14.8v15.2H2.8zm2 2v11.2h10.8V6.4z"/><path d="M6 7.6h8.4v1.6H6z"/><path d="M6 10.8h8.4v1.6H6z"/><path d="M6 14h5.2v1.6H6z"/><path d="M18.4 8.4h2.8v9.6a1.4 1.4 0 0 1-2.8 0z"/></symbol>
+        <symbol id="icon-pause" viewBox="0 0 24 24"><rect x="7.4" y="4" width="3.6" height="16" rx="0.9"/><rect x="13" y="4" width="3.6" height="16" rx="0.9"/></symbol>
+    <symbol id="icon-play" viewBox="0 0 24 24"><path d="M8 4.5v15l12-7.5z"/></symbol>
+        <symbol id="icon-picture" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M2.4 5.2h19.2v13.6H2.4zm2 2v9.6h15.2V7.2z"/><path d="M5.6 16.4 10 11l2.6 3 2-2.2 4 4.6z"/><circle cx="8" cy="10.4" r="1.5"/></symbol>
+        <symbol id="icon-press-conference" viewBox="0 0 24 24"><circle cx="12" cy="5.2" r="2.6"/><path d="M7.6 12.2a4.4 4.4 0 0 1 8.8 0z"/><circle cx="4.9" cy="9.6" r="2.2"/><path d="M1.8 15.2a3.1 3.1 0 0 1 6.2 0z"/><circle cx="19.1" cy="9.6" r="2.2"/><path d="M16 15.2a3.1 3.1 0 0 1 6.2 0z"/><path d="M6.6 13.6h10.8l2.2 7.8H4.4z"/></symbol>
+        <symbol id="icon-print" viewBox="0 0 24 24"><path d="M6.4 2.8h11.2v4.4H6.4z"/><path d="M4 8.4h16a1.6 1.6 0 0 1 1.6 1.6v5.6a1.6 1.6 0 0 1-1.6 1.6h-1.6v-2.8H6v2.8H4a1.6 1.6 0 0 1-1.6-1.6V10A1.6 1.6 0 0 1 4 8.4z"/><path d="M7.2 15.6h9.6v5.6H7.2z"/></symbol>
+        <symbol id="icon-rss" viewBox="0 0 24 24"><circle cx="4.8" cy="19.2" r="2.4"/><path d="M2.4 11.2v3.2a6.4 6.4 0 0 1 6.4 6.4H12A9.6 9.6 0 0 0 2.4 11.2z"/><path d="M2.4 4.8V8A13.6 13.6 0 0 1 16 21.6h3.2A16.8 16.8 0 0 0 2.4 4.8z"/></symbol>
+        <symbol id="icon-search-plus" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M10 2.8a7.2 7.2 0 1 0 0 14.4 7.2 7.2 0 0 0 0-14.4zm0 2.4a4.8 4.8 0 1 1 0 9.6 4.8 4.8 0 0 1 0-9.6z"/><path d="M15.3 14.6 21.2 20.5l-1.5 1.5-5.9-5.9z"/><path d="M9.2 6.8h1.6v2.4h2.4v1.6h-2.4v2.4H9.2v-2.4H6.8V9.2h2.4z"/></symbol>
+        <symbol id="icon-share" viewBox="0 0 24 24"><circle cx="18" cy="5.6" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="18.4" r="3"/><path d="M8.3 10.9 15.7 7.2l.9 1.8-7.4 3.7z"/><path d="M9.2 13.1 16.6 16.8l-.9 1.8-7.4-3.7z"/></symbol>
+        <symbol id="icon-twitter" viewBox="0 0 24 24"><path d="M4.2 3h4.3l11.3 18h-4.3z"/><path d="M19.3 3h-2.6L4.2 21h2.6z"/></symbol>
+        <symbol id="icon-university" viewBox="0 0 24 24"><path d="M12 2.4 21.6 7.2v1.6H2.4V7.2z"/><path d="M4.8 10.4h2.4v8H4.8z"/><path d="M9.2 10.4h2.4v8H9.2z"/><path d="M13.4 10.4h2.4v8h-2.4z"/><path d="M17.6 10.4H20v8h-2.4z"/><path d="M3.2 19.8h17.6v1.8H3.2z"/></symbol>
+        <symbol id="icon-volume-up" viewBox="0 0 24 24"><path d="M3.2 9.2h3.3l5-4.2v14l-5-4.2H3.2z"/><path d="M14.6 8.4a5 5 0 0 1 0 7.2l1.6 1.6a7.2 7.2 0 0 0 0-10.4z"/><path d="M17.4 5.6a8.8 8.8 0 0 1 0 12.8l1.5 1.5a10.9 10.9 0 0 0 0-15.8z"/></symbol>
+        <symbol id="icon-whatsapp" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2.4a9.5 9.5 0 0 0-8.1 14.5L2.4 21.6l4.8-1.4A9.5 9.5 0 1 0 12 2.4zm0 2.2a7.3 7.3 0 1 1-3.8 13.5l-.4-.2-2.6.7.7-2.5-.3-.4A7.3 7.3 0 0 1 12 4.6z"/><path d="M9.4 7.8c-.2-.5-.4-.5-.6-.5h-.5a1 1 0 0 0-.7.3c-.3.3-.9.9-.9 2.1s.9 2.4 1 2.6c.1.2 1.7 2.8 4.3 3.8 2.1.8 2.6.7 3 .6.5 0 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.5-.3-1.6-.8c-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6 6 0 0 1-1.8-1.1 6.6 6.6 0 0 1-1.2-1.6c-.1-.2 0-.4.1-.5l.4-.5.3-.5v-.5z"/></symbol>
+        <symbol id="icon-youtube" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M21.6 7.2a2.8 2.8 0 0 0-2-2C17.9 4.8 12 4.8 12 4.8s-5.9 0-7.6.4a2.8 2.8 0 0 0-2 2A29 29 0 0 0 2 12a29 29 0 0 0 .4 4.8 2.8 2.8 0 0 0 2 2c1.7.4 7.6.4 7.6.4s5.9 0 7.6-.4a2.8 2.8 0 0 0 2-2A29 29 0 0 0 22 12a29 29 0 0 0-.4-4.8zM10.2 15.1V8.9l5.1 3.1z"/></symbol>
+    </defs>
+</svg>
+
+    <form method="post" action="./PressReleasePage.aspx?PRID=2330009&amp;reg=48&amp;lang=2" id="form1">
+<div class="aspNetHidden">
+<input type="hidden" name="sc_HiddenField" id="sc_HiddenField" value="" />
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="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" />
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['form1'];
+if (!theForm) {
+    theForm = document.form1;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<script src="/WebResource.axd?d=pynGkmcFUV13He1Qd6_TZPQet1wIx1Q48y3xJY2k25Y7qxH5RrQ9qQcN-OiTC9guZtri9w2&amp;t=639246315009809930" type="text/javascript"></script>
+
+
+<script src="/ScriptResource.axd?d=x6wALODbMJK5e0eRC_p1LdIxBJXt0U_WW5GWfJqHAqo6frgCmGRfEywglicTersO2OKrFhK1gAIp0Wk2al2YrpdR3uWqH6f4nfjBsCyRUfTUUVmb0&amp;t=ffffffffecf8d3f2" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=P5lTttoqSeZXoYRLQMIScH645UK3RD852IErF2548Wz9Ssv0rLjB4fhVKnHcMpqkaMHpNAGOeWY02Lf4aBYN9-dVBme_SNK5KJwmFQNpMixYDZ7M0&amp;t=ffffffffecf8d3f2" type="text/javascript"></script>
+<script src="/PressReleasePage.aspx?_TSM_HiddenField_=sc_HiddenField&amp;_TSM_CombinedScripts_=%3b%3bAjaxControlToolkit%2c+Version%3d3.5.7.123%2c+Culture%3dneutral%2c+PublicKeyToken%3d28f01b0e84b6d53e%3aen-US%3a5a4df314-b4a2-4da2-a207-9284f1b1e96c%3ade1feab2%3af2c8e708%3a8613aea7%3af9cec9bc%3a3202a5a2%3aab09e3fe%3a87104b7c%3a720a52bf%3a589eaa30%3aa67c2700%3abe6fb298" type="text/javascript"></script>
+<div class="aspNetHidden">
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="59B53027" />
+	<input type="hidden" name="__VIEWSTATEENCRYPTED" id="__VIEWSTATEENCRYPTED" value="" />
+	<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="Meh7iLblkbtVs8sVe8lWn2Bbp7Jc9udeHDB0TNAIouHs2gB8vb/p2F1zxax41B4BeKd0BaIt9se9NPT0Ju8VGmr7EeNPErWcrFF98BkU9wYaYbDr5NyGMIwMUoPoNxa8HB2gNSK1Q53onbp+R4sohJAOY4FGZcAPoSVi2CPoMFq+jTfelqyfJ6LZ980vnrQjuhgZP0RsHP4SnGT1FU1uomE5DkdXMeiNL8w7KFZ3gaiTVqdCobyx2FUrArogP5UITqBs4tQsaKORYAhGG4nI+wjcmU0=" />
+</div>
+        
+        <div id="templateCss"></div>
+        <script type="text/javascript">
+//<![CDATA[
+Sys.WebForms.PageRequestManager._initialize('sc', 'form1', ['tupdate12','update12'], [], [], 90, '');
+//]]>
+</script>
+
+        <input type="hidden" name="hfGridHtml" id="hfGridHtml" />
+        <div class="container" style='margin-bottom: 50px;'>
+            <div id="accessories">
+                
+                <div class="pull-right" style="display: flex">
+                    <div id="voll"></div>
+                    <div id="vollDT"></div>
+                    
+
+<span class="print-icons">
+<input type="image" name="Print1$print" id="Print1_print" aria-label="Print" src="images/printer_icon.png" alt="print page button" style="padding: 5px 10px 5px 10px;" />
+</span>
+                </div>
+            </div>
+            <input type="hidden" name="hydpermid" id="hydpermid" value="2330009" />
+            
+
+            <div class="innner-page-main-about-us-content-right-part">
+                <div id="MinistryName" class="MinistryNameSubhead text-center">
+                    Ministry of Health and Family Welfare
+                </div>
+                <div id="lg_g"><div class='log_oo'>  <img src='https://static.pib.gov.in/WriteReadData/specificdocs/photo/2026/sep/ph_9768_20260902_10000501.png' alt='azadi ka amrit mahotsav' /> </div></div>
+
+                <div class="text-center event-heading-background">
+                    
+                    <h1 id="Titleh2">
+                        Advancing Universal and Inclusive Senior Care: Ayushman Vay Vandana Marks Two Years of Transforming Healthcare for Elderly Citizens
+                    </h1>
+                    <h3 id="Subtitleh3">
+                        <span id="ltrSubtitle"><br/>6 Crore Senior Citizens Aged 70 Years and Above Empowered with Dignified, Cashless Healthcare Coverage, Irrespective of Socio-Economic Status<br/><br/>Ayushman Vay Vandana Provided 23.46 Lakh Hospital Admissions Valued at ₹5,668.80 Crore in Two Years<br/><br/>From Cataract Surgery to Cardiac Care: Ayushman Vay Vandana Facilitates Access to Cashless Hospital Treatment for Senior Citizens Aged 70 Years and Above&#160;<br/><br/>Transforming Senior Cardiac Care: Over ₹649 Crore Sanctioned for Advanced Heart Interventions</span>
+                    </h3>
+                    
+                    
+                </div>
+
+                
+                
+
+                <div id="PrDateTime" class="ReleaseDateSubHeaddateTime text-center pt20">
+                    Posted On:
+                              29 OCT 2026 3:33PM by PIB Delhi
+                </div>
+                
+                <div class='pt20'>
+                </div>
+                <input type="hidden" name="hydphotoUrl" id="hydphotoUrl" />
+                
+
+                <!-- Release content wrapper for client-side zero-reflow word count -->
+                <div id="pibReleaseBody">
+                    <p style="margin-left:0cm; margin-right:0cm; text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Driven by the continuous efforts and relentless dedication of the Government of India towards building an inclusive, accessible and world-class healthcare system, Ayushman Vay Vandana has successfully completed two years today. Launched by the Hon&rsquo;ble Prime Minister on 29<sup>th</sup> October 2024, this transformative initiative extends the benefits of the landmark Ayushman Bharat- Pradhan Mantri Jan Arogya Yojana (AB PM-JAY) to every citizen aged 70 years and above, irrespective of their socio-economic status.</span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm; text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Implemented by the National Health Authority (NHA) under the aegis of the Ministry of Health and Family Welfare, the initiative marks an important step towards extending health coverage and strengthening financial protection for approximately 6 crore senior citizens, belonging to around 4.5 crore families, across the country.</span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm; text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Under Ayushman Vay Vandana, all senior citizens aged 70 years and above are eligible for health coverage of up to ₹5 lakh per family per year for secondary and tertiary care hospitalisation.</span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm; text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">For senior citizens aged 70 years and above, belonging to families already covered under AB PM-JAY, an additional top-up cover of up to ₹5 lakh per year is available exclusively for themselves, separate from the cover available to other family members below 70 years of age. This provision extends the scheme&rsquo;s financial protection to eligible senior citizens aged 70 years and above, while preserving the coverage available to other family members.</span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm; text-align:center"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><img src="https://static.pib.gov.in/WriteReadData/userfiles/image/2026/oct/image001_20261029153510_f79158.jpg" style="height:744px; width:596px" /></span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm; text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">As on 20 October 2026, the initiative has recorded <strong>23.46 lakh authorised hospital admissions</strong>, reflecting the utilisation of hospital services by eligible senior citizens aged 70 years and above, under the scheme. The total value of these admissions stands at <strong>₹5,668.80 crore</strong>, representing the value of hospital care authorised under the scheme.</span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm; text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Cataract surgery is the most frequently availed procedure, with 4.71 lakh treatments constituting approximately 20.1 per cent of all authorised treatments. The volume of these procedures indicates that the initiative is addressing a long-standing gap in access to eye care among the elderly.</span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm; text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Chronic haemodialysis ranks next, with approximately 2.90 lakh treatments, providing sustained support to beneficiaries who require regular hospital-based care for kidney disease.</span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm; text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">In terms of authorised value,<strong> Percutaneous Transluminal Coronary Angioplasty (PTCA) accounts for the largest share, at approximately ₹649 crore</strong>. This underlines the role of the initiative in safeguarding beneficiaries against the high cost of specialised cardiac care.</span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm; text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Other prominent treatment categories include total knee replacement, management of acute exacerbation of Chronic Obstructive Pulmonary Disease (COPD), acute febrile illness, and acute kidney injury and renal failure. Taken together, these procedures span the continuum of hospital care, from routine surgical interventions to the management of complex and critical conditions.</span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm; text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Speaking on the occasion, Dr. Sunil Kumar Barnwal, CEO, National Health Authority, said, &ldquo;Ayushman Vay Vandana embodies our commitment to ensuring that senior citizens aged 70 years and above, can access healthcare with dignity, security and peace of mind. By extending AB PM-JAY coverage to all eligible citizens aged 70 years and above, irrespective of socio-economic status, the initiative strengthens financial protection for the elderly families. It is an important step towards building a more inclusive healthcare system that recognises the needs of our senior citizens and ensures that financial constraints do not stand in the way of essential hospital care.&rdquo;</span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm; text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">By extending the benefits of AB PM-JAY to all eligible senior citizens, irrespective of socio-economic status, Ayushman Vay Vandana reinforces the commitment of the Government of India to inclusive healthcare and financial protection in old age. As the initiative enters its third year, it will continue to widen the reach of publicly funded health coverage and to reduce the financial burden of hospitalisation on senior citizens and their families.</span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm; text-align:center"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">***</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><strong><span style="color:black">SR</span></strong></span></span></p>
+
+<p><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><strong><span style="color:black">HFW/</span>Ayushman Vay Vandana Completes Two Years/<span style="color:black">29<sup>th</sup> October2026/1</span></strong></span></span></p>
+
+                </div>
+
+                <div id="reel_pic">
+                </div>
+
+                <br />
+                <span id="ReleaseId">(Release ID: 2330009)</span>
+                <span id="lblViews">Visitor Counter : 1910</span>
+                <div>
+                    
+                </div>
+                
+
+                <span id="lblRefPhoto"></span>
+
+                <div class="BackgroundRelease">
+                    
+                </div>
+                <div>
+                    
+                </div>
+                <div class="ReleaseLang">Read this release in: 
+                
+                        <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=2330048' target="_blank">
+                            Urdu </a>
+                    
+                        ,
+                    
+                        <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=2330113' target="_blank">
+                            हिन्दी </a>
+                    
+                        ,
+                    
+                        <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=2330459' target="_blank">
+                            Punjabi </a>
+                    
+                        ,
+                    
+                        <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=2330188' target="_blank">
+                            Tamil </a>
+                    
+                        ,
+                    
+                        <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=2330112' target="_blank">
+                            Kannada </a>
+                    
+                </div>
+
+                
+                
+
+                <div class="RelTag">
+                    <ul>
+                        
+                    </ul>
+                </div>
+                <div class="clear">
+                </div>
+
+                <!-- DBIM 3.0 Option 4: Separator Line with Left Share Rail & Right Reading Metrics -->
+                <div class="pr-share pr-share--footer" role="region" aria-label="Share and reading details">
+                    <div class="pr-share__left">
+                        <span class="pr-share__label" aria-hidden="true">Share</span>
+                        <ul class="pr-share__list">
+                            <li><a class="pr-share__btn pr-share__btn--facebook"
+                                href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fpib.gov.in%2fPressReleasePage.aspx%3fPRID%3d2330009"
+                                target="_blank" rel="noopener noreferrer"
+                                aria-label="Share on Facebook">
+                                <svg class="dbim-icon dbim-icon-24" width="24" height="24" fill="currentColor" aria-hidden="true" focusable="false">
+                                    <use href="#icon-facebook" xlink:href="#icon-facebook"></use>
+                                </svg>
+                            </a></li>
+                            <li><a class="pr-share__btn pr-share__btn--twitter"
+                                href="https://twitter.com/intent/tweet?url=https%3a%2f%2fpib.gov.in%2fPressReleasePage.aspx%3fPRID%3d2330009"
+                                target="_blank" rel="noopener noreferrer"
+                                aria-label="Share on X">
+                                <svg class="dbim-icon dbim-icon-24" width="24" height="24" fill="currentColor" aria-hidden="true" focusable="false">
+                                    <use href="#icon-twitter" xlink:href="#icon-twitter"></use>
+                                </svg>
+                            </a></li>
+                            <li><a class="pr-share__btn pr-share__btn--whatsapp"
+                                href="https://api.whatsapp.com/send?text=https%3a%2f%2fpib.gov.in%2fPressReleasePage.aspx%3fPRID%3d2330009"
+                                target="_blank" rel="noopener noreferrer"
+                                aria-label="Share on WhatsApp">
+                                <svg class="dbim-icon dbim-icon-24" width="24" height="24" fill="currentColor" aria-hidden="true" focusable="false">
+                                    <use href="#icon-whatsapp" xlink:href="#icon-whatsapp"></use>
+                                </svg>
+                            </a></li>
+                            <li><a class="pr-share__btn pr-share__btn--linkedin"
+                                href="https://www.linkedin.com/sharing/share-offsite/?url=https%3a%2f%2fpib.gov.in%2fPressReleasePage.aspx%3fPRID%3d2330009"
+                                target="_blank" rel="noopener noreferrer"
+                                aria-label="Share on LinkedIn">
+                                <svg class="dbim-icon dbim-icon-24" width="24" height="24" fill="currentColor" aria-hidden="true" focusable="false">
+                                    <use href="#icon-linkedin" xlink:href="#icon-linkedin"></use>
+                                </svg>
+                            </a></li>
+                            <li><a class="pr-share__btn pr-share__btn--mail"
+                                href="mailto:?subject=Press+release+from+PIB&amp;body=https%3a%2f%2fpib.gov.in%2fPressReleasePage.aspx%3fPRID%3d2330009"
+                                aria-label="Share by email">
+                                <svg class="dbim-icon dbim-icon-24" width="24" height="24" fill="currentColor" aria-hidden="true" focusable="false">
+                                    <use href="#icon-mail" xlink:href="#icon-mail"></use>
+                                </svg>
+                            </a></li>
+                        </ul>
+                    </div>
+                    <div class="pr-reading-meta" id="prReadingMeta" aria-label="Reading statistics">
+                        <span class="pr-reading-meta__item">
+                            <!-- Modern Document / Word Count Icon -->
+                            <svg class="pr-reading-meta__icon" width="18" height="18" viewbox="0 0 16 16" fill="currentColor" aria-hidden="true" focusable="false">
+                                <path d="M5.5 7a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1zM5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5" />
+                                <path d="M9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.5zm0 1v2A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" />
+                            </svg>
+                            <span id="prWordCount">-- words</span>
+                        </span>
+
+                        <span class="pr-reading-meta__divider" aria-hidden="true">|</span>
+
+                        <span class="pr-reading-meta__item">
+                            <!-- Modern Precision Clock / Read Time Icon -->
+                            <svg class="pr-reading-meta__icon" width="18" height="18" viewbox="0 0 16 16" fill="currentColor" aria-hidden="true" focusable="false">
+                                <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z" />
+                                <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0" />
+                            </svg>
+                            <span id="prReadTime">-- min read</span>
+                        </span>
+                    </div>
+                </div>
+
+                <div id="RelLink" class="RelLink">
+                    <ul>
+                        
+                    </ul>
+                </div>
+                <center>
+                    
+                </center>
+            </div>
+
+            <div id="update12">
+	
+                    
+                    <input type="hidden" name="Hidden" id="Hidden" />
+                    <div id="P_CategoryManagement" class="ModalWindow" style="border-width:0px;height:60%;width:60%;overflow:auto;display: none">
+		
+                        <div>
+                            <input type="image" name="btnClose" id="btnClose" src="images/close_flat_icon.png" />
+                        </div>
+                        <div id="description">
+                        </div>
+                        <div class="text-center">
+                            <h2>
+                                
+                                <br>
+                                
+                            </h2>
+                        </div>
+                        <br />
+                        <div class="clear">
+                        </div>
+                        
+                    
+	</div>
+                
+</div>
+        </div>
+
+        <div id="PdfDiv" style="display: none;">
+            <table width="100%">
+                <tr>
+                    <td style="font-weight: 200; text-align: center">
+                        Ministry of Health and Family Welfare
+                        <div style="height: 30px; width: 100%;">
+                        </div>
+                        <div style="font-weight: 200; text-align: center; font-size: 30px;">
+                            Advancing Universal and Inclusive Senior Care: Ayushman Vay Vandana Marks Two Years of Transforming Healthcare for Elderly Citizens
+                        </div>
+                        <div style="height: 30px; width: 100%;">
+                        </div>
+                        <div style="font-weight: 200; text-align: center; font-size: 30px;">
+                            <div style='height:30px;width:100%;'></div>6 Crore Senior Citizens Aged 70 Years and Above Empowered with Dignified, Cashless Healthcare Coverage, Irrespective of Socio-Economic Status<div style='height:30px;width:100%;'></div><div style='height:30px;width:100%;'></div>Ayushman Vay Vandana Provided 23.46 Lakh Hospital Admissions Valued at ₹5,668.80 Crore in Two Years<div style='height:30px;width:100%;'></div><div style='height:30px;width:100%;'></div>From Cataract Surgery to Cardiac Care: Ayushman Vay Vandana Facilitates Access to Cashless Hospital Treatment for Senior Citizens Aged 70 Years and Above&#160;<div style='height:30px;width:100%;'></div><div style='height:30px;width:100%;'></div>Transforming Senior Cardiac Care: Over ₹649 Crore Sanctioned for Advanced Heart Interventions
+                        </div>
+                        <div style="height: 30px; width: 100%;">
+                        </div>
+                        <div style="text-align: center; font-size: 14px;">
+                            Posted On:
+                                          29 OCT 2026 3:33PM by PIB Delhi
+                        </div>
+                        <div style="height: 30px; width: 100%;">
+                        </div>
+                        <div style="font-weight: 200; text-align: left; font-size: 16px;">
+                            <p style="margin-left:0cm; margin-right:0cm; text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Driven by the continuous efforts and relentless dedication of the Government of India towards building an inclusive, accessible and world-class healthcare system, Ayushman Vay Vandana has successfully completed two years today. Launched by the Hon&rsquo;ble Prime Minister on 29<sup>th</sup> October 2024, this transformative initiative extends the benefits of the landmark Ayushman Bharat- Pradhan Mantri Jan Arogya Yojana (AB PM-JAY) to every citizen aged 70 years and above, irrespective of their socio-economic status.</span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm; text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Implemented by the National Health Authority (NHA) under the aegis of the Ministry of Health and Family Welfare, the initiative marks an important step towards extending health coverage and strengthening financial protection for approximately 6 crore senior citizens, belonging to around 4.5 crore families, across the country.</span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm; text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Under Ayushman Vay Vandana, all senior citizens aged 70 years and above are eligible for health coverage of up to ₹5 lakh per family per year for secondary and tertiary care hospitalisation.</span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm; text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">For senior citizens aged 70 years and above, belonging to families already covered under AB PM-JAY, an additional top-up cover of up to ₹5 lakh per year is available exclusively for themselves, separate from the cover available to other family members below 70 years of age. This provision extends the scheme&rsquo;s financial protection to eligible senior citizens aged 70 years and above, while preserving the coverage available to other family members.</span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm; text-align:center"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><img src="https://static.pib.gov.in/WriteReadData/userfiles/image/2026/oct/image001_20261029153510_f79158.jpg" style="height:744px; width:596px" /></span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm; text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">As on 20 October 2026, the initiative has recorded <strong>23.46 lakh authorised hospital admissions</strong>, reflecting the utilisation of hospital services by eligible senior citizens aged 70 years and above, under the scheme. The total value of these admissions stands at <strong>₹5,668.80 crore</strong>, representing the value of hospital care authorised under the scheme.</span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm; text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Cataract surgery is the most frequently availed procedure, with 4.71 lakh treatments constituting approximately 20.1 per cent of all authorised treatments. The volume of these procedures indicates that the initiative is addressing a long-standing gap in access to eye care among the elderly.</span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm; text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Chronic haemodialysis ranks next, with approximately 2.90 lakh treatments, providing sustained support to beneficiaries who require regular hospital-based care for kidney disease.</span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm; text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">In terms of authorised value,<strong> Percutaneous Transluminal Coronary Angioplasty (PTCA) accounts for the largest share, at approximately ₹649 crore</strong>. This underlines the role of the initiative in safeguarding beneficiaries against the high cost of specialised cardiac care.</span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm; text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Other prominent treatment categories include total knee replacement, management of acute exacerbation of Chronic Obstructive Pulmonary Disease (COPD), acute febrile illness, and acute kidney injury and renal failure. Taken together, these procedures span the continuum of hospital care, from routine surgical interventions to the management of complex and critical conditions.</span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm; text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Speaking on the occasion, Dr. Sunil Kumar Barnwal, CEO, National Health Authority, said, &ldquo;Ayushman Vay Vandana embodies our commitment to ensuring that senior citizens aged 70 years and above, can access healthcare with dignity, security and peace of mind. By extending AB PM-JAY coverage to all eligible citizens aged 70 years and above, irrespective of socio-economic status, the initiative strengthens financial protection for the elderly families. It is an important step towards building a more inclusive healthcare system that recognises the needs of our senior citizens and ensures that financial constraints do not stand in the way of essential hospital care.&rdquo;</span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm; text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">By extending the benefits of AB PM-JAY to all eligible senior citizens, irrespective of socio-economic status, Ayushman Vay Vandana reinforces the commitment of the Government of India to inclusive healthcare and financial protection in old age. As the initiative enters its third year, it will continue to widen the reach of publicly funded health coverage and to reduce the financial burden of hospitalisation on senior citizens and their families.</span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm; text-align:center"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">***</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><strong><span style="color:black">SR</span></strong></span></span></p>
+
+<p><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><strong><span style="color:black">HFW/</span>Ayushman Vay Vandana Completes Two Years/<span style="color:black">29<sup>th</sup> October2026/1</span></strong></span></span></p>
+
+                        </div>
+                        <div style="height: 30px; width: 100%;">
+                        </div>
+                        <div style="height: 30px; width: 100%;">
+                        </div>
+                        <div style="font-weight: 100; text-align: left; font-size: 16px;">
+                            (Release ID: 2330009)
+                        </div>
+                        <div style="height: 30px; width: 100%;">
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 200; text-align: center; font-size: 24px;"></td>
+                </tr>
+            </table>
+        </div>
+        <div class="clearfix">
+        </div>
+
+        <div class="section1">
+            <div id="frst_t">
+                <div id="arr_rm"><div class='sticky-social_mb'><ul class='social_mb'><a href='http://www.facebook.com/share.php?u=https://pib.gov.in/PressReleasePage.aspx?PRID=2330009' target='_blank'><li class='fb_b'   ></li></a><a href='https://twitter.com/intent/tweet?url=https://pib.gov.in/PressReleasePage.aspx?PRID=2330009&text=Advancing Universal and Inclusive Senior Care: Ayushman Vay Vandana Marks Two Years of Transforming Healthcare for Elderly Citizens' target='_blank'><li class='twitter_r'  > </li></a><a href='https://api.whatsapp.com/send?text=https://pib.gov.in/PressReleasePage.aspx?PRID=2330009' target='_blank'><li class='whatsapp_r'  ></li></a><a href='https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=&su=Advancing Universal and Inclusive Senior Care: Ayushman Vay Vandana Marks Two Years of Transforming Healthcare for Elderly Citizens&body=https://pib.gov.in/PressReleasePage.aspx?PRID=2330009&ui=2&tf=1&pli=1' title='Share by Email' target='_blank'><li class='fa-envelope_r' ></li></a><a href='https://www.linkedin.com/shareArticle?mini=true&url=https://pib.gov.in/PressReleasePage.aspx?PRID=2330009&title=Advancing Universal and Inclusive Senior Care: Ayushman Vay Vandana Marks Two Years of Transforming Healthcare for Elderly Citizens&summary=My%20favorite%20developer%20program&source=LinkedIn' target='_blank'><li class='fa-linkedin_r'  ></li></a></ul></div></div>
+            </div>
+            <div id="second_t">
+                <div id="sndr_rm"><div class='sticky-social'><ul class='social'><a href='http://www.facebook.com/share.php?u=https://pib.gov.in/PressReleasePage.aspx?PRID=2330009' target='_blank'><li class='fb_b'   ></li></a><a href='https://twitter.com/intent/tweet?url=https://pib.gov.in/PressReleasePage.aspx?PRID=2330009&text=Advancing Universal and Inclusive Senior Care: Ayushman Vay Vandana Marks Two Years of Transforming Healthcare for Elderly Citizens' target='_blank'><li class='twitter_r'  > </li></a><a href='https://api.whatsapp.com/send?text=https://pib.gov.in/PressReleasePage.aspx?PRID=2330009' target='_blank'><li class='whatsapp_r'  ></li></a><a href='https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=&su=Advancing Universal and Inclusive Senior Care: Ayushman Vay Vandana Marks Two Years of Transforming Healthcare for Elderly Citizens&body=https://pib.gov.in/PressReleasePage.aspx?PRID=2330009&ui=2&tf=1&pli=1' title='Share by Email' target='_blank'><li class='fa-envelope_r' ></li></a><a href='https://www.linkedin.com/shareArticle?mini=true&url=https://pib.gov.in/PressReleasePage.aspx?PRID=2330009&title=Advancing Universal and Inclusive Senior Care: Ayushman Vay Vandana Marks Two Years of Transforming Healthcare for Elderly Citizens&summary=My%20favorite%20developer%20program&source=LinkedIn' target='_blank'><li class='fa-linkedin_r'  ></li></a></ul></div></div>
+            </div>
+        </div>
+        <input type="hidden" name="ltrTitlee" id="ltrTitlee" value="Advancing Universal and Inclusive Senior Care: Ayushman Vay Vandana Marks Two Years of Transforming Healthcare for Elderly Citizens" />
+        <input type="hidden" name="ltrSubtitlee" id="ltrSubtitlee" value="&lt;br/>6 Crore Senior Citizens Aged 70 Years and Above Empowered with Dignified, Cashless Healthcare Coverage, Irrespective of Socio-Economic Status&lt;br/>&lt;br/>Ayushman Vay Vandana Provided 23.46 Lakh Hospital Admissions Valued at ₹5,668.80 Crore in Two Years&lt;br/>&lt;br/>From Cataract Surgery to Cardiac Care: Ayushman Vay Vandana Facilitates Access to Cashless Hospital Treatment for Senior Citizens Aged 70 Years and Above&amp;#160;&lt;br/>&lt;br/>Transforming Senior Cardiac Care: Over ₹649 Crore Sanctioned for Advanced Heart Interventions" />
+        <input type="hidden" name="ltrDescriptionn" id="ltrDescriptionn" value="&lt;p style=&quot;margin-left:0cm; margin-right:0cm; text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>Driven by the continuous efforts and relentless dedication of the Government of India towards building an inclusive, accessible and world-class healthcare system, Ayushman Vay Vandana has successfully completed two years today. Launched by the Hon&amp;rsquo;ble Prime Minister on 29th October 2024, this transformative initiative extends the benefits of the landmark Ayushman Bharat- Pradhan Mantri Jan Arogya Yojana (AB PM-JAY) to every citizen aged 70 years and above, irrespective of their socio-economic status.&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;margin-left:0cm; margin-right:0cm; text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>Implemented by the National Health Authority (NHA) under the aegis of the Ministry of Health and Family Welfare, the initiative marks an important step towards extending health coverage and strengthening financial protection for approximately 6 crore senior citizens, belonging to around 4.5 crore families, across the country.&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;margin-left:0cm; margin-right:0cm; text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>Under Ayushman Vay Vandana, all senior citizens aged 70 years and above are eligible for health coverage of up to ₹5 lakh per family per year for secondary and tertiary care hospitalisation.&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;margin-left:0cm; margin-right:0cm; text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>For senior citizens aged 70 years and above, belonging to families already covered under AB PM-JAY, an additional top-up cover of up to ₹5 lakh per year is available exclusively for themselves, separate from the cover available to other family members below 70 years of age. This provision extends the scheme&amp;rsquo;s financial protection to eligible senior citizens aged 70 years and above, while preserving the coverage available to other family members.&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;margin-left:0cm; margin-right:0cm; text-align:center&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;img src=&quot;https://static.pib.gov.in/WriteReadData/userfiles/image/2026/oct/image001_20261029153510_f79158.jpg&quot; style=&quot;height:744px; width:596px&quot; />&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;margin-left:0cm; margin-right:0cm; text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>As on 20 October 2026, the initiative has recorded &lt;strong>23.46 lakh authorised hospital admissions&lt;/strong>, reflecting the utilisation of hospital services by eligible senior citizens aged 70 years and above, under the scheme. The total value of these admissions stands at &lt;strong>₹5,668.80 crore&lt;/strong>, representing the value of hospital care authorised under the scheme.&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;margin-left:0cm; margin-right:0cm; text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>Cataract surgery is the most frequently availed procedure, with 4.71 lakh treatments constituting approximately 20.1 per cent of all authorised treatments. The volume of these procedures indicates that the initiative is addressing a long-standing gap in access to eye care among the elderly.&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;margin-left:0cm; margin-right:0cm; text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>Chronic haemodialysis ranks next, with approximately 2.90 lakh treatments, providing sustained support to beneficiaries who require regular hospital-based care for kidney disease.&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;margin-left:0cm; margin-right:0cm; text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>In terms of authorised value,&lt;strong> Percutaneous Transluminal Coronary Angioplasty (PTCA) accounts for the largest share, at approximately ₹649 crore&lt;/strong>. This underlines the role of the initiative in safeguarding beneficiaries against the high cost of specialised cardiac care.&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;margin-left:0cm; margin-right:0cm; text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>Other prominent treatment categories include total knee replacement, management of acute exacerbation of Chronic Obstructive Pulmonary Disease (COPD), acute febrile illness, and acute kidney injury and renal failure. Taken together, these procedures span the continuum of hospital care, from routine surgical interventions to the management of complex and critical conditions.&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;margin-left:0cm; margin-right:0cm; text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>Speaking on the occasion, Dr. Sunil Kumar Barnwal, CEO, National Health Authority, said, &amp;ldquo;Ayushman Vay Vandana embodies our commitment to ensuring that senior citizens aged 70 years and above, can access healthcare with dignity, security and peace of mind. By extending AB PM-JAY coverage to all eligible citizens aged 70 years and above, irrespective of socio-economic status, the initiative strengthens financial protection for the elderly families. It is an important step towards building a more inclusive healthcare system that recognises the needs of our senior citizens and ensures that financial constraints do not stand in the way of essential hospital care.&amp;rdquo;&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;margin-left:0cm; margin-right:0cm; text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>By extending the benefits of AB PM-JAY to all eligible senior citizens, irrespective of socio-economic status, Ayushman Vay Vandana reinforces the commitment of the Government of India to inclusive healthcare and financial protection in old age. As the initiative enters its third year, it will continue to widen the reach of publicly funded health coverage and to reduce the financial burden of hospitalisation on senior citizens and their families.&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;margin-left:0cm; margin-right:0cm; text-align:center&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>***&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;strong>&lt;span style=&quot;color:black&quot;>SR&lt;/span>&lt;/strong>&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;strong>&lt;span style=&quot;color:black&quot;>HFW/&lt;/span>Ayushman Vay Vandana Completes Two Years/&lt;span style=&quot;color:black&quot;>29th October2026/1&lt;/span>&lt;/strong>&lt;/span>&lt;/span>&lt;/p>
+" />
+        <script type="text/javascript">
+                  var mPlayer = document.getElementById("background_music");
+                  var mPlayAction = document.getElementById("playbutton");
+                  var isPlaying = false;
+
+                  function playAudio() {
+                        mPlayer.play();
+                        isPlaying = true;
+                        document.getElementById('stopA').style.display = "block";
+                        document.getElementById('playA').style.display = "none";
+                  }
+
+                  function pauseAudio() {
+                        mPlayer.pause();
+                        isPlaying = false;
+                        document.getElementById('playA').style.display = "block";
+                        document.getElementById('stopA').style.display = "none";
+                  }
+        </script>
+        <script type="text/javascript">
+                  var synth = window.speechSynthesis;
+
+                  function CleanHtml(html) {
+                        html = html.replace(/<script[\s\S]*?<\/script>/gi, '');
+                        return html;
+                  }
+                  function stripHtml(html) {
+                        let tmp = document.createElement("DIV");
+                        tmp.innerHTML = CleanHtml(html);
+                        return tmp.textContent || tmp.innerText || "";
+                  }
+        </script>
+        <script type="text/javascript">
+                  $(document).ready(function () {
+                        $("table").each(function () {
+                              if (!$(this).closest(".table-responsive").length) {
+                                    $(this).wrap("<div class='table-responsive'></div>");
+                              }
+                        });
+
+                        var width = $(window).width();
+                        if (width < 768) {
+                              document.getElementById('frst_t').style.display = "block";
+                              document.getElementById('second_t').style.display = "none";
+                        } else if (width < 991) {
+                              document.getElementById('frst_t').style.display = "block";
+                              document.getElementById('second_t').style.display = "none";
+                        } else if (width < 1199) {
+                              document.getElementById('frst_t').style.display = "none";
+                              document.getElementById('second_t').style.display = "block";
+                        } else {
+                              document.getElementById('frst_t').style.display = "none";
+                              document.getElementById('second_t').style.display = "block";
+                        }
+                  });
+        </script>
+        <style type="text/css">
+            @media print {
+                .sticky-social, .sticky-social_mb, .pull-right, #printPDF {
+                    display: none !important;
+                }
+            }
+
+            .f_vl {
+                padding-right: 30px;
+                font-size: 17px;
+                cursor: pointer;
+            }
+
+            .log_oo {
+                display: flex;
+                justify-content: space-between;
+            }
+
+                .log_oo img {
+                    width: 150px;
+                }
+
+            .sticky-social_mb {
+                position: fixed;
+                bottom: 0px;
+                padding: 0px;
+                margin: 0px;
+                width: 100%;
+            }
+
+            .social_mb {
+                list-style: none;
+                display: flex;
+                width: 100%;
+                margin-bottom: -8px;
+            }
+
+                .social_mb a {
+                    padding: 8px 0px;
+                    font-size: 30px;
+                    transition: all 0.8s ease-in-out;
+                    width: 20% !important;
+                    text-align: center;
+                }
+        </style>
+        <style type="text/css">
+            .section1 {
+                position: relative;
+                padding: 10px 0px;
+                width: 100%;
+            }
+
+            .sticky-social {
+                position: fixed;
+                top: 20px;
+                left: 0px;
+                padding: 0px;
+                margin: 0px;
+            }
+
+            .social {
+                list-style: none;
+            }
+
+                .social a li {
+                    padding: 8px 12px;
+                    font-size: 25px;
+                    transition: all 0.8s ease-in-out;
+                }
+
+                    .social a li:hover {
+                        margin-right: -30px;
+                        box-shadow: 2px 5px 10px grey;
+                    }
+
+                        .social a li:hover .fa {
+                            margin-left: 20px;
+                        }
+
+            .fb_b {
+                background-color: var(--dbim-key, #0F5757);
+            }
+
+            .twitter_r {
+                background-color: var(--dbim-key, #0F5757);
+            }
+
+            .whatsapp_r {
+                background-color: var(--dbim-key, #0F5757);
+            }
+
+            .fa-envelope_r {
+                background-color: var(--dbim-key, #0F5757);
+            }
+
+            .fa-linkedin_r {
+                background-color: var(--dbim-key, #0F5757);
+            }
+        </style>
+        <style type="text/css">
+            @media only screen and (max-device-width: 767px) {
+                p span img {
+                    max-width: 90% !important;
+                    height: auto !important;
+                }
+
+                p img {
+                    max-width: 90% !important;
+                    height: auto !important;
+                }
+
+                h2 {
+                    font-size: var(--dbim-h2, 20px);
+                    font-weight: 600 !important;
+                }
+
+                h3 {
+                    font-size: var(--dbim-h3, 16px);
+                    font-weight: 600 !important;
+                }
+            }
+        </style>
+        <style type="text/css">
+            .film-roll-badge {
+                position: absolute;
+                top: 82%;
+                right: 20px;
+                width: 230px;
+                height: 70px;
+                background: repeating-linear-gradient( to right, var(--dbim-green-key, #0F5757) 0px, var(--dbim-green-key, #0F5757) 18px, var(--dbim-text, #150202) 18px, var(--dbim-text, #150202) 36px );
+                border-top: 8px solid var(--dbim-green-key, #0F5757);
+                border-bottom: 8px solid var(--dbim-green-key, #0F5757);
+                border-radius: 8px;
+                overflow: hidden;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+                animation: moveFilm 8s linear infinite;
+                z-index: 10;
+            }
+
+                .film-roll-badge::before,
+                .film-roll-badge::after {
+                    content: "";
+                    position: absolute;
+                    width: 100%;
+                    height: 10px;
+                    background: repeating-linear-gradient( to right, var(--dbim-green-key, #0F5757) 0px, var(--dbim-green-key, #0F5757) 10px, #fff 10px, #fff 20px );
+                    left: 0;
+                    z-index: 2;
+                }
+
+                .film-roll-badge::before {
+                    top: -4px;
+                }
+
+                .film-roll-badge::after {
+                    bottom: -4px;
+                }
+
+            .film-roll-inner {
+                position: relative;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                animation: flicker 2s infinite ease-in-out;
+            }
+
+            .countdown-text {
+                font-size: 1.3rem;
+                font-weight: 700;
+                color: #fff;
+                text-shadow: 0 0 6px rgba(255, 255, 255, 0.4), 0 0 10px #000;
+                white-space: nowrap;
+            }
+
+            @keyframes moveFilm {
+                0% {
+                    background-position: 0 0;
+                }
+
+                100% {
+                    background-position: 120px 0;
+                }
+            }
+
+            @keyframes flicker {
+                0%, 100% {
+                    opacity: 1;
+                }
+
+                50% {
+                    opacity: 0.9;
+                }
+
+                25% {
+                    opacity: 0.95;
+                }
+
+                75% {
+                    opacity: 0.85;
+                }
+            }
+
+            @media (max-width: 1500px) {
+                .film-roll-badge {
+                    top: 68%;
+                    right: 18px;
+                    height: 65px;
+                    font-size: 0.85rem;
+                }
+
+                .press-section {
+                    margin-top: 35px;
+                }
+            }
+
+            @media (max-width: 992px) {
+                .film-roll-badge {
+                    top: 52%;
+                    right: 10px;
+                    width: 200px;
+                    height: 60px;
+                }
+            }
+
+            @media (max-width: 768px) {
+                .film-roll-badge {
+                    top: 56%;
+                    right: 10px;
+                    width: 124px;
+                    height: 55px;
+                }
+
+                .countdown-text {
+                    font-size: 0.9rem;
+                }
+            }
+
+            @media (max-width: 576px) {
+                .film-roll-badge {
+                    top: 59%;
+                    right: 5px;
+                    height: 50px;
+                }
+
+                .countdown-text {
+                    font-size: 0.85rem;
+                }
+            }
+        </style>
+        <script type="text/javascript">
+                  const festivalStart = new Date("2025-11-20T00:00:00").getTime();
+                  const festivalEnd = new Date("2025-11-28T23:59:59").getTime();
+                  const countdownElement = document.getElementById("countdown");
+
+                  if (countdownElement) {
+                        const interval = setInterval(() => {
+                              const now = new Date().getTime();
+
+                              if (now < festivalStart) {
+                                    const diff = festivalStart - now;
+                                    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                                    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+                                    countdownElement.innerHTML = `${days} Day${days !== 1 ? 's' : ''} ${hours} Hour${hours !== 1 ? 's' : ''} to go`;
+                              } else if (now >= festivalStart && now <= festivalEnd) {
+                                    const dayNumber = Math.floor((now - festivalStart) / (1000 * 60 * 60 * 24)) + 1;
+                                    countdownElement.innerHTML = `56th IFFI - Day ${dayNumber}`;
+                              } else {
+                                    countdownElement.innerHTML = `✨ IFFI closes but never ends…`;
+                                    const elements = document.querySelectorAll('.film-roll-badge');
+                                    elements.forEach(el => el.style.width = "350px");
+                                    clearInterval(interval);
+                              }
+                        }, 1000);
+                  }
+        </script>
+        <script type="text/javascript">
+                  const miffStart = new Date("2026-06-15T00:00:00").getTime();
+                  const miffEnd = new Date("2026-06-15T23:59:59").getTime();
+                  const miffElement = document.getElementById("miff");
+
+                  if (miffElement) {
+                        const miffInterval = setInterval(() => {
+                              const now = new Date().getTime();
+
+                              if (now < miffStart) {
+                                    const diff = miffStart - now;
+                                    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                                    miffElement.innerHTML = `${days} Day${days === 1 ? '' : 's'} to MIFF ...`;
+                              } else if (now >= miffStart && now <= miffEnd) {
+                                    const dayNumber = Math.floor((now - miffStart) / (1000 * 60 * 60 * 24)) + 1;
+                                    miffElement.innerHTML = `19th MIFF - Day ${dayNumber}`;
+                              } else {
+                                    miffElement.innerHTML = `✨ MIFF concludes, cinema lives on...`;
+                                    document.querySelectorAll('.film-roll-badge').forEach(el => el.style.width = "350px");
+                                    clearInterval(miffInterval);
+                              }
+                        }, 1000);
+                  }
+        </script>
+    
+
+<script type="text/javascript">
+//<![CDATA[
+(function() {var fn = function() {$get("sc_HiddenField").value = '';Sys.Application.remove_init(fn);};Sys.Application.add_init(fn);})();Sys.Application.add_init(function() {
+    $create(Sys.Extended.UI.ModalPopupBehavior, {"BackgroundCssClass":"modalBackground","PopupControlID":"P_CategoryManagement","dynamicServicePath":"/PressReleasePage.aspx","id":"mpe"}, null, null, $get("Hidden"));
+});
+//]]>
+</script>
+<input type="hidden" name="__ncforminfo" value="3kM0UY_Ek_U4NcrhgN5xCoqtRhF6dlxheWFWrlToaW01dbJO9Ksi2d4mX_emvQsGMP968B2PEOpwG5EIAtLY5r_u1fz6SmKpRlhfz1iUmKGcxljJb3FSSQ=="/></form>
+    
+
+<script type="application/json" id="pibConsentConfig">{"ga4Id":"G-Q414Y0X6EE,G-QJJ6LZ8LHV","policyUrl":"/CookiePolicy.aspx","text":{"bannerLabel":"Cookie consent","title":"Cookies on this website","body":"We use essential cookies to make this website work. We also set analytics cookies when you arrive, so we can see how the site is used and improve it - you can switch these off below or at any time from the Cookie Policy page. Cookies from embedded social media content are set only if you allow them.","policyLink":"Read our Cookie Policy","accept":"Accept all","reject":"Reject optional","customize":"Customise","prefsTitle":"Cookie preferences","prefsIntro":"Choose which cookies this website may set. Essential cookies cannot be switched off because the site does not work without them. Analytics cookies are on unless you turn them off. Social media cookies stay off until you allow them. You can change these choices at any time from the Cookie Policy page.","essentialName":"Essential cookies","essentialDesc":"Needed for the site to function. These remember your session, your language and region, your text size and colour theme, and verify the security check on forms. They are always on.","analyticsName":"Analytics cookies","analyticsDesc":"Help us understand how visitors use the site - which pages are read and how long people stay - so it can be improved. The information is collected in a form that does not directly identify you. These are on when you arrive; switching them off here stops them and deletes the ones already set.","socialName":"Social media cookies","socialDesc":"Set by content embedded from X, Facebook and YouTube, such as timelines and videos. These platforms may use them to track you across websites. They stay off until you allow them.","save":"Save preferences","cancel":"Cancel"}}</script>
+<script type="text/javascript" src='/js/consent.js?v=10'></script>
+
+<script type="text/javascript" src='/js/consent-embeds.js?v=10'></script>
+
+
+    <!-- Minimal O(N) Time and O(1) Auxiliary Space Word Count & Read Time Calculation -->
+    <script type="text/javascript">
+            (function () {
+                  function calculateReadingStats() {
+                        var bodyEl = document.getElementById("pibReleaseBody");
+                        if (!bodyEl) return;
+
+                        // textContent extracts text without triggering expensive layout/reflow computations
+                        var text = bodyEl.textContent || "";
+                        var words = 0;
+                        var inWord = false;
+
+                        // O(N) single pass character code scan: achieves O(1) space with zero array allocations
+                        for (var i = 0, len = text.length; i < len; i++) {
+                              var code = text.charCodeAt(i);
+                              // Delimits on ASCII whitespace, control characters, tabs, newlines, and non-breaking spaces (160)
+                              if (code <= 32 || code === 160) {
+                                    inWord = false;
+                              } else if (!inWord) {
+                                    inWord = true;
+                                    words++;
+                              }
+                        }
+
+                        // Standard 250 WPM reading speed (e.g., 612 words yields 2 min read)
+                        var minutes = Math.max(1, Math.round(words / 250));
+
+                        var elWords = document.getElementById("prWordCount");
+                        var elTime = document.getElementById("prReadTime");
+
+                        if (elWords) elWords.textContent = words + (words === 1 ? " word" : " words");
+                        if (elTime) elTime.textContent = minutes + " min read";
+                  }
+
+                  if (document.readyState === "loading") {
+                        document.addEventListener("DOMContentLoaded", calculateReadingStats);
+                  } else {
+                        calculateReadingStats();
+                  }
+            })();
+    </script>
+
+    <script type="text/javascript">
+(function () {
+    try {
+        if (window.self === window.top) { return; }
+    } catch (e) { return; }
+    var s = document.createElement("style");
+    s.textContent = ".sticky-social, .sticky-social_mb { display: none !important; }";
+    (document.head || document.documentElement).appendChild(s);
+}());
+    </script>
+</body>
+</html>
