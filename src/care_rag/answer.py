@@ -60,6 +60,7 @@ class AnswerResult:
     model: str | None = None
     latency_ms: dict = field(default_factory=dict)
     unverified_numbers: list[str] = field(default_factory=list)  # numbers not in any passage
+    cached: bool = False  # the LLM response came from the local cache
 
     @property
     def uncited(self) -> bool:
@@ -186,7 +187,7 @@ def answer(
     text = resp.text.strip()
     if is_refusal(text):
         return AnswerResult(question, REFUSAL, True, "llm", [], [], hits, search_query,
-                            resp.provider, resp.model, lat)
+                            resp.provider, resp.model, lat, cached=resp.cached)
 
     cited = cited_numbers(text)
     valid = [n for n in cited if 1 <= n <= len(hits)]
@@ -197,4 +198,5 @@ def answer(
         for h in [hits[n - 1]]
     ]
     return AnswerResult(question, text, False, None, citations, invalid, hits, search_query,
-                        resp.provider, resp.model, lat, unverified_numbers(text, hits, question))
+                        resp.provider, resp.model, lat, unverified_numbers(text, hits, question),
+                        cached=resp.cached)

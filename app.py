@@ -18,13 +18,13 @@ from care_rag.sources import load_sources  # noqa: E402
 st.set_page_config(page_title="Ask-a-Care-Resource", page_icon="🤝", layout="centered")
 
 EXAMPLES = {
-    "🏥 Free treatment at 70+": "My mother is 74. Is there a government scheme that pays for "
+    "🏥 Free treatment": "My mother is 74. Is there a government scheme that pays for "
     "her hospital treatment?",
-    "🏠 Thrown out of home": "beta ghar se nikal diya hai papa ko, unke paas paise nahi hai, "
+    "🏠 Thrown out": "beta ghar se nikal diya hai papa ko, unke paas paise nahi hai, "
     "kya kar sakte hain?",
-    "📞 हेल्पलाइन नंबर": "वरिष्ठ नागरिकों के लिए हेल्पलाइन नंबर क्या है?",
+    "📞 हेल्पलाइन": "वरिष्ठ नागरिकों के लिए हेल्पलाइन नंबर क्या है?",
     "💰 Delhi pension": "How much old age pension does Delhi pay to a 72-year-old?",
-    "🚆 Railway concession": "What concession do senior citizens get on railway tickets?",
+    "🚆 Rail discount": "What concession do senior citizens get on railway tickets?",
 }
 CONFIG_LABELS = {
     "hybrid_rerank_small": "Hybrid + reranker (recommended)",
@@ -152,8 +152,11 @@ def render(res: AnswerResult) -> None:
                            f"{h.ranks.get('dense')} · BM25 rank {h.ranks.get('bm25')}")
                 st.text(h.chunk.text[:1000])
 
-    lat = " · ".join(f"{k} {v / 1000:.1f}s" for k, v in res.latency_ms.items())
+    lat = " · ".join(f"{k} {v / 1000:.1f}s" for k, v in res.latency_ms.items()
+                     if not (res.cached and k in ("generate", "total")))
     model = f"{res.provider}:{res.model}" if res.provider else "no LLM call"
+    if res.cached:
+        model += " (cached answer)"
     st.markdown(f"<span class='muted'>{model} · {lat}</span>", unsafe_allow_html=True)
 
 
@@ -164,7 +167,10 @@ for turn in st.session_state.history:
         render(turn)
 
 question = st.chat_input("e.g. papa 81 saal ke hain, BPL card hai, kitni pension milegi?")
-question = (question or picked or "").strip()
+# A shareable link such as /?q=helpline+number opens the app with that question answered.
+linked = st.query_params.get("q") if not st.session_state.get("linked_done") else None
+st.session_state["linked_done"] = True
+question = (question or picked or linked or "").strip()
 if question:
     with st.chat_message("user"):
         st.markdown(question)

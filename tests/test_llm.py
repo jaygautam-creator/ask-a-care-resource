@@ -36,3 +36,10 @@ def test_fallback_to_next_provider():
 def test_parse_json_with_fences():
     assert parse_json('```json\n{"a": 1}\n```') == {"a": 1}
     assert parse_json('Here: {"claims": []} done') == {"claims": []}
+
+
+def test_redact():
+    from care_rag.llm import redact
+
+    out = redact("limit for org_01kw3zq2abc key gsk_abcdefghijklmnop AIzaSyA1234567890abc")
+    assert "01kw3zq2abc" not in out and "abcdefghijklmnop" not in out and "1234567890" not in out

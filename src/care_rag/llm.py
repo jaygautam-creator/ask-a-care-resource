@@ -202,6 +202,12 @@ RETRY_IN_RE = re.compile(r"try again in (?:(\d+)m)?(\d+(?:\.\d+)?)s", re.I)
 MAX_WAIT_S = 120  # a provider asking us to wait longer than this is skipped
 
 
+def redact(msg: str) -> str:
+    """Error text can end up in results files: strip account identifiers and key-like strings."""
+    msg = re.sub(r"org_[A-Za-z0-9]+", "org_<redacted>", msg)
+    return re.sub(r"(AIza|gsk_)[A-Za-z0-9_-]{10,}", r"\1<redacted>", msg)
+
+
 def retry_wait(msg: str, attempt: int) -> float | None:
     """Seconds to wait before retrying this error, or None if retrying is pointless."""
     low = msg.lower()
@@ -247,7 +253,7 @@ class LLM:
                     if wait is not None and attempt < self.attempts - 1:
                         time.sleep(wait)  # free tiers: per-minute limits, overload
                         continue
-                    errors.append(f"{p.name}: {type(exc).__name__}: {msg[:200]}")
+                    errors.append(f"{p.name}: {type(exc).__name__}: {redact(msg)[:200]}")
                     break
                 latency = (time.perf_counter() - t0) * 1000
                 if self.cache:
