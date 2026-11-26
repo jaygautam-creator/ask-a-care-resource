@@ -76,3 +76,17 @@ def test_cited_numbers_forms():
 
     assert cited_numbers("A [1]. B [2][3]. C [1, 4]. D [3,5]") == [1, 2, 3, 4, 5]
     assert cited_numbers("no citations, see section [a]") == []
+
+
+def test_unverified_numbers():
+    from care_rag.answer import unverified_numbers
+    from care_rag.chunk import Chunk
+    from care_rag.retrieve import Hit
+
+    text = "Cover of ₹5 lakh per year; top-up up to Rs. 5 lakhs. Call 14567. Rate 8.20%. Age 70."
+    hits = [Hit(Chunk("d#000", "d", "t", "u", "s", text, "en", "c"), 1.0)]
+    assert unverified_numbers("You get Rs 5 lakh [1] and the rate is 8.2% [1].", hits) == []
+    assert unverified_numbers("Helpline 14567 [1], age 70 or above [2].", hits) == []
+    assert unverified_numbers("An extra 7 lakh top-up [1].", hits) == ["7 lakh"]
+    assert unverified_numbers("Call 1800110770 [1].", hits) == ["1800110770"]
+    assert unverified_numbers("Up to 5 years [1].", hits) == []  # bare 5 exists in source

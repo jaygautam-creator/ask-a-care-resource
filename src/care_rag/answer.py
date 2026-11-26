@@ -59,10 +59,43 @@ class AnswerResult:
     provider: str | None = None
     model: str | None = None
     latency_ms: dict = field(default_factory=dict)
+    unverified_numbers: list[str] = field(default_factory=list)  # numbers not in any passage
 
     @property
     def uncited(self) -> bool:
         return not self.refused and not self.citations
+
+
+# A number, optionally followed by the unit that gives it meaning ("5 lakh" != "5 years").
+NUM_RE = re.compile(r"(?<![\w.])(\d[\d,]*(?:\.\d+)?)\s*(lakh|crore|%|per cent)?", re.I)
+
+
+def _norm_numbers(text: str) -> str:
+    t = text.lower().replace("₹", " ").replace("lakhs", "lakh").replace("per cent", "%")
+    t = re.sub(r"(?<=\d),(?=\d)", "", t)  # 1,00,000 -> 100000
+    t = re.sub(r"(\d+\.\d*?)0+\b", r"\1", t)  # 8.20 -> 8.2
+    t = re.sub(r"(\d)\.(?!\d)", r"\1", t)
+    return re.sub(r"(\d)\s+(lakh|crore|%)", r"\1 \2", t)
+
+
+def unverified_numbers(answer_text: str, hits: list[Hit]) -> list[str]:
+    """Numbers in the answer that appear in none of the passages shown to the model.
+
+    A deterministic check, independent of any LLM: amounts, ages, limits and phone numbers are
+    exactly the facts a family acts on, and a fabricated "7 lakh" reads as convincingly as a
+    real "5 lakh". Citation markers are ignored. A flag means "could not verify", not
+    necessarily "wrong" (a source may spell a number out in words)."""
+    body = _norm_numbers(CITE_RE.sub(" ", answer_text))
+    source = _norm_numbers(" ".join(h.chunk.text for h in hits))
+    missing = []
+    for m in NUM_RE.finditer(body):
+        num, unit = m.group(1).rstrip(".").replace(",", ""), (m.group(2) or "").lower()
+        token = f"{num} {unit}" if unit else num
+        tail = rf"\s*{re.escape(unit)}" if unit else r"(?![\d])"
+        pattern = rf"(?<![\d.]){re.escape(num)}" + tail
+        if not re.search(pattern, source) and token not in missing:
+            missing.append(token)
+    return missing
 
 
 def format_context(hits: list[Hit]) -> str:
@@ -129,4 +162,4 @@ def answer(
         for h in [hits[n - 1]]
     ]
     return AnswerResult(question, text, False, None, citations, invalid, hits, search_query,
-                        resp.provider, resp.model, lat)
+                        resp.provider, resp.model, lat, unverified_numbers(text, hits))

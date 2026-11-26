@@ -21,6 +21,8 @@ Answers:
                        answer into atomic claims and marks each as supported or not by the
                        passages; score = supported / claims.
 * citation correctness - judge: the passage numbers next to a claim actually contain it.
+* numbers verified   - share of answers in which every number (amount, age, phone number,
+                       "5 lakh") appears in the passages shown. Deterministic, no LLM.
 """
 
 from __future__ import annotations
@@ -172,6 +174,8 @@ def judge(res: AnswerResult) -> dict:
     n = len(claims)
     return {
         "judge": f"{resp.provider}:{resp.model}",
+        # True if the judge graded its own model's answer (only after provider fallbacks)
+        "self_judged": (resp.provider, resp.model) == (res.provider, res.model),
         "n_claims": n,
         "faithfulness": sum(bool(c.get("supported")) for c in claims) / n if n else None,
         "citation_correct": sum(bool(c.get("citation_correct")) for c in claims) / n if n else None,
@@ -207,6 +211,7 @@ def eval_answers(
             "retrieved_docs": docs,
             "cited_docs": cited_docs,
             "invalid_citations": res.invalid_citations,
+            "unverified_numbers": res.unverified_numbers,
             "best_sim": max((h.dense_sim or 0) for h in res.hits) if res.hits else 0.0,
             "latency_ms": res.latency_ms,
         }
@@ -245,6 +250,9 @@ def summarize_answers(rows: list[dict]) -> dict:
         "false_refusal_rate": _mean(float(r["refused"]) for r in ans),
         "key_fact_recall": _mean(r.get("key_fact_recall") for r in ans),
         "citation_valid": _mean(r.get("citation_valid") for r in answered),
+        # answers in which every number appears in the shown passages (deterministic check)
+        "numbers_verified": _mean(float(not r["unverified_numbers"])
+                                  for r in rows if not r["refused"]),
         "cited_doc_precision": _mean(r.get("cited_doc_precision") for r in answered),
         "faithfulness": _mean(r["faithfulness"] for r in judged),
         "citation_correct": _mean(r.get("citation_correct") for r in judged),
@@ -255,6 +263,7 @@ def summarize_answers(rows: list[dict]) -> dict:
         "total_ms_p50": pct(total, 50),
         "total_ms_p95": pct(total, 95),
         "providers": providers,
+        "self_judged": sum(bool(r.get("self_judged")) for r in rows),
         "refused_by": {
             "gate": sum(r["refusal_reason"] == "gate" for r in rows),
             "llm": sum(r["refusal_reason"] == "llm" for r in rows),
@@ -322,3 +331,30 @@ def load_summary(name: str) -> dict | None:
 def config_meta(cfg: RetrievalConfig, **extra) -> dict:
     return {"config": asdict(cfg), **extra, "date": time.strftime("%Y-%m-%d %H:%M")}
 
+
+
+# ---------------------------------------------------------------------- judge calibration
+
+
+def judge_agreement(labels_path=EVAL_DIR / "judge_labels.yaml") -> dict | None:
+    """Compare the LLM judge with hand labels (is every claim supported by the passages?).
+
+    A judge that is never checked is just another unverified model; this reports how often it
+    agrees with a human on the same answers."""
+    if not labels_path.exists():
+        return None
+    labels = yaml.safe_load(open(labels_path, encoding="utf-8"))["labels"]
+    pairs = []
+    for lab in labels:
+        p = RESULTS_DIR / f"answers_{lab['run']}" / "per_question.jsonl"
+        rows = {r["id"]: r for r in map(json.loads, open(p, encoding="utf-8"))}
+        row = rows.get(lab["id"])
+        if not row or row.get("faithfulness") is None:
+            continue
+        pairs.append({"id": lab["id"], "run": lab["run"], "human": bool(lab["faithful"]),
+                      "judge": row["faithfulness"] == 1.0, "judge_score": row["faithfulness"]})
+    if not pairs:
+        return None
+    agree = sum(p["human"] == p["judge"] for p in pairs)
+    return {"n": len(pairs), "agreement": agree / len(pairs),
+            "disagreements": [p for p in pairs if p["human"] != p["judge"]]}

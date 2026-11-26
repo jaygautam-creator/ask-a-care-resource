@@ -127,6 +127,10 @@ def render(res: AnswerResult) -> None:
             st.error(f"Citation check failed: {res.invalid_citations} do not match any passage.")
         elif not res.citations:
             st.error("Citation check failed: this answer cites no source.")
+        if res.unverified_numbers:
+            st.warning("Could not find these numbers in the cited sources: "
+                       f"{', '.join(res.unverified_numbers)}. Please check them in the "
+                       "source before relying on them.", icon="⚠️")
 
     if res.citations:
         st.markdown("**Sources**")

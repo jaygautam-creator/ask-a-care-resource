@@ -149,7 +149,9 @@ class OllamaProvider(Provider):
 
 def _provider(name: str, role: str) -> Provider:
     defaults = {
-        "gemini": os.getenv("GEMINI_MODEL", "gemini-3.5-flash"),
+        # flash-lite: the free tier's daily quota for gemini-3.5-flash ran out after ~20 calls,
+        # too few for an evaluation run (43 questions x 3 configurations).
+        "gemini": os.getenv("GEMINI_MODEL", "gemini-3.5-flash-lite"),
         "groq": os.getenv(
             "GROQ_JUDGE_MODEL" if role == "judge" else "GROQ_MODEL", "openai/gpt-oss-120b"
         ),
@@ -214,7 +216,8 @@ class LLM:
                 except Exception as exc:  # provider SDKs raise many types; we fall through
                     msg = str(exc)
                     low = msg.lower()
-                    transient = any(
+                    daily_quota = "exceeded your current quota" in low  # retrying won't help
+                    transient = not daily_quota and any(
                         t in low for t in ("429", "rate", "quota", "503", "unavailable")
                     )
                     if transient and attempt < 2:

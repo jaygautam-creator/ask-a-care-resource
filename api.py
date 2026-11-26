@@ -38,6 +38,7 @@ class AskResponse(BaseModel):
     refusal_reason: str | None
     sources: list[Source]
     invalid_citations: list[int]
+    unverified_numbers: list[str]
     provider: str | None
     latency_ms: dict
 
@@ -63,6 +64,7 @@ def ask(req: AskRequest) -> AskResponse:
         sources=[Source(n=c.n, title=c.title, section=c.section, url=c.url,
                         chunk_id=c.chunk_id) for c in res.citations],
         invalid_citations=res.invalid_citations,
+        unverified_numbers=res.unverified_numbers,
         provider=f"{res.provider}:{res.model}" if res.provider else None,
         latency_ms={k: round(v) for k, v in res.latency_ms.items()},
     )

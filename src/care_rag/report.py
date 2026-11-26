@@ -56,6 +56,7 @@ def badness(r: dict) -> float:
     if r.get("key_fact_recall") is not None:
         score += 1 - r["key_fact_recall"]
     score += 0.5 * (1 - r.get("hit@5", 1))
+    score += 0.5 * bool(r.get("unverified_numbers"))
     return score
 
 
@@ -86,9 +87,9 @@ def write_report() -> str:
 
     out.append("\n## Answers (end to end)\n")
     out.append("| Run | Refusal acc. (unanswerable) | False refusals (answerable) | Key-fact "
-               "recall | Faithfulness | Citation correct | Citations valid | Cited-doc "
-               "precision | Total latency p50 / p95 |")
-    out.append("|---|---|---|---|---|---|---|---|---|")
+               "recall | Faithfulness | Citation correct | Numbers verified | Citations valid | "
+               "Cited-doc precision | Total latency p50 / p95 |")
+    out.append("|---|---|---|---|---|---|---|---|---|---|")
     present = []
     for name, label in ANSWER_RUNS:
         s = _load(f"answers_{name}")
@@ -99,7 +100,8 @@ def write_report() -> str:
         out.append(
             f"| {label} | {_f(s['refusal_accuracy'], True)} | {_f(s['false_refusal_rate'], True)}"
             f" | {_f(s['key_fact_recall'])} | {_f(s['faithfulness'])} | "
-            f"{_f(s['citation_correct'])} | {_f(s['citation_valid'], True)} | "
+            f"{_f(s['citation_correct'])} | {_f(s.get('numbers_verified'), True)} | "
+            f"{_f(s['citation_valid'], True)} | "
             f"{_f(s['cited_doc_precision'])} | {_ms(s['total_ms_p50'])} / "
             f"{_ms(s['total_ms_p95'])} |"
         )
@@ -107,6 +109,7 @@ def write_report() -> str:
         s = _load(f"answers_{name}")["summary"]
         out.append(f"\n`{name}`: answers by {s['providers']}; refusals by gate "
                    f"{s['refused_by']['gate']}, by LLM {s['refused_by']['llm']}; "
+                   f"self-judged answers {s.get('self_judged', 0)}; "
                    f"generation p50 {_ms(s['generate_ms_p50'])}.")
 
     gate = _load("gate_calibration")
@@ -132,6 +135,8 @@ def write_report() -> str:
             for k in ("hit@5", "key_fact_recall", "faithfulness"):
                 if r.get(k) is not None:
                     extra.append(f"{k}={r[k]:.2f}")
+            if r.get("unverified_numbers"):
+                extra.append(f"numbers not in sources: {r['unverified_numbers']}")
             if r.get("unsupported"):
                 extra.append(f"unsupported: {r['unsupported'][:2]}")
             out.append(f"- scores: {'; '.join(extra) or '-'}\n")
