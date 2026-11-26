@@ -1,0 +1,52 @@
+{
+  "meta": {
+    "config": {
+      "name": "hybrid_rerank",
+      "mode": "hybrid",
+      "reranker": "BAAI/bge-reranker-v2-m3",
+      "chunk": {
+        "target_words": 300,
+        "overlap_words": 50,
+        "min_words": 40
+      },
+      "top_k": 5,
+      "candidates": 30,
+      "rerank_depth": 20,
+      "rrf_k": 60
+    },
+    "kind": "retrieval",
+    "date": "2026-11-26 19:38"
+  },
+  "summary": {
+    "hit@1": 0.941,
+    "hit@3": 0.971,
+    "hit@5": 0.971,
+    "recall@5": 0.971,
+    "mrr": 0.956,
+    "n": 34,
+    "retrieve_ms_p50": 2306,
+    "retrieve_ms_p95": 2667,
+    "by_style": {
+      "formal": {
+        "n": 23,
+        "hit@5": 1.0,
+        "mrr": 1.0
+      },
+      "stressed": {
+        "n": 4,
+        "hit@5": 1.0,
+        "mrr": 0.875
+      },
+      "hinglish": {
+        "n": 5,
+        "hit@5": 0.8,
+        "mrr": 0.8
+      },
+      "hindi": {
+        "n": 2,
+        "hit@5": 1.0,
+        "mrr": 1.0
+      }
+    }
+  }
+}

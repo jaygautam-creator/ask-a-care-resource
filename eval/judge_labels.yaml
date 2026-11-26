@@ -1,0 +1,26 @@
+# Hand labels used to check the LLM judge (python -m care_rag.cli report shows the agreement).
+#
+# For each answer below, every claim was compared by hand with the exact passages the answering
+# model was shown (same retrieval config, deterministic). faithful = every factual claim in the
+# answer is stated in those passages. Labels were made during development by the author with
+# Claude Code (reading the passages side by side) and should be treated as one annotator's view.
+
+labels:
+  - {run: hybrid_rerank_small, id: q09, faithful: true}
+  - {run: hybrid_rerank_small, id: q13, faithful: true,
+     note: "18-40 is in [4]; [5] cited alongside does not state it (citation imprecise, claim fine)"}
+  - {run: hybrid_rerank_small, id: q15, faithful: true,
+     note: "correctly picks Rs 2500 for 70+ from [3], not the family-benefit Rs 2500 in [1]"}
+  - {run: hybrid_rerank_small, id: q18, faithful: true}
+  - {run: hybrid_rerank_small, id: q22, faithful: true,
+     note: "correctly says the sources do not cover hospital refusal"}
+  - {run: hybrid_rerank_small, id: q23, faithful: true,
+     note: "faithful but incomplete: the Delhi amount section was not retrieved, and it says so"}
+  - {run: hybrid_rerank_small, id: q25, faithful: true}
+  - {run: hybrid_rerank_small, id: q27, faithful: true}
+  - {run: hybrid_rerank_small, id: q29, faithful: false,
+     note: "'7 lakh additional top-up' - passage [1] says up to 5 lakh"}
+  - {run: hybrid_rerank_small, id: q30, faithful: true}
+  - {run: hybrid_rerank_small, id: q33, faithful: true}
+  - {run: hybrid_rerank_small, id: q34, faithful: false,
+     note: "'7 lakh free health cover' - fabricated by adding 5 lakh + top-up; also answered a Hindi question in Roman Hinglish"}

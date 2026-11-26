@@ -1,0 +1,52 @@
+{
+  "meta": {
+    "config": {
+      "name": "hybrid_small_chunks",
+      "mode": "hybrid",
+      "reranker": null,
+      "chunk": {
+        "target_words": 150,
+        "overlap_words": 30,
+        "min_words": 25
+      },
+      "top_k": 5,
+      "candidates": 30,
+      "rerank_depth": 20,
+      "rrf_k": 60
+    },
+    "kind": "retrieval",
+    "date": "2026-11-26 19:39"
+  },
+  "summary": {
+    "hit@1": 0.794,
+    "hit@3": 0.971,
+    "hit@5": 0.971,
+    "recall@5": 0.971,
+    "mrr": 0.882,
+    "n": 34,
+    "retrieve_ms_p50": 23,
+    "retrieve_ms_p95": 24,
+    "by_style": {
+      "formal": {
+        "n": 23,
+        "hit@5": 1.0,
+        "mrr": 0.935
+      },
+      "stressed": {
+        "n": 4,
+        "hit@5": 1.0,
+        "mrr": 0.583
+      },
+      "hinglish": {
+        "n": 5,
+        "hit@5": 0.8,
+        "mrr": 0.829
+      },
+      "hindi": {
+        "n": 2,
+        "hit@5": 1.0,
+        "mrr": 1.0
+      }
+    }
+  }
+}

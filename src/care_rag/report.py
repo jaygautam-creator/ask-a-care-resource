@@ -111,6 +111,18 @@ def write_report() -> str:
                    f"self-judged answers {s.get('self_judged', 0)}"
                    + (f"; failed questions {s['errors']}" if s.get("errors") else "") + ".")
 
+    from care_rag.evaluate import judge_agreement
+
+    ja = judge_agreement()
+    if ja:
+        out.append(f"\n**Judge check:** on {ja['n']} hand-labelled answers the judge agreed with "
+                   f"the human label (all claims supported or not) {ja['agreement']:.0%} of "
+                   "the time.")
+        for d in ja["disagreements"]:
+            out.append(f"- disagreement `{d['run']}/{d['id']}`: human "
+                       f"{'faithful' if d['human'] else 'unfaithful'}, judge score "
+                       f"{d['judge_score']:.2f}")
+
     bench = _load("latency_bench")
     if bench:
         b = bench["summary"]

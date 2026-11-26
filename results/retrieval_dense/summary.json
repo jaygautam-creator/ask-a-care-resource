@@ -1,0 +1,52 @@
+{
+  "meta": {
+    "config": {
+      "name": "dense",
+      "mode": "dense",
+      "reranker": null,
+      "chunk": {
+        "target_words": 300,
+        "overlap_words": 50,
+        "min_words": 40
+      },
+      "top_k": 5,
+      "candidates": 30,
+      "rerank_depth": 20,
+      "rrf_k": 60
+    },
+    "kind": "retrieval",
+    "date": "2026-11-26 19:36"
+  },
+  "summary": {
+    "hit@1": 0.853,
+    "hit@3": 0.971,
+    "hit@5": 0.971,
+    "recall@5": 0.971,
+    "mrr": 0.907,
+    "n": 34,
+    "retrieve_ms_p50": 19,
+    "retrieve_ms_p95": 52,
+    "by_style": {
+      "formal": {
+        "n": 23,
+        "hit@5": 1.0,
+        "mrr": 0.957
+      },
+      "stressed": {
+        "n": 4,
+        "hit@5": 1.0,
+        "mrr": 0.833
+      },
+      "hinglish": {
+        "n": 5,
+        "hit@5": 0.8,
+        "mrr": 0.7
+      },
+      "hindi": {
+        "n": 2,
+        "hit@5": 1.0,
+        "mrr": 1.0
+      }
+    }
+  }
+}

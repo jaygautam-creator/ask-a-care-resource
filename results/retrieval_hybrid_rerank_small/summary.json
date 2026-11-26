@@ -1,0 +1,52 @@
+{
+  "meta": {
+    "config": {
+      "name": "hybrid_rerank_small",
+      "mode": "hybrid",
+      "reranker": "cross-encoder/mmarco-mMiniLMv2-L12-H384-v1",
+      "chunk": {
+        "target_words": 300,
+        "overlap_words": 50,
+        "min_words": 40
+      },
+      "top_k": 5,
+      "candidates": 30,
+      "rerank_depth": 20,
+      "rrf_k": 60
+    },
+    "kind": "retrieval",
+    "date": "2026-11-26 20:28"
+  },
+  "summary": {
+    "hit@1": 0.971,
+    "hit@3": 1.0,
+    "hit@5": 1.0,
+    "recall@5": 1.0,
+    "mrr": 0.98,
+    "n": 34,
+    "retrieve_ms_p50": 244,
+    "retrieve_ms_p95": 280,
+    "by_style": {
+      "formal": {
+        "n": 23,
+        "hit@5": 1.0,
+        "mrr": 1.0
+      },
+      "stressed": {
+        "n": 4,
+        "hit@5": 1.0,
+        "mrr": 1.0
+      },
+      "hinglish": {
+        "n": 5,
+        "hit@5": 1.0,
+        "mrr": 0.867
+      },
+      "hindi": {
+        "n": 2,
+        "hit@5": 1.0,
+        "mrr": 1.0
+      }
+    }
+  }
+}

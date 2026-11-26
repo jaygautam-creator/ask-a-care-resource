@@ -1,0 +1,74 @@
+{
+  "meta": {
+    "config": {
+      "name": "hybrid_rerank_small",
+      "mode": "hybrid",
+      "reranker": "cross-encoder/mmarco-mMiniLMv2-L12-H384-v1",
+      "chunk": {
+        "target_words": 300,
+        "overlap_words": 50,
+        "min_words": 40
+      },
+      "top_k": 5,
+      "candidates": 30,
+      "rerank_depth": 20,
+      "rrf_k": 60
+    },
+    "kind": "answers",
+    "rewrite": false,
+    "date": "2026-11-26 21:59"
+  },
+  "summary": {
+    "n": 43,
+    "errors": [],
+    "judge_errors": [],
+    "refusal_accuracy": 1.0,
+    "false_refusal_rate": 0.0,
+    "key_fact_recall": 0.955,
+    "citation_valid": 1.0,
+    "numbers_verified": 0.941,
+    "cited_doc_precision": 0.931,
+    "faithfulness": 0.996,
+    "citation_correct": 0.919,
+    "hit@5": 0.971,
+    "mrr": 0.971,
+    "generate_ms_p50": null,
+    "generate_ms_p95": null,
+    "total_ms_p50": 237,
+    "total_ms_p95": 534,
+    "providers": {
+      "gemini:gemini-3.5-flash-lite": 43
+    },
+    "self_judged": 7,
+    "refused_by": {
+      "gate": 0,
+      "llm": 9
+    },
+    "by_style": {
+      "formal": {
+        "n": 28,
+        "false_refusal_rate": 0.0,
+        "key_fact_recall": 0.977,
+        "refusal_accuracy": 1.0
+      },
+      "stressed": {
+        "n": 6,
+        "false_refusal_rate": 0.0,
+        "key_fact_recall": 1.0,
+        "refusal_accuracy": 1.0
+      },
+      "hinglish": {
+        "n": 6,
+        "false_refusal_rate": 0.0,
+        "key_fact_recall": 0.8,
+        "refusal_accuracy": 1.0
+      },
+      "hindi": {
+        "n": 3,
+        "false_refusal_rate": 0.0,
+        "key_fact_recall": 1.0,
+        "refusal_accuracy": 1.0
+      }
+    }
+  }
+}
