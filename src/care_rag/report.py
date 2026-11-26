@@ -77,19 +77,20 @@ def write_report() -> str:
                    f"{_ms(s['retrieve_ms_p50'])} / {_ms(s['retrieve_ms_p95'])} |")
         styles.append((label, s["by_style"]))
     if styles:
-        out.append("\n**hit@5 by question style**\n")
+        out.append("\n**MRR by question style**\n")
         keys = list(styles[0][1])
         head = " | ".join(f"{k} (n={styles[0][1][k]['n']})" for k in keys)
         out.append(f"| Config | {head} |")
         out.append("|---|" + "---|" * len(keys))
         for label, bs in styles:
-            out.append(f"| {label} | " + " | ".join(_f(bs[k]["hit@5"]) for k in keys) + " |")
+            out.append(f"| {label} | " + " | ".join(_f(bs[k]["mrr"]) for k in keys) + " |")
 
     out.append("\n## Answers (end to end)\n")
-    out.append("| Run | Refusal acc. (unanswerable) | False refusals (answerable) | Key-fact "
+    out.append("| Run | Expected source in LLM context | Refusal acc. (unanswerable) | "
+               "False refusals (answerable) | Key-fact "
                "recall | Faithfulness | Citation correct | Numbers verified | Citations valid | "
                "Cited-doc precision |")
-    out.append("|---|---|---|---|---|---|---|---|---|")
+    out.append("|---|---|---|---|---|---|---|---|---|---|")
     present = []
     for name, label in ANSWER_RUNS:
         s = _load(f"answers_{name}")
@@ -98,7 +99,8 @@ def write_report() -> str:
         present.append(name)
         s = s["summary"]
         out.append(
-            f"| {label} | {_f(s['refusal_accuracy'], True)} | {_f(s['false_refusal_rate'], True)}"
+            f"| {label} | {_f(s['hit@5'], True)} | {_f(s['refusal_accuracy'], True)} | "
+            f"{_f(s['false_refusal_rate'], True)}"
             f" | {_f(s['key_fact_recall'])} | {_f(s['faithfulness'])} | "
             f"{_f(s['citation_correct'])} | {_f(s.get('numbers_verified'), True)} | "
             f"{_f(s['citation_valid'], True)} | "
