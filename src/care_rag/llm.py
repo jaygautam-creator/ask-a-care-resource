@@ -26,6 +26,9 @@ import httpx
 
 from care_rag.config import CACHE_DIR
 
+# Per-request timeout: a hung request then falls through to the next provider.
+TIMEOUT_S = int(os.getenv("LLM_TIMEOUT_S", "60"))
+
 
 class LLMError(RuntimeError):
     pass
@@ -62,11 +65,21 @@ class GeminiProvider(Provider):
     def available(self) -> bool:
         return bool(os.getenv("GEMINI_API_KEY"))
 
+    _client = None
+
     @property
     def client(self):
-        from google import genai
+        # Keep one client alive: a temporary genai.Client is garbage-collected (and its HTTP
+        # session closed) while the request is still being sent.
+        if self._client is None:
+            from google import genai
+            from google.genai import types
 
-        return genai.Client(api_key=os.environ["GEMINI_API_KEY"])
+            self._client = genai.Client(
+                api_key=os.environ["GEMINI_API_KEY"],
+                http_options=types.HttpOptions(timeout=TIMEOUT_S * 1000),  # milliseconds
+            )
+        return self._client
 
     def generate(self, system: str, prompt: str, json_mode: bool) -> str:
         from google.genai import types
@@ -92,7 +105,7 @@ class GroqProvider(Provider):
     def generate(self, system: str, prompt: str, json_mode: bool) -> str:
         from groq import Groq
 
-        client = Groq(api_key=os.environ["GROQ_API_KEY"])
+        client = Groq(api_key=os.environ["GROQ_API_KEY"], timeout=TIMEOUT_S, max_retries=0)
         kwargs = {"response_format": {"type": "json_object"}} if json_mode else {}
         resp = client.chat.completions.create(
             model=self.model,
@@ -136,9 +149,9 @@ class OllamaProvider(Provider):
 
 def _provider(name: str, role: str) -> Provider:
     defaults = {
-        "gemini": os.getenv("GEMINI_MODEL", "gemini-2.5-flash"),
+        "gemini": os.getenv("GEMINI_MODEL", "gemini-3.5-flash"),
         "groq": os.getenv(
-            "GROQ_JUDGE_MODEL" if role == "judge" else "GROQ_MODEL", "llama-3.3-70b-versatile"
+            "GROQ_JUDGE_MODEL" if role == "judge" else "GROQ_MODEL", "openai/gpt-oss-120b"
         ),
         "ollama": os.getenv("OLLAMA_MODEL", "llama3.1:8b"),
     }
@@ -200,9 +213,12 @@ class LLM:
                     text = p.generate(system, prompt, json_mode)
                 except Exception as exc:  # provider SDKs raise many types; we fall through
                     msg = str(exc)
-                    rate_limited = "429" in msg or "rate" in msg.lower() or "quota" in msg.lower()
-                    if rate_limited and attempt < 2:
-                        time.sleep(15 * (attempt + 1))  # free tiers: per-minute limits
+                    low = msg.lower()
+                    transient = any(
+                        t in low for t in ("429", "rate", "quota", "503", "unavailable")
+                    )
+                    if transient and attempt < 2:
+                        time.sleep(15 * (attempt + 1))  # free tiers: per-minute limits, overload
                         continue
                     errors.append(f"{p.name}: {type(exc).__name__}: {msg[:200]}")
                     break

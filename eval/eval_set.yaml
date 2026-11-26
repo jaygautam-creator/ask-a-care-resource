@@ -1,0 +1,376 @@
+# Hand-written evaluation set for Ask-a-Care-Resource (India corpus).
+#
+# Fields
+#   id            stable id
+#   style         formal | stressed | hinglish | hindi    (how a real family member might ask)
+#   answerable    false  -> the corpus does NOT contain the answer; the system must refuse
+#   expected      list of GROUPS of document ids. Each group lists interchangeable documents
+#                 (any one of them contains that part of the answer). A question with two
+#                 groups needs a document from BOTH groups (multi-source question).
+#                 Labelled at document level on purpose: chunk ids change with chunk size, so
+#                 document labels stay valid across every experiment configuration.
+#   key_facts     short strings a correct answer must contain (checked after normalising
+#                 digits/commas/case); kept to numbers and names so the check is objective.
+#   note          why the question is in the set / what it tests
+#
+# Every expected document and key fact was checked against data/processed/documents.jsonl.
+
+questions:
+  # ------------------------------------------------------------------ formal, single source
+  - id: q01
+    style: formal
+    question: What is the toll-free number of the national helpline for senior citizens?
+    answerable: true
+    expected:
+      - [pib_elderline_launch_2021, pib_elderline_study_2021, pib_elderline_2026, vikaspedia_elderline,
+         pib_elderly_in_india_2025, pib_world_senior_citizen_day_2024, pib_senior_care_blog_2026,
+         pib_schemes_senior_2022, pib_old_age_homes_2022]
+    key_facts: ["14567"]
+    note: easy baseline; many documents agree
+
+  - id: q02
+    style: formal
+    question: What are the working hours of Elderline?
+    answerable: true
+    expected:
+      - [pib_elderline_study_2021, vikaspedia_elderline]
+    key_facts: ["8"]
+    note: specific detail only in two documents
+
+  - id: q03
+    style: formal
+    question: Who is eligible for the Ayushman Vay Vandana card and how much cover does it give?
+    answerable: true
+    expected:
+      - [pib_vay_vandana_25lakh_2024, pib_vay_vandana_two_years_2026, pmjay_senior_citizen_guidelines,
+         pib_vay_vandana_milestone_2024, pib_elderly_in_india_2025]
+    key_facts: ["70", "5 lakh"]
+
+  - id: q04
+    style: formal
+    question: How can a senior citizen register for the Ayushman Vay Vandana card?
+    answerable: true
+    expected:
+      - [pib_vay_vandana_25lakh_2024, pmjay_senior_citizen_guidelines]
+    key_facts: ["Ayushman app", "beneficiary.nha.gov.in"]
+
+  - id: q05
+    style: formal
+    question: Under the Maintenance and Welfare of Parents and Senior Citizens Act, what is the maximum monthly maintenance a Tribunal can order?
+    answerable: true
+    expected:
+      - [mwpsc_act_2007]
+    key_facts: ["10,000"]
+
+  - id: q06
+    style: formal
+    question: Within how many days must a maintenance application under the MWPSC Act be disposed of?
+    answerable: true
+    expected:
+      - [mwpsc_act_2007]
+    key_facts: ["90"]
+
+  - id: q07
+    style: formal
+    question: What is the punishment for abandoning a senior citizen under the 2007 Act?
+    answerable: true
+    expected:
+      - [mwpsc_act_2007]
+    key_facts: ["three months", "5,000"]
+
+  - id: q08
+    style: formal
+    question: Can a parent get back property they gifted to a child who then stopped looking after them?
+    answerable: true
+    expected:
+      - [mwpsc_act_2007]
+    key_facts: ["void"]
+    note: section 23; the words "gift" and "void" do not appear in the question's natural phrasing
+
+  - id: q09
+    style: formal
+    question: How much is the central old age pension under IGNOAPS, and does it change at age 80?
+    answerable: true
+    expected:
+      - [pib_schemes_welfare_2022, pib_social_security_elders_2023]
+    key_facts: ["200", "500", "80"]
+
+  - id: q10
+    style: formal
+    question: What is the deduction allowed for senior citizens on interest from bank deposits under Section 80TTB?
+    answerable: true
+    expected:
+      - [incometax_senior_benefits, incometax_itr_forms_senior, incometax_senior_faq]
+    key_facts: ["50,000"]
+
+  - id: q11
+    style: formal
+    question: Which senior citizens do not need to file an income tax return under Section 194P?
+    answerable: true
+    expected:
+      - [incometax_senior_benefits, incometax_itr_forms_senior, incometax_senior_faq]
+    key_facts: ["75"]
+
+  - id: q12
+    style: formal
+    question: What is the maximum amount that can be deposited in the Senior Citizens' Savings Scheme and what is the interest rate?
+    answerable: true
+    expected:
+      - [sbi_scss]
+    key_facts: ["30 lakh", "8.2"]
+
+  - id: q13
+    style: formal
+    question: What pension amounts does Atal Pension Yojana guarantee and up to what age can one join?
+    answerable: true
+    expected:
+      - [pfrda_apy_overview, pfrda_apy_faq, pib_schemes_welfare_2022]
+    key_facts: ["1000", "5000", "40"]
+
+  - id: q14
+    style: formal
+    question: What does the Rashtriya Vayoshri Yojana provide?
+    answerable: true
+    expected:
+      - [pib_elderly_in_india_2025, pib_schemes_welfare_2022, pib_social_security_elders_2023,
+         pib_senior_care_blog_2026, pib_old_age_homes_2022]
+    key_facts: ["devices"]
+
+  - id: q15
+    style: formal
+    question: How much old age assistance does the Delhi government pay per month to a 72-year-old?
+    answerable: true
+    expected:
+      - [delhi_old_age_assistance]
+    key_facts: ["2500"]
+
+  - id: q16
+    style: formal
+    question: What are the eligibility conditions for Delhi's old age pension?
+    answerable: true
+    expected:
+      - [delhi_old_age_assistance]
+    key_facts: ["60", "5 years", "1,00,000"]
+
+  - id: q17
+    style: formal
+    question: How much is the social security pension in Kerala per month?
+    answerable: true
+    expected:
+      - [kerala_social_security_pension]
+    key_facts: ["2,000"]
+
+  - id: q18
+    style: formal
+    question: Who is eligible for the Shravanbal Seva pension in Maharashtra and how much does it pay?
+    answerable: true
+    expected:
+      - [maharashtra_shravanbal]
+    key_facts: ["65", "600"]
+
+  - id: q19
+    style: formal
+    question: Can I still invest in the Pradhan Mantri Vaya Vandana Yojana?
+    answerable: true
+    expected:
+      - [nis_pmvvy_2023]
+    key_facts: ["March 31, 2023"]
+    note: trap - the scheme closed; a correct answer says so instead of explaining how to invest
+
+  - id: q20
+    style: formal
+    question: What services does the National Programme for Health Care of the Elderly provide?
+    answerable: true
+    expected:
+      - [dghs_nphce, pib_elderly_in_india_2025, pib_schemes_welfare_2022]
+    key_facts: []
+    note: descriptive answer; judged by faithfulness only
+
+  - id: q21
+    style: formal
+    question: What is the SACRED portal?
+    answerable: true
+    expected:
+      - [pib_schemes_senior_2022, pib_elderly_in_india_2025, pib_schemes_welfare_2022, pib_old_age_homes_2022,
+         pib_world_senior_citizen_day_2024]
+    key_facts: ["employment"]
+
+  # ---------------------------------------------------------------------- multi-source
+  - id: q22
+    style: formal
+    question: My father is 72 and already covered under his family's PM-JAY card. Does he get anything extra, and is there a helpline if the hospital refuses treatment?
+    answerable: true
+    expected:
+      - [pib_vay_vandana_25lakh_2024, pib_vay_vandana_two_years_2026, pmjay_senior_citizen_guidelines]
+      - [pib_vay_vandana_25lakh_2024]
+    key_facts: ["5 lakh", "14555"]
+    note: needs the top-up rule AND the Ayushman helpline (14555), not Elderline
+
+  - id: q23
+    style: formal
+    question: For a senior citizen in Delhi, which tax benefits apply on medical insurance premium and what monthly state pension can they get?
+    answerable: true
+    expected:
+      - [incometax_senior_benefits, incometax_itr_forms_senior]
+      - [delhi_old_age_assistance]
+    key_facts: ["50,000", "2000"]
+
+  # ------------------------------------------------------------------ stressed / informal English
+  - id: q24
+    style: stressed
+    question: my mom is 74 and we cant afford the hospital bills anymore, is there any govt thing that pays for her treatment??
+    answerable: true
+    expected:
+      - [pib_vay_vandana_25lakh_2024, pib_vay_vandana_two_years_2026, pmjay_senior_citizen_guidelines,
+         pib_vay_vandana_milestone_2024, pib_elderly_in_india_2025]
+    key_facts: ["5 lakh"]
+
+  - id: q25
+    style: stressed
+    question: my brother took dads house and now wont even give him food. what can we legally do
+    answerable: true
+    expected:
+      - [mwpsc_act_2007]
+    key_facts: ["Tribunal"]
+
+  - id: q26
+    style: stressed
+    question: dad keeps falling and needs a walker but we have no money. help?
+    answerable: true
+    expected:
+      - [pib_elderly_in_india_2025, pib_schemes_welfare_2022, pib_social_security_elders_2023,
+         pib_senior_care_blog_2026, pib_old_age_homes_2022]
+    key_facts: ["Rashtriya Vayoshri"]
+
+  - id: q27
+    style: stressed
+    question: nani lives alone and gets really lonely and anxious, is there someone she can just call and talk to
+    answerable: true
+    expected:
+      - [pib_elderline_study_2021, vikaspedia_elderline, pib_elderline_launch_2021, pib_elderline_2026,
+         pib_senior_care_blog_2026]
+    key_facts: ["14567"]
+
+  # ------------------------------------------------------------------------------ Hinglish
+  - id: q28
+    style: hinglish
+    question: beta ghar se nikal diya hai papa ko, unke paas paise nahi hai, kya kar sakte hain?
+    answerable: true
+    expected:
+      - [mwpsc_act_2007]
+    key_facts: ["Tribunal"]
+    note: known hard case - no English keyword overlap with the Act
+
+  - id: q29
+    style: hinglish
+    question: mummy 70 ki ho gayi hai, kya unka free ilaaj wala card banega? kaise apply karein
+    answerable: true
+    expected:
+      - [pib_vay_vandana_25lakh_2024, pmjay_senior_citizen_guidelines, pib_vay_vandana_two_years_2026]
+    key_facts: ["5 lakh"]
+
+  - id: q30
+    style: hinglish
+    question: dadaji BPL card wale hain, 81 saal ke, unko sarkar se kitni pension milti hai?
+    answerable: true
+    expected:
+      - [pib_schemes_welfare_2022, pib_social_security_elders_2023]
+    key_facts: ["500"]
+
+  - id: q31
+    style: hinglish
+    question: papa ka FD ka interest pe tax kitna chhoot milta hai senior citizen ko?
+    answerable: true
+    expected:
+      - [incometax_senior_benefits, incometax_itr_forms_senior, incometax_senior_faq]
+    key_facts: ["50,000"]
+
+  - id: q32
+    style: hinglish
+    question: Delhi mein budhapa pension ke liye online kahan apply hota hai?
+    answerable: true
+    expected:
+      - [delhi_old_age_assistance]
+    key_facts: ["edistrict"]
+
+  # --------------------------------------------------------------------------------- Hindi
+  - id: q33
+    style: hindi
+    question: वरिष्ठ नागरिकों के लिए हेल्पलाइन नंबर क्या है?
+    answerable: true
+    expected:
+      - [pib_elderly_in_india_2025_hi, pib_elderline_launch_2021, pib_elderline_study_2021, pib_elderline_2026,
+         vikaspedia_elderline, pib_elderly_in_india_2025, pib_world_senior_citizen_day_2024,
+         pib_senior_care_blog_2026, pib_schemes_senior_2022, pib_old_age_homes_2022]
+    key_facts: ["14567"]
+
+  - id: q34
+    style: hindi
+    question: मेरे पिताजी 75 साल के हैं, क्या उन्हें आयुष्मान कार्ड से मुफ्त इलाज मिलेगा?
+    answerable: true
+    expected:
+      - [pib_vay_vandana_25lakh_2024, pib_vay_vandana_two_years_2026, pmjay_senior_citizen_guidelines,
+         pib_elderly_in_india_2025, pib_elderly_in_india_2025_hi, pib_vay_vandana_milestone_2024]
+    key_facts: ["5"]
+
+  # ---------------------------------------------------------------------------- unanswerable
+  - id: u01
+    style: formal
+    question: What concession do senior citizens get on railway tickets?
+    answerable: false
+    expected: []
+    note: corpus only mentions a railway station in a story; no concession information
+
+  - id: u02
+    style: formal
+    question: What is the old age pension amount in Tamil Nadu?
+    answerable: false
+    expected: []
+    note: Tamil Nadu appears (Elderline states) but no TN pension amount - tempting partial match
+
+  - id: u03
+    style: formal
+    question: How do pensioners submit their annual life certificate (Jeevan Pramaan)?
+    answerable: false
+    expected: []
+
+  - id: u04
+    style: stressed
+    question: whats the best dementia care home in bangalore and how much does it cost per month
+    answerable: false
+    expected: []
+    note: dementia is mentioned in the corpus, care-home prices and names are not
+
+  - id: u05
+    style: formal
+    question: How does a reverse mortgage loan work for senior citizens?
+    answerable: false
+    expected: []
+
+  - id: u06
+    style: hinglish
+    question: papa ka aadhaar mein address update ghar baithe kaise karein?
+    answerable: false
+    expected: []
+    note: Aadhaar is mentioned (Delhi requires it) but not how to update it
+
+  - id: u07
+    style: formal
+    question: What is the current SBI fixed deposit interest rate for senior citizens?
+    answerable: false
+    expected: []
+    note: SCSS rate is in the corpus; FD rate is not - tests "do not answer a different question"
+
+  - id: u08
+    style: hindi
+    question: क्या वरिष्ठ नागरिकों को हवाई टिकट पर छूट मिलती है?
+    answerable: false
+    expected: []
+    note: airline concessions - not in corpus
+
+  - id: u09
+    style: stressed
+    question: can i get paid by the government for quitting my job to take care of my bedridden mother?
+    answerable: false
+    expected: []
+    note: no caregiver allowance scheme in the corpus
