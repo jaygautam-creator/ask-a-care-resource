@@ -1,4 +1,4 @@
-"""Streamlit UI: `streamlit run app.py` (or `make app`)."""
+"""Streamlit UI: `make app` (or `streamlit run app.py`)."""
 
 from __future__ import annotations
 
@@ -10,75 +10,169 @@ os.environ.setdefault("TOKENIZERS_PARALLELISM", "false")
 
 import streamlit as st  # noqa: E402
 
-from care_rag.answer import GATE_THRESHOLD, answer  # noqa: E402
+from care_rag.answer import GATE_THRESHOLD, AnswerResult, answer  # noqa: E402
 from care_rag.config import CONFIGS, DEFAULT_CONFIG  # noqa: E402
 from care_rag.llm import get_llm  # noqa: E402
+from care_rag.sources import load_sources  # noqa: E402
 
-st.set_page_config(page_title="Ask-a-Care-Resource", page_icon="🧓", layout="wide")
+st.set_page_config(page_title="Ask-a-Care-Resource", page_icon="🤝", layout="centered")
 
-EXAMPLES = [
-    "My mother is 74. Is there a government scheme that pays for her hospital treatment?",
-    "beta ghar se nikal diya hai papa ko, kya kar sakte hain?",
-    "वरिष्ठ नागरिकों के लिए हेल्पलाइन नंबर क्या है?",
-    "How much old age pension does Delhi pay to a 72-year-old?",
-    "What concession do senior citizens get on railway tickets?",
-]
+EXAMPLES = {
+    "🏥 Free treatment at 70+": "My mother is 74. Is there a government scheme that pays for "
+    "her hospital treatment?",
+    "🏠 Thrown out of home": "beta ghar se nikal diya hai papa ko, unke paas paise nahi hai, "
+    "kya kar sakte hain?",
+    "📞 हेल्पलाइन नंबर": "वरिष्ठ नागरिकों के लिए हेल्पलाइन नंबर क्या है?",
+    "💰 Delhi pension": "How much old age pension does Delhi pay to a 72-year-old?",
+    "🚆 Railway concession": "What concession do senior citizens get on railway tickets?",
+}
+CONFIG_LABELS = {
+    "hybrid_rerank_small": "Hybrid + reranker (recommended)",
+    "hybrid_rerank": "Hybrid + large reranker (slower)",
+    "hybrid": "Hybrid, no reranker (fastest)",
+    "dense": "Dense only",
+    "bm25": "Keyword (BM25) only",
+    "hybrid_small_chunks": "Hybrid, small chunks",
+}
 
+st.markdown(
+    """
+<style>
+.block-container {padding-top: 2rem; max-width: 820px;}
+.src-card {border: 1px solid rgba(128,128,128,.25); border-radius: 10px;
+           padding: .6rem .8rem; margin-bottom: .5rem;}
+.src-card .n {font-weight: 700; margin-right: .35rem;}
+.src-card .sec {opacity: .7; font-size: .85rem;}
+.muted {opacity: .65; font-size: .85rem;}
+</style>
+""",
+    unsafe_allow_html=True,
+)
+
+
+@st.cache_resource(show_spinner="Loading search models (first time only)…")
+def warm_up(cfg_name: str) -> None:
+    """Load the index, embedder and reranker once per process, not on the first question."""
+    from care_rag.index import load_index
+    from care_rag.retrieve import get_reranker, retrieve
+
+    cfg = CONFIGS[cfg_name]
+    load_index(cfg.chunk)
+    if cfg.reranker:
+        get_reranker(cfg.reranker)
+    retrieve("senior citizen pension", cfg)
+
+
+# ------------------------------------------------------------------------------- sidebar
 with st.sidebar:
-    st.header("Settings")
-    names = list(CONFIGS)
-    cfg_name = st.selectbox("Retrieval", names, index=names.index(DEFAULT_CONFIG))
-    rewrite = st.toggle("LLM query rewrite (helps Hinglish)", value=False)
-    gate = st.slider("Refusal gate (cosine)", 0.70, 0.90, GATE_THRESHOLD, 0.005,
-                     help="Refuse without calling the LLM if no passage is this similar.")
-    st.caption(f"Answer model chain: {get_llm('answer').describe()}")
-    st.caption("Answers come only from the indexed government sources. "
-               "Amounts change: always confirm with the official office or helpline.")
+    st.subheader("Settings")
+    names = [n for n in CONFIG_LABELS if n in CONFIGS]
+    cfg_name = st.selectbox("Search method", names, index=names.index(DEFAULT_CONFIG),
+                            format_func=CONFIG_LABELS.get)
+    rewrite = st.toggle("Rewrite question before search", value=False,
+                        help="An LLM turns Hinglish/Hindi or vague questions into a clear "
+                             "English search query. Costs one extra LLM call.")
+    gate = st.slider("Refusal gate (cosine similarity)", 0.70, 0.90, GATE_THRESHOLD, 0.005,
+                     help="Refuse without calling the LLM if no passage is at least this "
+                          "similar to the question.")
+    show_passages = st.toggle("Show retrieved passages", value=False)
+    if st.button("Clear conversation", width="stretch"):
+        st.session_state.history = []
+        st.rerun()
 
+    st.divider()
+    sources = load_sources()
+    st.subheader("What it knows")
+    st.caption(f"{len(sources)} official documents: PIB, Ministry of Health, PFRDA, Income Tax "
+               "Department, the MWPSC Act 2007, and state pages for Delhi, Kerala and "
+               "Maharashtra.")
+    with st.expander("All sources"):
+        for s in sources:
+            st.markdown(f"- [{s.title}]({s.url})")
+    llm = get_llm("answer")
+    st.caption(f"Answer model: `{llm.describe()}`")
+
+# ---------------------------------------------------------------------------------- main
 st.title("Ask-a-Care-Resource")
-st.write("Questions about pensions, health cover, helplines and legal rights for elderly "
-         "parents in India. Every answer cites the official source it came from.")
+st.markdown("Ask about **pensions, health cover, helplines and legal rights** for an elderly "
+            "parent in India, in English, Hinglish or Hindi. Every answer cites the official "
+            "source it came from. If the sources don't cover it, it says so.")
 
+if not llm.providers:
+    st.error("No LLM is configured. Add `GEMINI_API_KEY` or `GROQ_API_KEY` to `.env` "
+             "(see `.env.example`) or start Ollama, then reload.")
+    st.stop()
+
+warm_up(cfg_name)
+
+st.session_state.setdefault("history", [])
+picked = None
 cols = st.columns(len(EXAMPLES))
-for col, ex in zip(cols, EXAMPLES, strict=True):
-    if col.button(ex[:38] + "…", help=ex, use_container_width=True):
-        st.session_state["q"] = ex
+for col, (label, q) in zip(cols, EXAMPLES.items(), strict=True):
+    if col.button(label, help=q, width="stretch"):
+        picked = q
 
-question = st.text_area("Your question (English, Hinglish or Hindi)",
-                        key="q", height=80)
 
-if st.button("Ask", type="primary") and question.strip():
-    with st.spinner("Searching the sources…"):
-        try:
-            res = answer(question.strip(), CONFIGS[cfg_name], gate=gate, rewrite=rewrite)
-        except Exception as exc:  # show provider/config errors instead of a stack trace
-            st.error(f"Could not answer: {exc}")
-            st.stop()
-
+def render(res: AnswerResult) -> None:
     if res.refused:
         st.warning(res.answer)
         why = ("no indexed passage is close to this question" if res.refusal_reason == "gate"
                else "the retrieved passages do not contain the answer")
-        st.caption(f"Refused because {why}. For anything urgent, Elderline 14567 is the national "
-                   "helpline for senior citizens (from the indexed PIB sources).")
+        st.markdown(f"<span class='muted'>Refused because {why}. For help, Elderline "
+                    "<b>14567</b> is the national toll-free helpline for senior citizens.</span>",
+                    unsafe_allow_html=True)
     else:
         st.markdown(res.answer)
         if res.invalid_citations:
-            st.error(f"Citation check: {res.invalid_citations} do not match any passage.")
+            st.error(f"Citation check failed: {res.invalid_citations} do not match any passage.")
+        elif not res.citations:
+            st.error("Citation check failed: this answer cites no source.")
 
     if res.citations:
-        st.subheader("Sources cited")
+        st.markdown("**Sources**")
         for c in res.citations:
-            st.markdown(f"**[{c.n}]** [{c.title}]({c.url}) — {c.section or 'introduction'}")
+            st.markdown(
+                f"<div class='src-card'><span class='n'>[{c.n}]</span>"
+                f"<a href='{c.url}' target='_blank'>{c.title}</a><br>"
+                f"<span class='sec'>{c.section or 'Introduction'}</span></div>",
+                unsafe_allow_html=True,
+            )
 
-    with st.expander("Retrieved passages and scores"):
-        if res.search_query != question.strip():
-            st.caption(f"Search query after rewrite: {res.search_query}")
-        for n, h in enumerate(res.hits, 1):
-            st.markdown(f"**[{n}] {h.chunk.title}** — {h.chunk.section or 'intro'}  \n"
-                        f"`score {h.score:.3f} · cosine {h.dense_sim:.3f} · "
-                        f"dense rank {h.ranks.get('dense')} · bm25 rank {h.ranks.get('bm25')}`")
-            st.text(h.chunk.text[:1200])
+    if show_passages:
+        with st.expander("Retrieved passages"):
+            if res.search_query != res.question:
+                st.caption(f"Search query after rewrite: {res.search_query}")
+            for n, h in enumerate(res.hits, 1):
+                st.markdown(f"**[{n}] {h.chunk.title}** — {h.chunk.section or 'intro'}")
+                st.caption(f"score {h.score:.3f} · cosine {h.dense_sim:.3f} · dense rank "
+                           f"{h.ranks.get('dense')} · BM25 rank {h.ranks.get('bm25')}")
+                st.text(h.chunk.text[:1000])
 
-    lat = " · ".join(f"{k} {v / 1000:.2f}s" for k, v in res.latency_ms.items())
-    st.caption(f"{res.provider or 'no LLM call'} {res.model or ''} · {lat}")
+    lat = " · ".join(f"{k} {v / 1000:.1f}s" for k, v in res.latency_ms.items())
+    model = f"{res.provider}:{res.model}" if res.provider else "no LLM call"
+    st.markdown(f"<span class='muted'>{model} · {lat}</span>", unsafe_allow_html=True)
+
+
+for turn in st.session_state.history:
+    with st.chat_message("user"):
+        st.markdown(turn.question)
+    with st.chat_message("assistant", avatar="🤝"):
+        render(turn)
+
+question = st.chat_input("e.g. papa 81 saal ke hain, BPL card hai, kitni pension milegi?")
+question = (question or picked or "").strip()
+if question:
+    with st.chat_message("user"):
+        st.markdown(question)
+    with st.chat_message("assistant", avatar="🤝"):
+        with st.spinner("Searching the sources…"):
+            try:
+                res = answer(question, CONFIGS[cfg_name], gate=gate, rewrite=rewrite)
+            except Exception as exc:  # show provider errors instead of a stack trace
+                st.error(f"Could not answer right now: {exc}")
+                st.stop()
+        render(res)
+    st.session_state.history.append(res)
+
+st.caption("Information comes from official government pages as indexed on the date shown in "
+           "the source. Amounts and rules change, so confirm with the office before applying.")

@@ -28,3 +28,4 @@ data/index/
 .idea/
 .vscode/
 *.swp
+.streamlit/secrets.toml

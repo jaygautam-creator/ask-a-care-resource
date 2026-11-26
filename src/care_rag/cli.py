@@ -20,8 +20,8 @@ os.environ.setdefault("TOKENIZERS_PARALLELISM", "false")
 # The answer-level experiment: same retrieval stack, with and without each change.
 ANSWER_RUNS = {
     "hybrid": ("hybrid", False),
-    "hybrid_rerank": ("hybrid_rerank", False),
-    "hybrid_rerank_rewrite": ("hybrid_rerank", True),
+    "hybrid_rerank_small": ("hybrid_rerank_small", False),
+    "hybrid_rerank_small_rewrite": ("hybrid_rerank_small", True),
 }
 
 
@@ -62,7 +62,7 @@ def cmd_ask(args) -> None:
 
 
 def cmd_eval(args) -> None:
-    from care_rag.config import CONFIGS
+    from care_rag.config import CONFIGS, DEFAULT_CONFIG
     from care_rag.evaluate import (
         calibrate_gate,
         config_meta,
@@ -77,19 +77,23 @@ def cmd_eval(args) -> None:
     print(f"{len(qs)} questions ({sum(not q.answerable for q in qs)} unanswerable)")
 
     if not args.skip_retrieval:
+        wanted = args.configs.split(",") if args.configs else list(CONFIGS) + ["rewrite"]
         for name, cfg in CONFIGS.items():
+            if name not in wanted:
+                continue
             print(f"retrieval: {name}")
             r = eval_retrieval(cfg, qs)
             save_run(f"retrieval_{name}", r, config_meta(cfg, kind="retrieval"))
-            if name == "hybrid_rerank":
+            if name == DEFAULT_CONFIG:
                 gate = calibrate_gate(r["rows"])
                 save_run("gate_calibration", {"rows": [], "summary": gate},
                          config_meta(cfg, kind="gate"))
                 print(f"  gate: recommended threshold {gate['recommended']}")
-        print("retrieval: hybrid_rerank + query rewrite")
-        r = eval_retrieval(CONFIGS["hybrid_rerank"], qs, rewrite=True)
-        save_run("retrieval_hybrid_rerank_rewrite", r,
-                 config_meta(CONFIGS["hybrid_rerank"], kind="retrieval", rewrite=True))
+        if "rewrite" in wanted:
+            print(f"retrieval: {DEFAULT_CONFIG} + query rewrite")
+            r = eval_retrieval(CONFIGS[DEFAULT_CONFIG], qs, rewrite=True)
+            save_run(f"retrieval_{DEFAULT_CONFIG}_rewrite", r,
+                     config_meta(CONFIGS[DEFAULT_CONFIG], kind="retrieval", rewrite=True))
 
     if not args.retrieval_only:
         runs = args.runs.split(",") if args.runs else list(ANSWER_RUNS)
@@ -127,6 +131,7 @@ def main(argv=None) -> None:
     s = sub.add_parser("eval", help="run the evaluation")
     s.add_argument("--retrieval-only", action="store_true", help="no LLM answer generation")
     s.add_argument("--skip-retrieval", action="store_true")
+    s.add_argument("--configs", help="comma-separated retrieval configs (plus 'rewrite')")
     s.add_argument("--runs", help=f"comma-separated subset of {','.join(ANSWER_RUNS)}")
     s.add_argument("--no-judge", action="store_true", help="skip the LLM judge")
     s.set_defaults(fn=cmd_eval)

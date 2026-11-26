@@ -11,14 +11,14 @@ RETRIEVAL_RUNS = [
     ("dense", "Dense only (multilingual-e5-base)"),
     ("hybrid", "Hybrid (dense + BM25, RRF)"),
     ("hybrid_small_chunks", "Hybrid, 150-word chunks"),
-    ("hybrid_rerank_small", "Hybrid + small reranker (mMiniLM)"),
-    ("hybrid_rerank", "Hybrid + bge-reranker-v2-m3 (default)"),
-    ("hybrid_rerank_rewrite", "Hybrid + bge reranker + LLM query rewrite"),
+    ("hybrid_rerank", "Hybrid + bge-reranker-v2-m3 (568M)"),
+    ("hybrid_rerank_small", "Hybrid + mMiniLM reranker (118M) - default"),
+    ("hybrid_rerank_small_rewrite", "Hybrid + mMiniLM reranker + LLM query rewrite"),
 ]
 ANSWER_RUNS = [
     ("hybrid", "Hybrid, no reranker"),
-    ("hybrid_rerank", "Hybrid + reranker (default)"),
-    ("hybrid_rerank_rewrite", "Hybrid + reranker + query rewrite"),
+    ("hybrid_rerank_small", "Hybrid + reranker (default)"),
+    ("hybrid_rerank_small_rewrite", "Hybrid + reranker + query rewrite"),
 ]
 
 
@@ -39,7 +39,9 @@ def _f(x, pct=False) -> str:
 
 
 def _ms(x) -> str:
-    return "-" if x is None else f"{x / 1000:.1f}s"
+    if x is None:
+        return "-"
+    return f"{x:.0f} ms" if x < 1000 else f"{x / 1000:.1f} s"
 
 
 def badness(r: dict) -> float:
@@ -117,7 +119,7 @@ def write_report() -> str:
         out.append(f"- highest threshold with zero false refusals: {g['recommended']}")
 
     if present:
-        default = "hybrid_rerank" if "hybrid_rerank" in present else present[0]
+        default = "hybrid_rerank_small" if "hybrid_rerank_small" in present else present[0]
         rows = sorted(_rows(f"answers_{default}"), key=badness, reverse=True)[:5]
         out.append(f"\n## Worst 5 answers (`{default}`), ranked automatically\n")
         for r in rows:

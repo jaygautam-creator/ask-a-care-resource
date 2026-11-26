@@ -69,3 +69,10 @@ def test_eval_set_sources_exist():
     ids = {s.id for s in load_sources()}
     for x in load_eval_set():
         assert x.relevant <= ids, (x.id, x.relevant - ids)
+
+
+def test_cited_numbers_forms():
+    from care_rag.answer import cited_numbers
+
+    assert cited_numbers("A [1]. B [2][3]. C [1, 4]. D [3,5]") == [1, 2, 3, 4, 5]
+    assert cited_numbers("no citations, see section [a]") == []

@@ -16,6 +16,17 @@ from sentence_transformers import SentenceTransformer
 from care_rag.config import EMBED_MODEL
 
 
+def load_hf(cls, name: str, **kwargs):
+    """Load a Hugging Face model from the local cache first, downloading only if missing.
+
+    Without this, every load sends "is there a newer revision?" requests to the Hub; on a flaky
+    network one of those hung a whole evaluation run with the model already on disk."""
+    try:
+        return cls(name, local_files_only=True, **kwargs)
+    except OSError:  # not cached yet: download once
+        return cls(name, **kwargs)
+
+
 def _device() -> str:
     if torch.backends.mps.is_available():
         return "mps"
@@ -24,7 +35,7 @@ def _device() -> str:
 
 @lru_cache(maxsize=2)
 def get_model(name: str = EMBED_MODEL) -> SentenceTransformer:
-    return SentenceTransformer(name, device=_device())
+    return load_hf(SentenceTransformer, name, device=_device())
 
 
 def _prefix(name: str, kind: str) -> str:

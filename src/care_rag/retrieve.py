@@ -45,13 +45,18 @@ def rrf(rank_lists: list[list[int]], k: int) -> dict[int, float]:
     return fused
 
 
-@lru_cache(maxsize=2)
+@lru_cache(maxsize=1)  # one cross-encoder in memory at a time (8 GB laptops)
 def get_reranker(name: str):
+    import torch
     from sentence_transformers import CrossEncoder
 
-    from care_rag.embed import _device
+    from care_rag.embed import _device, load_hf
 
-    return CrossEncoder(name, device=_device(), max_length=512)
+    device = _device()
+    # fp16 on GPU/MPS halves memory (bge-reranker-v2-m3: ~2.3 GB -> ~1.1 GB). On an 8 GB laptop
+    # the fp32 model pushed the process into swap and made one query take 10-30 s.
+    kwargs = {"torch_dtype": torch.float16} if device in ("mps", "cuda") else {}
+    return load_hf(CrossEncoder, name, device=device, max_length=512, model_kwargs=kwargs)
 
 
 def retrieve(query: str, cfg: RetrievalConfig, index: Index | None = None) -> list[Hit]:

@@ -23,9 +23,17 @@ from care_rag.prompts import ANSWER_SYSTEM, ANSWER_TEMPLATE, REWRITE_SYSTEM
 from care_rag.retrieve import Hit, retrieve
 
 # Cosine similarity (multilingual-e5) below which we refuse without asking the LLM.
-# e5 similarities are compressed (~0.70-0.90), so this sits low; see eval/calibrate_gate.py.
+# e5 similarities are compressed (~0.70-0.90), so this sits low. Calibrated by
+# `python -m care_rag.cli eval` (results/gate_calibration): on our eval set unanswerable
+# questions score 0.80-0.86, overlapping answerable ones (min 0.79), so the gate only
+# catches clearly off-topic questions and the LLM prompt does the real refusal work.
 GATE_THRESHOLD = float(os.getenv("GATE_THRESHOLD", "0.78"))
-CITE_RE = re.compile(r"\[(\d{1,2})\]")
+# Matches [2], [1][3] and the list form [1, 3] that models also produce.
+CITE_RE = re.compile(r"\[(\d{1,2}(?:\s*,\s*\d{1,2})*)\]")
+
+
+def cited_numbers(text: str) -> list[int]:
+    return sorted({int(n) for group in CITE_RE.findall(text) for n in group.split(",")})
 
 
 @dataclass
@@ -112,7 +120,7 @@ def answer(
         return AnswerResult(question, REFUSAL, True, "llm", [], [], hits, search_query,
                             resp.provider, resp.model, lat)
 
-    cited = sorted({int(n) for n in CITE_RE.findall(text)})
+    cited = cited_numbers(text)
     valid = [n for n in cited if 1 <= n <= len(hits)]
     invalid = [n for n in cited if n not in valid]
     citations = [

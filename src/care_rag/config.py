@@ -73,4 +73,6 @@ CONFIGS: dict[str, RetrievalConfig] = {
         name="hybrid_small_chunks", mode="hybrid", chunk=ChunkConfig(150, 30, 25)
     ),
 }
-DEFAULT_CONFIG = os.getenv("DEFAULT_CONFIG", "hybrid_rerank")
+# Chosen from the retrieval experiment: the small reranker matched or beat bge-reranker-v2-m3
+# on every metric at ~10x lower latency (see results/RESULTS.md).
+DEFAULT_CONFIG = os.getenv("DEFAULT_CONFIG", "hybrid_rerank_small")

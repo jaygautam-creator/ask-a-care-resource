@@ -266,8 +266,12 @@ questions:
     question: mummy 70 ki ho gayi hai, kya unka free ilaaj wala card banega? kaise apply karein
     answerable: true
     expected:
-      - [pib_vay_vandana_25lakh_2024, pmjay_senior_citizen_guidelines, pib_vay_vandana_two_years_2026]
+      - [pib_vay_vandana_25lakh_2024, pmjay_senior_citizen_guidelines, pib_vay_vandana_two_years_2026,
+         pib_vay_vandana_milestone_2024, pib_elderly_in_india_2025]
+      - [pib_vay_vandana_25lakh_2024, pmjay_senior_citizen_guidelines]
     key_facts: ["5 lakh"]
+    note: two parts - eligibility (group 1) and how to apply (group 2). Label corrected after a
+      retrieval miss showed the milestone release answers the eligibility part.
 
   - id: q30
     style: hinglish
