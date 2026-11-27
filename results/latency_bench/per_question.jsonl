@@ -1,0 +1,10 @@
+{"id": "q01", "refused": false, "provider": "gemini", "retrieve": 615, "generate": 1549, "total": 2164}
+{"id": "q05", "refused": false, "provider": "gemini", "retrieve": 571, "generate": 1225, "total": 1797}
+{"id": "q09", "refused": false, "provider": "gemini", "retrieve": 427, "generate": 2573, "total": 3000}
+{"id": "q13", "refused": false, "provider": "gemini", "retrieve": 397, "generate": 1250, "total": 1647}
+{"id": "q17", "refused": false, "provider": "gemini", "retrieve": 386, "generate": 1107, "total": 1492}
+{"id": "q21", "refused": false, "provider": "gemini", "retrieve": 352, "generate": 1142, "total": 1494}
+{"id": "q25", "refused": false, "provider": "gemini", "retrieve": 406, "generate": 1715, "total": 2121}
+{"id": "q29", "refused": false, "provider": "gemini", "retrieve": 352, "generate": 1431, "total": 1784}
+{"id": "q33", "refused": false, "provider": "gemini", "retrieve": 325, "generate": 1196, "total": 1521}
+{"id": "u03", "refused": true, "provider": "gemini", "retrieve": 369, "generate": 984, "total": 1353}

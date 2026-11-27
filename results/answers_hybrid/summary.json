@@ -16,7 +16,7 @@
     },
     "kind": "answers",
     "rewrite": false,
-    "date": "2026-11-26 21:57"
+    "date": "2026-11-27 13:35"
   },
   "summary": {
     "n": 43,
@@ -29,17 +29,19 @@
     "numbers_verified": 1.0,
     "cited_doc_precision": 0.949,
     "faithfulness": 1.0,
-    "citation_correct": 0.907,
+    "citation_correct": 0.888,
     "hit@5": 0.971,
     "mrr": 0.88,
     "generate_ms_p50": null,
     "generate_ms_p95": null,
-    "total_ms_p50": 18,
-    "total_ms_p95": 42,
+    "total_ms_p50": 21,
+    "total_ms_p95": 65,
     "providers": {
       "gemini:gemini-3.5-flash-lite": 43
     },
-    "self_judged": 1,
+    "self_judged": 0,
+    "drafts_flagged": 0,
+    "repaired": 0,
     "refused_by": {
       "gate": 0,
       "llm": 11

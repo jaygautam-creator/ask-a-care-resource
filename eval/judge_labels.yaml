@@ -18,9 +18,14 @@ labels:
      note: "faithful but incomplete: the Delhi amount section was not retrieved, and it says so"}
   - {run: hybrid_rerank_small, id: q25, faithful: true}
   - {run: hybrid_rerank_small, id: q27, faithful: true}
-  - {run: hybrid_rerank_small, id: q29, faithful: false,
-     note: "'7 lakh additional top-up' - passage [1] says up to 5 lakh"}
+  - {run: hybrid_rerank_small, id: q29, faithful: true,
+     note: "after verify-and-repair: 5 lakh cover + up to 5 lakh top-up, 14555, 1800110770 all in [1]; continuous application-based enrolment in [4]"}
   - {run: hybrid_rerank_small, id: q30, faithful: true}
   - {run: hybrid_rerank_small, id: q33, faithful: true}
-  - {run: hybrid_rerank_small, id: q34, faithful: false,
+  - {run: hybrid_rerank_small, id: q34, faithful: true,
+     note: "after verify-and-repair: now in Devanagari; every claim is a translation of [1]"}
+  # The first drafts of the two answers above, before the repair step (repair-off run).
+  - {run: hybrid_rerank_small_norepair, id: q29, faithful: false,
+     note: "'7 lakh additional top-up' - passage [1] says up to 5 lakh"}
+  - {run: hybrid_rerank_small_norepair, id: q34, faithful: false,
      note: "'7 lakh free health cover' - fabricated by adding 5 lakh + top-up; also answered a Hindi question in Roman Hinglish"}

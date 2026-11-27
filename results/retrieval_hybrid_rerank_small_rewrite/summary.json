@@ -15,18 +15,18 @@
       "rrf_k": 60
     },
     "kind": "retrieval",
-    "rewrite": true,
-    "date": "2026-11-26 20:59"
+    "rewrite": "fuse",
+    "date": "2026-11-27 13:39"
   },
   "summary": {
-    "hit@1": 0.971,
-    "hit@3": 0.971,
-    "hit@5": 0.971,
-    "recall@5": 0.971,
-    "mrr": 0.971,
+    "hit@1": 1.0,
+    "hit@3": 1.0,
+    "hit@5": 1.0,
+    "recall@5": 1.0,
+    "mrr": 1.0,
     "n": 34,
-    "retrieve_ms_p50": 905,
-    "retrieve_ms_p95": 1123,
+    "retrieve_ms_p50": 648,
+    "retrieve_ms_p95": 1094,
     "by_style": {
       "formal": {
         "n": 23,
@@ -40,8 +40,8 @@
       },
       "hinglish": {
         "n": 5,
-        "hit@5": 0.8,
-        "mrr": 0.8
+        "hit@5": 1.0,
+        "mrr": 1.0
       },
       "hindi": {
         "n": 2,

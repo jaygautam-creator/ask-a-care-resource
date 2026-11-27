@@ -9,11 +9,15 @@ evaluation is included, with all of its weak spots.
 ![Streamlit UI answering a Hindi question with cited sources](docs/ui.jpg)
 
 **Headline numbers** (43 hand-written questions, default configuration):
-- **Retrieval:** hit@5 1.00, MRR 0.98.
+- **Retrieval:** hit@5 1.00, MRR 0.98. With the optional query rewrite (multi-query fusion):
+  MRR 1.00, and the Hinglish questions go from 0.87 to 1.00.
 - **Refusals:** 9 of 9 unanswerable questions refused, with 0 false refusals.
-- **Answer quality:** key-fact recall 0.95, judge-rated citation correctness 0.92.
-- **Fabricated numbers:** 2 answers contained an invented amount ("₹7 lakh"). A deterministic
-  number check caught both; the LLM judge missed one of them.
+- **Answer quality:** key-fact recall 0.95, judge-rated faithfulness 1.00, every number in every
+  answer found in the cited passages.
+- **Fabricated numbers, caught and repaired:** without the repair step, 2 answers invented
+  "₹7 lakh" (the source says ₹5 lakh + a ₹5 lakh top-up). A deterministic number check flags
+  such drafts, and one corrective retry fixed both.
+- **Latency:** 1.6 s p50 and 3.0 s p95 end to end (uncached) on an 8 GB laptop.
 
 All the numbers are in [Results](#results).
 
@@ -38,7 +42,7 @@ make app       # Streamlit UI      http://localhost:8501   (shareable: /?q=your+
 make api       # FastAPI           http://localhost:8000/docs   POST /ask {"question": "..."}
 python -m care_rag.cli ask "papa 81 saal ke hain, BPL card hai, kitni pension milegi?"
 python -m care_rag.cli bench   # uncached end-to-end latency on 10 questions
-make test      # 30 unit tests, no network or keys needed
+make test      # 39 unit tests, no network or keys needed
 ```
 
 Notes:
@@ -73,12 +77,17 @@ sources.yaml ─▶ fetch ─▶ data/raw/  (committed snapshot + sha256 manifes
                             ▼
    fuse    Reciprocal Rank Fusion (k = 60) → top 20
    rerank  multilingual cross-encoder (mMiniLM-L12) → top 5 passages
+           (optional: also retrieve for an LLM English rewrite, fuse both rankings with RRF)
                             ▼
    gate    best cosine < 0.78 → "I don't know from these sources."   (no LLM call)
                             ▼
    answer  Gemini → Groq → Ollama fallback · numbered passages · strict prompt
                             ▼
    verify  every [n] must point at a shown passage · every number must appear in a passage
+           · a Hindi question must get a Devanagari answer
+                            ▼
+   repair  flagged draft → one retry with the problems listed → kept only if strictly better;
+           anything still unverified is shown to the user as a warning
 ```
 
 | File (`src/care_rag/`) | Responsibility |
@@ -87,10 +96,10 @@ sources.yaml ─▶ fetch ─▶ data/raw/  (committed snapshot + sha256 manifes
 | `clean.py` | HTML/PDF → markdown → sections; corpus-statistics repair of PDF kerning splits |
 | `chunk.py` | Section-bounded chunking with sentence-aligned overlap |
 | `embed.py`, `index.py` | e5 embeddings (`query:`/`passage:` prefixes), FAISS and BM25 indexes, one per chunk size |
-| `retrieve.py` | Dense, BM25, RRF fusion, optional cross-encoder rerank (fp16 on GPU/MPS) |
+| `retrieve.py` | Dense, BM25, RRF fusion, cross-encoder rerank (fp16 on GPU/MPS), multi-query fusion |
 | `llm.py` | Gemini / Groq / Ollama behind one interface: fallback, retry hints, timeouts, SQLite cache |
 | `prompts.py` | Every prompt in one reviewable file |
-| `answer.py` | Rewrite (optional) → retrieve → gate → generate → citation and number checks |
+| `answer.py` | Rewrite (optional) → retrieve → gate → generate → verify → repair |
 | `evaluate.py`, `report.py` | Metrics, LLM judge, judge check, gate calibration, `results/RESULTS.md` |
 | `cli.py`, `../app.py`, `../api.py` | CLI, Streamlit UI, FastAPI |
 
@@ -143,14 +152,27 @@ an extra LLM call.
 - Every **number** in the answer (amounts, ages, limits, phone numbers) must appear in the
   passages or in the user's own question. The check also matches numbers the source spells out,
   such as "ninety days".
-- Unverified numbers are shown to the user as a warning. A fabricated "₹7 lakh" reads exactly as
-  convincingly as a real "₹5 lakh", and a family acts on that number.
+- A Hindi (Devanagari) question must get a Devanagari answer; the model sometimes slipped into
+  Roman Hinglish.
+- **A flagged draft is repaired, not just flagged.** It goes back to the model once, with the
+  exact problems listed ("these numbers do not appear in the passages: 7 lakh"). The retry is
+  kept only if it is strictly better on the same checks and still cites its sources; otherwise
+  the draft stays. Clean answers cost nothing extra.
+- Whatever is still unverified is shown to the user as a warning. A fabricated "₹7 lakh" reads
+  exactly as convincingly as a real "₹5 lakh", and a family acts on that number.
+
+**Query rewrite uses multi-query fusion, not concatenation.** An LLM rewrites Hinglish, Hindi or
+distressed questions into an English search query. Appending that rewrite to the question let it
+pull the ranking away from what the user literally asked (stressed MRR fell 1.00 → 0.69).
+Retrieving separately for the question and the rewrite, then fusing the two rankings with RRF,
+keeps both: MRR 1.00 on every style.
 
 **A different model family judges.**
-- Answers come from Gemini; the judge is Groq's `gpt-oss-120b`.
-- When Groq is rate-limited, the judge waits (using Groq's own "try again in N s" hint) rather
-  than falling back to Gemini grading Gemini's own answers.
-- Any remaining self-judged answers are counted in the results.
+- Answers come from Gemini; the judge is `gpt-oss-120b` on Groq (OpenAI's open-weight model).
+- Its backup is `qwen3.8-27b`, also on Groq: a third model family, with a separate daily quota.
+  Gemini is only the last resort.
+- Rows where the judge and the answerer come from the same model family are flagged as
+  self-judged and counted in the results. In the final runs there are none.
 - Temperature is 0 everywhere.
 
 **Dates matter.** Amounts and schemes change; PMVVY, for example, closed on 31 March 2023. The
@@ -204,7 +226,7 @@ is noted in the file.
 | Citation correctness | Judge: the passage cited next to a claim actually contains it |
 | Numbers verified | Share of answers in which every number appears in the passages shown (deterministic) |
 | Citations valid | No `[n]` outside the shown passages, and at least one citation |
-| Judge check | Agreement between the judge and 12 hand-labelled answers ([`eval/judge_labels.yaml`](eval/judge_labels.yaml)) |
+| Judge check | Agreement between the judge and 14 hand-labelled answers ([`eval/judge_labels.yaml`](eval/judge_labels.yaml)) |
 
 ## Results
 
@@ -221,7 +243,10 @@ are in `results/*/per_question.jsonl`.
 | Hybrid, 150-word chunks | 0.79 | 0.97 | 0.97 | 0.88 | 23 ms |
 | Hybrid + bge-reranker-v2-m3 (568M) | 0.94 | 0.97 | 0.97 | 0.96 | 2.3 s |
 | **Hybrid + mMiniLM reranker (118M), default** | **0.97** | **1.00** | **1.00** | **0.98** | 244 ms |
-| Default + LLM query rewrite | 0.97 | 0.97 | 0.97 | 0.97 | 0.9 s |
+| Default + LLM rewrite, appended to the question | 0.94 | 0.97 | 1.00 | 0.96 | 289 ms + rewrite |
+| Default + LLM rewrite, multi-query RRF fusion | 1.00 | 1.00 | 1.00 | 1.00 | 648 ms + rewrite |
+
+Retrieval latency excludes the rewrite LLM call itself (about 1 s).
 
 MRR by style: formal (n=23) / stressed (4) / Hinglish (5) / Hindi (2).
 
@@ -231,23 +256,26 @@ MRR by style: formal (n=23) / stressed (4) / Hinglish (5) / Hindi (2).
 | Dense only | 0.96 | 0.83 | 0.70 | 1.00 |
 | Hybrid | 0.96 | 0.48 | 0.80 | 1.00 |
 | Hybrid + mMiniLM reranker | 1.00 | 1.00 | 0.87 | 1.00 |
+| + rewrite, appended | 1.00 | 0.69 | 1.00 | 1.00 |
+| + rewrite, fused | 1.00 | 1.00 | 1.00 | 1.00 |
 
-### The experiment: end to end, with and without the reranker
+### The experiment: end to end, one change at a time
 
-The answer model is `gemini-3.5-flash-lite` for all 43 questions in both runs, and the judge is
-`gpt-oss-120b` on Groq.
+The answer model is `gemini-3.5-flash-lite` for all 43 questions in every run, and the judge is
+`gpt-oss-120b` on Groq (no self-judged answers in any run).
 
-| Run | Expected source in LLM context | Refusal accuracy | False refusals | Key-fact recall | Faithfulness | Citation correct | Numbers verified | Citations valid |
-|---|---|---|---|---|---|---|---|---|
-| Hybrid, no reranker | 97% | 100% (9/9) | 6% (2/34) | 0.91 | 1.00 | 0.91 | 100% | 100% |
-| **Hybrid + reranker (default)** | 97% | **100% (9/9)** | **0% (0/34)** | **0.95** | 1.00 | **0.92** | 94% | 100% |
+| Run | Expected source in LLM context | Refusal accuracy | False refusals | Key-fact recall | Faithfulness | Citation correct | Numbers verified |
+|---|---|---|---|---|---|---|---|
+| Hybrid, no reranker | 97% | 100% (9/9) | 6% (2/34) | 0.91 | 1.00 | 0.89 | 100% |
+| Hybrid + reranker, verify-and-repair off | 97% | 100% (9/9) | 0% (0/34) | 0.95 | 0.99 | 0.90 | 94% |
+| **Hybrid + reranker + verify-and-repair (default)** | 97% | **100% (9/9)** | **0% (0/34)** | **0.95** | **1.00** | 0.90 | **100%** |
+| Default + query rewrite (fusion) | **100%** | 100% (9/9) | 6% (2/34) | 0.94 | 1.00 | **0.92** | 100% |
 
-- **Judge check:** the judge agreed with my hand labels on 11 of 12 answers. Its one miss was
-  q29, which it graded "fully faithful" although it contains the fabricated "7 lakh".
-- **Self-judged answers:** Groq's daily token limit ran out mid-run, so 7 answers in the default
-  run (q26–q29, q31, q32, q34) were judged by Gemini, the answer model itself. They are
-  re-judged by Groq once the quota resets; see
-  [Reproducing the remaining runs](#reproducing-the-remaining-runs).
+Citations were valid (every `[n]` points at a shown passage) in 100% of answers in every run.
+
+- **Judge check:** the judge agreed with my hand labels on all 14 labelled answers. They include
+  the two fabricated "7 lakh" drafts (repair-off run), which it correctly marked unfaithful, and
+  their repaired versions, which it correctly marked faithful.
 - **Refusals came from the LLM layer, not the gate.** The gate refused 0 questions.
 
 ### Observations
@@ -270,24 +298,29 @@ The answer model is `gemini-3.5-flash-lite` for all 43 questions in both runs, a
    - The gate therefore only catches clearly off-topic input, and all 9 refusals came from the
      strict prompt.
    - With 9 unanswerable questions, 100% means "no failure seen", not "never fails".
-3. **The LLM judge overstates faithfulness, and a deterministic check is worth adding.**
-   - The judge put faithfulness at about 1.00. The number check found 2 answers (q29, q34) that
-     invented "₹7 lakh": the source says ₹5 lakh cover plus a ₹5 lakh top-up, and the model
-     added them up.
-   - Both were among the answers Gemini ended up judging itself, after Groq's quota ran out. It
-     gave q34 0.88 and q29 a full 1.00. That is exactly why the judge is meant to be a different
-     model family, and why self-judged answers are counted rather than hidden.
-   - In the app, that number is shown to the user as unverified.
-4. **Hinglish is the weak spot, and query rewriting did not fix it.**
+3. **Checking numbers deterministically, and repairing, is worth more than a better prompt.**
+   - With repair off, 2 answers (q29, q34) invented "₹7 lakh": the source says ₹5 lakh cover
+     plus a ₹5 lakh top-up, and the model added them up. The prompt already said "use only
+     facts stated in the passages".
+   - The number check flagged both. One retry, with the bad number named, fixed both: numbers
+     verified 94% → 100%, faithfulness 0.99 → 1.00, and q34 also switched to Devanagari.
+   - The judge only scores faithfulness after the fact. Earlier in development, when Groq's quota
+     ran out and Gemini graded its own answers, it rated the q29 fabrication fully faithful. The
+     cross-family judge caught it, which is why the judge's backup is now a third model family.
+4. **Hinglish was the weak spot. Multi-query rewriting fixes retrieval, but costs refusals.**
    - "beta ghar se nikal diya hai papa ko…" ("son has thrown father out of the house") shares
-     no words with the Act's "maintenance", "Tribunal" and "children".
-   - The reranker lifts the Act to document rank 3, but not into the 5 passages the LLM sees.
-     The answer points to Elderline (useful, but not the legal remedy).
-   - The LLM rewrite turned the question into "financial assistance… evicted… no money", which
-     is a reasonable reading that moves *away* from the Act's vocabulary. Hinglish MRR dropped
-     0.87 → 0.80.
-   - I did not tune the rewrite prompt toward this one question; that would be fitting to the
-     test set.
+     no words with the Act's "maintenance", "Tribunal" and "children". Without rewriting, the
+     answer points only to Elderline.
+   - With the fused rewrite, the Act is ranked first and the answer explains the Maintenance Act
+     and the Tribunal. Hinglish MRR goes 0.87 → 1.00, and the expected source reaches the LLM's
+     context for 100% of questions.
+   - But two answerable questions are now refused. q19 asks about PMVVY, which has closed, and
+     the model reads "the scheme closed" as "I don't know". q23 is a two-part question that lost
+     its tax passage. So the rewrite is a UI toggle, not the default. It also adds about 1 s per
+     question.
+   - The rewrite prompt is generic; I did not tune it toward q28. The first rewrite model
+     (`gemini-3.5-flash`) produced "financial assistance…" and missed the Act; `flash-lite`
+     wrote "maintenance and eviction laws". On 5 Hinglish questions, this is one data point.
 5. **Document-level retrieval metrics hide section-level misses.**
    - q23 (Delhi tax plus pension) scores hit@5 = 1, but the retrieved Delhi chunks were the
      disability and COVID schemes, not the "Quantum of Assistance" section.
@@ -298,28 +331,30 @@ The answer model is `gemini-3.5-flash-lite` for all 43 questions in both runs, a
 
 | Question | What went wrong | Cause | Fix I would try |
 |---|---|---|---|
-| **q28** Hinglish: son threw father out, no money | Pointed to Elderline; never mentioned the Maintenance Tribunal | Vocabulary gap Hinglish ↔ legal English; the Act is at document rank 3 but outside the top 5 chunks | Multi-query retrieval (original + rewrite + "legal remedy" reformulation) fused by RRF; or give the LLM 8 passages for low-confidence queries |
-| **q34** Hindi: father is 75, free treatment? | "₹7 lakh cover" (fabricated), and answered in Roman Hinglish, not Devanagari | Model arithmetic over two "5 lakh" facts; language rule in the prompt was ignored | Number check blocks or regenerates (not just warns); a stronger answer model; enforce script with a post-check |
-| **q29** Hinglish: mother is 70, card, how to apply | Same "₹7 lakh" fabrication; the self-judging Gemini scored it fully faithful | As above; the same model family wrote and graded it | The number check caught it; re-judge with the cross-family judge (pending the quota reset) |
+| **q28** Hinglish: son threw father out, no money | Pointed to Elderline; never mentioned the Maintenance Tribunal | Vocabulary gap Hinglish ↔ legal English; the Act is at document rank 3 but outside the top 5 chunks | **Fixed with the query rewrite** (multi-query fusion), at the cost described in observation 4 |
 | **q23** Delhi: tax benefit + state pension | Gave the tax part; said the pension amount was not in the sources | The "Quantum of Assistance" section was ranked below the Delhi disability/COVID sections | Section-aware retrieval: at most 2 chunks per document in the top 5, so more sections and documents get in |
-| **q19** (no-reranker run) Can I still invest in PMVVY? | Refused, although the PMVVY source was retrieved first | The answer ("the scheme closed on 31 March 2023") is a *negative* fact; the model treated "can't invest" as "don't know" | Prompt example for "the scheme exists but is closed"; the reranked run answered it correctly |
+| **q19** (rewrite and no-reranker runs) Can I still invest in PMVVY? | Refused, although the PMVVY source was retrieved first | The answer ("the scheme closed on 31 March 2023") is a *negative* fact; the model treats "you can't" as "I don't know" | A prompt rule and example: a closed or discontinued scheme is an answer, not a refusal |
+| **q34** Hindi: father is 75, free treatment? | (repair off) "₹7 lakh cover", in Roman Hinglish | Model arithmetic over two "5 lakh" facts; the script rule in the prompt was ignored | **Fixed by verify-and-repair**: the retry states 5 lakh + 5 lakh top-up, in Devanagari |
+| **q29** Hinglish: mother is 70, card, how to apply | (repair off) the same "₹7 lakh" | As above | **Fixed by verify-and-repair** |
 
 ### Latency
 
-Measured on an M2 MacBook Air with 8 GB, with models warm.
-- **Retrieval** (embed + FAISS + BM25 + rerank) takes **~0.25 s**; see the table above.
-- **Generation** with `gemini-3.5-flash-lite` took **~2–3 s** per answer in spot checks, for a
-  total of about 3 s.
-- `python -m care_rag.cli bench` measures every stage uncached on 10 questions and writes it into
-  `results/RESULTS.md`. The full uncached benchmark, the query-rewrite answer run, and re-judging
-  the self-judged answers are pending. All three were blocked by the free-tier daily quotas, and
-  each needs one command once they reset (see [Reproducing the remaining runs](#reproducing-the-remaining-runs)).
+Uncached, measured by `python -m care_rag.cli bench` on 10 questions of every style, on an M2
+MacBook Air with 8 GB, with models warm:
+
+| Stage | p50 | p95 |
+|---|---|---|
+| Retrieve (embed + FAISS + BM25 + rerank) | 386 ms | 615 ms |
+| Generate (`gemini-3.5-flash-lite`) | 1.2 s | 2.6 s |
+| **Total** | **1.6 s** | **3.0 s** |
+
+A repair retry, when it happens, adds about 2 s; the optional rewrite adds about 1 s.
 
 ## Limitations
 
 - **Small eval set.** 43 questions, 9 unanswerable, 2 in Hindi. Differences of a few points are
   one question, and the default config was picked on the same set.
-- **One annotator.** The eval questions and the 12 judge-check labels were written by one person
+- **One annotator.** The eval questions and the 14 judge-check labels were written by one person
   with an AI assistant.
 - **Hindi PDF extraction.** The Hindi PIB PDF uses a legacy font encoding, so some matras come
   out wrong ("परिचय" → "पररचय"). Hindi questions still retrieve well because the English sources
@@ -329,11 +364,12 @@ Measured on an M2 MacBook Air with 8 GB, with models warm.
 
 ## What I'd do next
 
-1. **Act on the number check instead of only warning**: regenerate once with the offending
-   claim pointed out, and fall back to quoting the passage.
-2. **Multi-query retrieval for Hinglish/Hindi**: fuse the original question, an English rewrite
-   and a "what is the legal or scheme remedy" reformulation with RRF. Evaluate it on a larger
-   Hinglish set, since 5 questions can't show a real difference.
+1. **Make the rewrite safe enough to be the default**: fix the "closed scheme" refusal with a
+   prompt rule, keep more passages when the two rankings disagree, and run it only for
+   non-English or low-confidence questions. Evaluate on a larger Hinglish set, since 5
+   questions can't show a real difference.
+2. **Stronger repair fallback**: when the retry is still unverified, replace the sentence with a
+   direct quote of the passage instead of only warning.
 3. **Diversify the context**: at most 2 chunks per document in the top 5, and section-level labels
    for the eval, so misses like q23 become visible.
 4. **A bigger, second-annotator eval set**, especially Hindi and unanswerables. Report confidence
@@ -343,23 +379,12 @@ Measured on an M2 MacBook Air with 8 GB, with models warm.
 6. **Freshness**: re-fetch on a schedule, diff against the manifest hashes, and flag answers whose
    source changed.
 
-## Reproducing the remaining runs
-
-Free-tier quotas (Gemini daily requests; Groq daily tokens for `gpt-oss-120b`) ran out during
-development. Everything already computed is cached. After the quotas reset:
-
-```bash
-ANSWER_PROVIDERS=gemini python -m care_rag.cli eval --skip-retrieval   # rewrite run + re-judge
-python -m care_rag.cli eval --retrieval-only --configs rewrite          # rewrite with the same model
-python -m care_rag.cli bench                                            # uncached latency
-```
-
 ## AI tools used
 
 Built with **Claude Code** (Anthropic's coding agent) as a pair programmer.
 - **Claude Code's part:** it wrote most of the code, debugged the PDF extraction and the memory
   and network stalls, drafted the eval questions from facts it looked up in the cleaned corpus,
-  and hand-checked the 12 judge-check answers against their passages.
+  and hand-checked the 14 judge-check answers against their passages.
 - **My part:** the scope and the model choices (India, Gemini → Groq → Ollama), reviewing the
   eval set (the stressed, Hinglish and Hindi phrasings in particular), and the decisions on what
   to report.
