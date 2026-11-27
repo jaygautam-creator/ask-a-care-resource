@@ -39,6 +39,7 @@ class AskResponse(BaseModel):
     sources: list[Source]
     invalid_citations: list[int]
     unverified_numbers: list[str]
+    repaired: bool  # a flagged first draft was replaced by a corrected retry
     provider: str | None
     latency_ms: dict
 
@@ -65,6 +66,7 @@ def ask(req: AskRequest) -> AskResponse:
                         chunk_id=c.chunk_id) for c in res.citations],
         invalid_citations=res.invalid_citations,
         unverified_numbers=res.unverified_numbers,
+        repaired=res.repaired,
         provider=f"{res.provider}:{res.model}" if res.provider else None,
         latency_ms={k: round(v) for k, v in res.latency_ms.items()},
     )

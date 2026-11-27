@@ -18,11 +18,13 @@ import warnings
 warnings.filterwarnings("ignore")  # third-party deprecation noise; real errors still raise
 os.environ.setdefault("TOKENIZERS_PARALLELISM", "false")
 
-# The answer-level experiment: same retrieval stack, with and without each change.
+# The answer-level experiment: same pipeline, with and without each change.
+# run name -> (retrieval config, query rewrite, verify-and-repair)
 ANSWER_RUNS = {
-    "hybrid": ("hybrid", False),
-    "hybrid_rerank_small": ("hybrid_rerank_small", False),
-    "hybrid_rerank_small_rewrite": ("hybrid_rerank_small", True),
+    "hybrid": ("hybrid", False, True),
+    "hybrid_rerank_small_norepair": ("hybrid_rerank_small", False, False),
+    "hybrid_rerank_small": ("hybrid_rerank_small", False, True),
+    "hybrid_rerank_small_rewrite": ("hybrid_rerank_small", True, True),
 }
 
 
@@ -78,7 +80,8 @@ def cmd_eval(args) -> None:
     print(f"{len(qs)} questions ({sum(not q.answerable for q in qs)} unanswerable)")
 
     if not args.skip_retrieval:
-        wanted = args.configs.split(",") if args.configs else list(CONFIGS) + ["rewrite"]
+        everything = [*CONFIGS, "rewrite", "rewrite_concat"]
+        wanted = args.configs.split(",") if args.configs else everything
         for name, cfg in CONFIGS.items():
             if name not in wanted:
                 continue
@@ -90,20 +93,23 @@ def cmd_eval(args) -> None:
                 save_run("gate_calibration", {"rows": [], "summary": gate},
                          config_meta(cfg, kind="gate"))
                 print(f"  gate: recommended threshold {gate['recommended']}")
-        if "rewrite" in wanted:
-            print(f"retrieval: {DEFAULT_CONFIG} + query rewrite")
-            r = eval_retrieval(CONFIGS[DEFAULT_CONFIG], qs, rewrite=True)
-            save_run(f"retrieval_{DEFAULT_CONFIG}_rewrite", r,
-                     config_meta(CONFIGS[DEFAULT_CONFIG], kind="retrieval", rewrite=True))
+        for mode, suffix in (("fuse", "rewrite"), ("concat", "rewrite_concat")):
+            if suffix not in wanted:
+                continue
+            print(f"retrieval: {DEFAULT_CONFIG} + query rewrite ({mode})")
+            r = eval_retrieval(CONFIGS[DEFAULT_CONFIG], qs, rewrite=mode)
+            save_run(f"retrieval_{DEFAULT_CONFIG}_{suffix}", r,
+                     config_meta(CONFIGS[DEFAULT_CONFIG], kind="retrieval", rewrite=mode))
 
     if not args.retrieval_only:
         runs = args.runs.split(",") if args.runs else list(ANSWER_RUNS)
         for run in runs:
-            cfg_name, rewrite = ANSWER_RUNS[run]
+            cfg_name, rewrite, repair = ANSWER_RUNS[run]
             print(f"answers: {run}")
-            r = eval_answers(CONFIGS[cfg_name], qs, rewrite=rewrite, use_judge=not args.no_judge)
+            r = eval_answers(CONFIGS[cfg_name], qs, rewrite=rewrite, repair=repair,
+                             use_judge=not args.no_judge)
             save_run(f"answers_{run}", r, config_meta(CONFIGS[cfg_name], kind="answers",
-                                                      rewrite=rewrite))
+                                                      rewrite=rewrite, repair=repair))
             print(json.dumps({k: v for k, v in r["summary"].items() if k != "by_style"}))
     print(f"report: {write_report()}")
 

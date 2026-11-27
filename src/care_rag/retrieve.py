@@ -7,6 +7,7 @@ from the original RRF paper (Cormack et al., 2009).
 
 from __future__ import annotations
 
+import dataclasses
 from dataclasses import dataclass, field
 from functools import lru_cache
 
@@ -98,3 +99,25 @@ def retrieve(query: str, cfg: RetrievalConfig, index: Index | None = None) -> li
             )
         )
     return hits
+
+
+def retrieve_multi(queries: list[str], cfg: RetrievalConfig) -> list[Hit]:
+    """Multi-query retrieval: run the full pipeline for each query (e.g. the user's question
+    and an English rewrite), then fuse the final rankings with RRF.
+
+    Concatenating the rewrite onto the question lets a rewrite pull the ranking away from what
+    the user literally asked; fusing keeps each ranking's top results and rewards passages both
+    agree on. The refusal gate uses the best cosine similarity to any of the queries."""
+    if len(queries) == 1:
+        return retrieve(queries[0], cfg)
+    deep = dataclasses.replace(cfg, top_k=max(cfg.top_k, 20))
+    lists = [retrieve(q, deep) for q in queries]
+    fused = rrf([[h.chunk.chunk_id for h in hits] for hits in lists], cfg.rrf_k)
+    best: dict[str, Hit] = {}
+    for hits in lists:
+        for h in hits:
+            prev = best.get(h.chunk.chunk_id)
+            if prev is None or (h.dense_sim or 0) > (prev.dense_sim or 0):
+                best[h.chunk.chunk_id] = h
+    top = sorted(fused.items(), key=lambda kv: -kv[1])[: cfg.top_k]
+    return [dataclasses.replace(best[cid], score=s) for cid, s in top]

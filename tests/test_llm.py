@@ -43,3 +43,14 @@ def test_redact():
 
     out = redact("limit for org_01kw3zq2abc key gsk_abcdefghijklmnop AIzaSyA1234567890abc")
     assert "01kw3zq2abc" not in out and "abcdefghijklmnop" not in out and "1234567890" not in out
+
+
+def test_model_family_and_provider_specs():
+    from care_rag.llm import _provider, model_family
+
+    assert model_family("gemini", "gemini-3.5-flash-lite") == "google"
+    assert model_family("groq", "openai/gpt-oss-120b") == "openai"
+    assert model_family("groq", "qwen/qwen3.8-27b") == "qwen"
+    assert model_family("ollama", "llama3.1:8b") == "llama"
+    p = _provider("groq:qwen/qwen3.8-27b", "judge")
+    assert (p.name, p.model) == ("groq", "qwen/qwen3.8-27b")

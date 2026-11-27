@@ -131,6 +131,13 @@ def render(res: AnswerResult) -> None:
             st.warning("Could not find these numbers in the cited sources: "
                        f"{', '.join(res.unverified_numbers)}. Please check them in the "
                        "source before relying on them.", icon="⚠️")
+        if res.repaired:
+            st.markdown("<span class='muted'>✓ Self-checked: the first draft "
+                        + ("stated numbers that are not in the sources"
+                           if any("numbers" in i for i in res.draft_issues)
+                           else "was in the wrong script")
+                        + ", so it was corrected before being shown.</span>",
+                        unsafe_allow_html=True)
 
     if res.citations:
         st.markdown("**Sources**")
@@ -145,7 +152,8 @@ def render(res: AnswerResult) -> None:
     if show_passages:
         with st.expander("Retrieved passages"):
             if res.search_query != res.question:
-                st.caption(f"Search query after rewrite: {res.search_query}")
+                st.caption("Also searched for (English rewrite, rankings fused): "
+                           f"{res.search_query}")
             for n, h in enumerate(res.hits, 1):
                 st.markdown(f"**[{n}] {h.chunk.title}** — {h.chunk.section or 'intro'}")
                 st.caption(f"score {h.score:.3f} · cosine {h.dense_sim:.3f} · dense rank "
@@ -153,7 +161,7 @@ def render(res: AnswerResult) -> None:
                 st.text(h.chunk.text[:1000])
 
     lat = " · ".join(f"{k} {v / 1000:.1f}s" for k, v in res.latency_ms.items()
-                     if not (res.cached and k in ("generate", "total")))
+                     if not (res.cached and k in ("generate", "repair", "total")))
     model = f"{res.provider}:{res.model}" if res.provider else "no LLM call"
     if res.cached:
         model += " (cached answer)"

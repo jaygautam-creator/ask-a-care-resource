@@ -3,8 +3,9 @@
 * Answer chain (user's preference): Gemini -> Groq -> Ollama. A provider is used only if it is
   configured (API key present / Ollama reachable); if a call fails (rate limit, outage), the
   next provider is tried and the answer records which provider actually produced it.
-* Judge chain: Groq -> Gemini -> Ollama, i.e. a *different model family* from the answerer by
-  default, so the judge is not grading its own outputs.
+* Judge chain: Groq gpt-oss-120b -> Groq Qwen -> Gemini -> Ollama, i.e. a *different model
+  family* from the answerer, so the judge is not grading its own outputs (if it ever falls
+  back to Gemini, the evaluation flags those rows as self-judged).
 * Every response is cached in SQLite keyed by (provider, model, system, prompt, json flag).
   Evaluation reruns are free and deterministic, and free-tier rate limits do not break a run.
   Temperature is 0 everywhere.
@@ -148,7 +149,9 @@ class OllamaProvider(Provider):
         return resp.json()["message"]["content"]
 
 
-def _provider(name: str, role: str) -> Provider:
+def _provider(spec: str, role: str) -> Provider:
+    """`spec` is a provider name ("gemini") or "provider:model" ("groq:qwen/qwen3.8-27b")."""
+    name, _, model = spec.partition(":")
     defaults = {
         # flash-lite: the free tier's daily quota for gemini-3.5-flash ran out after ~20 calls,
         # too few for an evaluation run (43 questions x 3 configurations).
@@ -159,7 +162,20 @@ def _provider(name: str, role: str) -> Provider:
         "ollama": os.getenv("OLLAMA_MODEL", "llama3.1:8b"),
     }
     cls = {"gemini": GeminiProvider, "groq": GroqProvider, "ollama": OllamaProvider}[name]
-    return cls(defaults[name])
+    return cls(model or defaults[name])
+
+
+def model_family(provider: str | None, model: str | None) -> str | None:
+    """Who trained the model: used to detect a judge grading its own family's answers.
+    Groq and Ollama host other labs' models ("openai/gpt-oss-120b" -> "openai")."""
+    if provider is None:
+        return None
+    if provider == "gemini":
+        return "google"
+    m = (model or "").lower()
+    if "/" in m:
+        return m.split("/")[0]
+    return re.match(r"[a-z]+", m).group(0) if re.match(r"[a-z]+", m) else provider
 
 
 # -------------------------------------------------------------------------------------- cache
@@ -262,7 +278,12 @@ class LLM:
         raise LLMError("all providers failed: " + " | ".join(errors))
 
 
-ORDER = {"answer": ["gemini", "groq", "ollama"], "judge": ["groq", "gemini", "ollama"]}
+# The judge's backup is a third model family on Groq (separate daily token quota), so a
+# exhausted first choice does not hand grading to Gemini, the answer model's own family.
+ORDER = {
+    "answer": ["gemini", "groq", "ollama"],
+    "judge": ["groq", "groq:qwen/qwen3.8-27b", "gemini", "ollama"],
+}
 
 
 @lru_cache(maxsize=4)

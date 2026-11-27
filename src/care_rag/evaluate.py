@@ -43,9 +43,9 @@ from care_rag.answer import (
     rewrite_query,
 )
 from care_rag.config import EVAL_DIR, RESULTS_DIR, RetrievalConfig
-from care_rag.llm import LLMError, get_llm, parse_json
+from care_rag.llm import LLMError, get_llm, model_family, parse_json
 from care_rag.prompts import JUDGE_SYSTEM, JUDGE_TEMPLATE
-from care_rag.retrieve import retrieve
+from care_rag.retrieve import retrieve_multi
 
 RETRIEVAL_DEPTH = 10  # documents considered for MRR / hit@k
 
@@ -95,18 +95,25 @@ def retrieval_scores(q: EvalQuestion, docs: list[str]) -> dict:
     return out
 
 
-def search_query(question: str, rewrite: bool) -> str:
-    return f"{question}\n{rewrite_query(question)}" if rewrite else question
+def search_queries(question: str, rewrite: bool | str) -> list[str]:
+    """rewrite=False: the question. True / "fuse": question and English rewrite, retrieved
+    separately and fused (what answer() does). "concat": rewrite appended to the question."""
+    if not rewrite:
+        return [question]
+    rw = rewrite_query(question)
+    return [f"{question}\n{rw}"] if rewrite == "concat" else [question, rw]
 
 
-def eval_retrieval(cfg: RetrievalConfig, qs: list[EvalQuestion], rewrite: bool = False) -> dict:
+def eval_retrieval(
+    cfg: RetrievalConfig, qs: list[EvalQuestion], rewrite: bool | str = False
+) -> dict:
     """Retrieval-only run (no answer generation). Also records the refusal-gate signal."""
     deep = replace(cfg, top_k=max(cfg.top_k, 20))  # deeper list, so ranks up to 10 docs exist
     rows = []
     for q in qs:
-        sq = search_query(q.question, rewrite)
+        queries = search_queries(q.question, rewrite)
         t0 = time.perf_counter()
-        hits = retrieve(sq, deep)
+        hits = retrieve_multi(queries, deep)
         ms = (time.perf_counter() - t0) * 1000
         docs = ranked_docs([h.chunk.doc_id for h in hits])[:RETRIEVAL_DEPTH]
         row = {
@@ -181,8 +188,9 @@ def judge(res: AnswerResult) -> dict:
     n = len(claims)
     return {
         "judge": f"{resp.provider}:{resp.model}",
-        # True if the judge graded its own model's answer (only after provider fallbacks)
-        "self_judged": (resp.provider, resp.model) == (res.provider, res.model),
+        # True if the judge graded its own model family's answer (only after fallbacks)
+        "self_judged": model_family(resp.provider, resp.model)
+        == model_family(res.provider, res.model),
         "n_claims": n,
         "faithfulness": sum(bool(c.get("supported")) for c in claims) / n if n else None,
         "citation_correct": sum(bool(c.get("citation_correct")) for c in claims) / n if n else None,
@@ -197,6 +205,7 @@ def eval_answers(
     rewrite: bool = False,
     gate: float | None = None,
     use_judge: bool = True,
+    repair: bool = True,
 ) -> dict:
     from care_rag.answer import GATE_THRESHOLD
 
@@ -204,7 +213,7 @@ def eval_answers(
     rows = []
     for i, q in enumerate(qs, 1):
         try:
-            res = answer(q.question, cfg, gate=gate, rewrite=rewrite)
+            res = answer(q.question, cfg, gate=gate, rewrite=rewrite, repair=repair)
         except LLMError as exc:  # quota/outage: record and continue; a rerun fills it in
             rows.append({"id": q.id, "style": q.style, "answerable": q.answerable,
                          "question": q.question, "error": str(exc)[:300]})
@@ -225,6 +234,8 @@ def eval_answers(
             "cited_docs": cited_docs,
             "invalid_citations": res.invalid_citations,
             "unverified_numbers": res.unverified_numbers,
+            "draft_issues": res.draft_issues,
+            "repaired": res.repaired,
             "best_sim": max((h.dense_sim or 0) for h in res.hits) if res.hits else 0.0,
             "latency_ms": res.latency_ms,
         }
@@ -284,6 +295,9 @@ def summarize_answers(rows: list[dict]) -> dict:
         "total_ms_p95": pct(total, 95),
         "providers": providers,
         "self_judged": sum(bool(r.get("self_judged")) for r in rows),
+        # verify-and-repair: drafts the checks flagged, and how many retries were kept
+        "drafts_flagged": sum(bool(r.get("draft_issues")) for r in rows),
+        "repaired": sum(bool(r.get("repaired")) for r in rows),
         "refused_by": {
             "gate": sum(r["refusal_reason"] == "gate" for r in rows),
             "llm": sum(r["refusal_reason"] == "llm" for r in rows),
@@ -367,6 +381,8 @@ def judge_agreement(labels_path=EVAL_DIR / "judge_labels.yaml") -> dict | None:
     pairs = []
     for lab in labels:
         p = RESULTS_DIR / f"answers_{lab['run']}" / "per_question.jsonl"
+        if not p.exists():  # that run has not been produced yet
+            continue
         rows = {r["id"]: r for r in map(json.loads, open(p, encoding="utf-8"))}
         row = rows.get(lab["id"])
         if not row or row.get("faithfulness") is None:

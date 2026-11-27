@@ -31,6 +31,26 @@ Answer (cite passages like [1]; if the passages do not contain the answer, reply
 "{refusal}"):"""
 
 
+# Sent only when the deterministic checks in answer.py flag a draft (numbers not found in the
+# passages, or a Hindi question answered in Roman script). One retry, then the result is kept
+# only if it is better than the draft.
+REPAIR_TEMPLATE = """Source passages:
+
+{context}
+
+Question: {question}
+
+Your draft answer:
+{draft}
+
+An automatic check found problems in the draft:
+{issues}
+
+Write the corrected answer. Follow all the rules. Copy every amount, age, limit and phone \
+number exactly as a passage states it; never add, combine or convert amounts. Cite passages \
+like [1]. Output only the corrected answer:"""
+
+
 REWRITE_SYSTEM = """You rewrite questions from worried family members in India into a clear \
 English search query about Indian senior-citizen schemes, pensions, health cover, helplines or \
 laws. Keep every concrete detail (ages, amounts, state names, scheme names). Translate Hindi or \

@@ -13,12 +13,14 @@ RETRIEVAL_RUNS = [
     ("hybrid_small_chunks", "Hybrid, 150-word chunks"),
     ("hybrid_rerank", "Hybrid + bge-reranker-v2-m3 (568M)"),
     ("hybrid_rerank_small", "Hybrid + mMiniLM reranker (118M) - default"),
-    ("hybrid_rerank_small_rewrite", "Hybrid + mMiniLM reranker + LLM query rewrite"),
+    ("hybrid_rerank_small_rewrite_concat", "Default + LLM rewrite, appended to the question"),
+    ("hybrid_rerank_small_rewrite", "Default + LLM rewrite, multi-query RRF fusion"),
 ]
 ANSWER_RUNS = [
     ("hybrid", "Hybrid, no reranker"),
+    ("hybrid_rerank_small_norepair", "Hybrid + reranker, verify-and-repair off"),
     ("hybrid_rerank_small", "Hybrid + reranker (default)"),
-    ("hybrid_rerank_small_rewrite", "Hybrid + reranker + query rewrite"),
+    ("hybrid_rerank_small_rewrite", "Hybrid + reranker + query rewrite (fusion)"),
 ]
 
 
@@ -110,7 +112,9 @@ def write_report() -> str:
         s = _load(f"answers_{name}")["summary"]
         out.append(f"\n`{name}`: answers by {s['providers']}; refusals by gate "
                    f"{s['refused_by']['gate']}, by LLM {s['refused_by']['llm']}; "
-                   f"self-judged answers {s.get('self_judged', 0)}"
+                   f"self-judged answers {s.get('self_judged', 0)}; drafts flagged by the "
+                   f"number/script checks {s.get('drafts_flagged', 0)}, repaired "
+                   f"{s.get('repaired', 0)}"
                    + (f"; failed questions {s['errors']}" if s.get("errors") else "") + ".")
 
     from care_rag.evaluate import judge_agreement
